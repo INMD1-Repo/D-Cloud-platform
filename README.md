@@ -22,7 +22,8 @@ Project
 ```
 
 ## 우리가 주로 만질 파일 구조 (App내부)
-.
+
+```
 ├── Common.php
 ├── Config -> 설정해주는곳
 │   ├── App.php
@@ -82,7 +83,7 @@ Project
 ├── ThirdParty
 ├── Views 
 └── index.html
-
+```
 # 실행하는 방법
 
 아래 링크를 이용해서 초기 준비를 해준다
