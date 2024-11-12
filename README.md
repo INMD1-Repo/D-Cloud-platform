@@ -20,5 +20,70 @@ Project
   └─ writable
 ... 등등
 ```
-# Webproject
-# Webproject
+
+## 우리가 주로 만질 파일 구조 (App내부)
+.
+├── Common.php
+├── Config -> 설정해주는곳
+│   ├── App.php
+│   ├── Autoload.php
+│   ├── Boot
+│   ├── CURLRequest.php
+│   ├── Cache.php
+│   ├── Constants.php
+│   ├── ContentSecurityPolicy.php
+│   ├── Cookie.php
+│   ├── Cors.php
+│   ├── Database.php -> 기초적인 데이터베이스 설정 하는곳
+│   ├── DocTypes.php
+│   ├── Email.php
+│   ├── Encryption.php
+│   ├── Events.php
+│   ├── Exceptions.php
+│   ├── Feature.php
+│   ├── Filters.php
+│   ├── ForeignCharacters.php
+│   ├── Format.php
+│   ├── Generators.php
+│   ├── Honeypot.php
+│   ├── Images.php
+│   ├── Kint.php
+│   ├── Logger.php
+│   ├── Migrations.php
+│   ├── Mimes.php
+│   ├── Modules.php
+│   ├── Optimize.php
+│   ├── Pager.php
+│   ├── Paths.php
+│   ├── Publisher.php
+│   ├── Routes.php -> 해당 파라미터가 어디 클래스로 이어지는지 결정해준다.
+│   ├── Routing.php
+│   ├── Security.php
+│   ├── Services.php
+│   ├── Session.php
+│   ├── Toolbar.php
+│   ├── UserAgents.php
+│   ├── Validation.php
+│   └── View.php
+├── Controllers -> 각 파일명과 클래스명과 일치하여 Routes.php에서 클래스 이름을 참조한다.
+│   ├── BaseController.php 
+│   ├── Home.php -> Vue 페이지 보여주는 PHP
+│   └── TestDatabase.php -> 데이터베이스 연결되었는지 확인하는 PHP
+├── Database
+│   ├── Migrations
+│   └── Seeds
+├── Filters
+├── Helpers
+├── Language -> 국제적인 사이를 만들경우 Key value형식으로 번역본을 작성 할수 있습
+│   └── en
+│       └── Validation.php
+├── Libraries
+├── Models
+├── ThirdParty
+├── Views 
+└── index.html
+
+# 실행하는 방법
+
+아래 링크를 이용해서 초기 준비를 해준다
+> https://4sii.tistory.com/635
