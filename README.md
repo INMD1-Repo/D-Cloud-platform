@@ -63,6 +63,13 @@ Project
 아래 링크를 이용해서 초기 준비를 해준다
 > https://4sii.tistory.com/635
 
+# 패키지 설치
+우리 시스템에서는 JWT를 사용하기 때문에 아래에 패키지를 설치해야합니다.
+
+```
+composer require firebase/php-jwt
+```
+
 # DB 및 RestAPI 생성 법
 아래 위키에 들어가서 방법을 알아본다.
 > https://github.com/INMD1-Repo/Webproject/wiki
