@@ -26,45 +26,11 @@ Project
 ```
 ├── Common.php
 ├── Config -> 설정해주는곳
-│   ├── App.php
-│   ├── Autoload.php
-│   ├── Boot
-│   ├── CURLRequest.php
-│   ├── Cache.php
-│   ├── Constants.php
-│   ├── ContentSecurityPolicy.php
-│   ├── Cookie.php
-│   ├── Cors.php
+    .....
 │   ├── Database.php -> 기초적인 데이터베이스 설정 하는곳
-│   ├── DocTypes.php
-│   ├── Email.php
-│   ├── Encryption.php
-│   ├── Events.php
-│   ├── Exceptions.php
-│   ├── Feature.php
-│   ├── Filters.php
-│   ├── ForeignCharacters.php
-│   ├── Format.php
-│   ├── Generators.php
-│   ├── Honeypot.php
-│   ├── Images.php
-│   ├── Kint.php
-│   ├── Logger.php
-│   ├── Migrations.php
-│   ├── Mimes.php
-│   ├── Modules.php
-│   ├── Optimize.php
-│   ├── Pager.php
-│   ├── Paths.php
-│   ├── Publisher.php
+    .....
 │   ├── Routes.php -> 해당 파라미터가 어디 클래스로 이어지는지 결정해준다.
-│   ├── Routing.php
-│   ├── Security.php
-│   ├── Services.php
-│   ├── Session.php
-│   ├── Toolbar.php
-│   ├── UserAgents.php
-│   ├── Validation.php
+    .....
 │   └── View.php
 ├── Controllers -> 각 파일명과 클래스명과 일치하여 Routes.php에서 클래스 이름을 참조한다.
 │   ├── BaseController.php 
@@ -88,3 +54,7 @@ Project
 
 아래 링크를 이용해서 초기 준비를 해준다
 > https://4sii.tistory.com/635
+
+# DB 및 RestAPI 생성 법
+아래 위키에 들어가서 방법을 알아본다.
+>h ttps://github.com/INMD1-Repo/Webproject/wiki
