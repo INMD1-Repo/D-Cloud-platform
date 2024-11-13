@@ -6,7 +6,15 @@
 백엔드는 그래도 PHP는 써야되기 때문에 php + mysql을 쓰기로 했다 아마도?
 
 ## 쓰게될 프레임워크 및 CSS, DB
+### CodeIgniter4
+PHP기반의 MVP모델를 지원해주는 프레임워크이다
 
+### VUE3
+자바스크립트, 타입스크립트를 지원하고 요즘 프론트엔드에서 많이 이는 프레임워크중 하나이다.
+
+## DB구조
+아래에 링크로 이동해서 확인 바람니다.
+> 작성중...
 
 ## 파일폴더 구조
 ```
@@ -57,4 +65,4 @@ Project
 
 # DB 및 RestAPI 생성 법
 아래 위키에 들어가서 방법을 알아본다.
->h ttps://github.com/INMD1-Repo/Webproject/wiki
+> https://github.com/INMD1-Repo/Webproject/wiki
