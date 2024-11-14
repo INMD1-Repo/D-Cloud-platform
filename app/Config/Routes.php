@@ -5,14 +5,12 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
-$routes->get('test-db', 'TestDatabase::index');
-$routes->post('register', 'AuthController::register');
-$routes->post('login', 'AuthController::login');
+$routes->get('/', 'Home::index'); //Vue를 보여주기 위한 폴더
 
-$routes->group('users', ['filter' => 'auth'], function($routes) {
-    $routes->get('', 'UserController::index');
-    $routes->get('(:num)', 'UserController::show/$1');
-    $routes->put('(:num)', 'UserController::update/$1');
-    $routes->delete('(:num)', 'UserController::delete/$1');
+$routes->get('test-db', 'TestDatabase::index'); //데이터베이스가 정상 연결 확인 컨트롤러
+
+$routes->group('auth', function($routes) { //auth 관련 처리는 그룹으로 묶었다.
+    $routes->post('register', 'AuthController::register'); // 회원가입 컨트롤러
+    $routes->post('login', 'AuthController::login'); // 회원가입 컨트롤러
+    $routes->post('recreate', 'AuthController::recreate'); // Access 토큰이 만료시 재발급 컨트롤러
 });
