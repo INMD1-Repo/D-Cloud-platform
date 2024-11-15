@@ -6,7 +6,7 @@ use App\Models\UserModel;
 use CodeIgniter\RESTful\ResourceController;
 
 class SingupController extends ResourceController
-{
+{ 
     //회원가입할때 데이터베이스에 어떻게 저장해야 할지 코드를 작성한다.
     public function register()
     {
