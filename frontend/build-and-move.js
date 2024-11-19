@@ -1,7 +1,11 @@
-const fs = require('fs-extra');
-const path = require('path');
+import fs from 'fs-extra';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const buildDir = path.join(__dirname, 'build');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const buildDir = path.join(__dirname, 'dist');
 const siteDir = path.join(__dirname, '..', 'site');
 
 // build 폴더의 내용을 site 폴더로 복사
