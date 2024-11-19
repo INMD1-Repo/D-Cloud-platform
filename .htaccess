@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# API 요청 처리
+RewriteRule ^api/(.*)$ api/index.php [L,QSA]
+
+# site 폴더의 파일 직접 제공
+RewriteCond %{REQUEST_URI} ^/site/
+RewriteRule ^site/(.*)$ site/$1 [L]
+
+# 그 외 모든 요청을 index.php로 리다이렉트
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ public/index.php [L]
