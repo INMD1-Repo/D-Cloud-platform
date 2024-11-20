@@ -2,22 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ... */
-
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 
 a {
   font-weight: 500;
@@ -28,21 +12,13 @@ a:hover {
   color: #535bf2;
 }
 
-body {
-  height: 100vh;
-  background-color: #f8fafc;
-}
-
-
 @media screen and (max-width : 800px) {
 
   body {
     padding: 3%;
     display: flex;
     height: 170vh;
-    background-color: #f8fafc;
   }
-
 
   .title{
     font-size: 1.5em;
@@ -51,21 +27,17 @@ body {
   .custon-with{
     height: 40vh;
   }
-
   .mianpage_header{
     font-size: 1.8em;
     font-weight: bold;
   }
-
   .mobile_none {
     display: none;
   }
-
   .mianpage_sidheader {
     font-size: 0.8em;
     font-weight: bold;
   }
-
   .mainpage_button {
     font-size: 1em;
     font-weight: bold;
@@ -74,34 +46,27 @@ body {
 
 @media screen and (min-width : 1024px) {
   .authtitle{
-    font-size: 1.6em;
+    font-size: 1.3em;
   }
-
   .singup{
     height: 4vh;
     font-size: 1.2em;
   }
-
-
   .title{
     font-size: 2.4em;
     font-weight: bold;
   }
-
   .custon-with{
     width: 50vw;
   }
-
   .mianpage_header{
-    font-size: 4em;
+    font-size: 3em;
     font-weight: bold;
   }
-
   .mianpage_sidheader {
     font-size: 1.5em;
     font-weight: bold;
   }
-
   .mainpage_button {
     font-size: 1.6em;
     font-weight: bold;
