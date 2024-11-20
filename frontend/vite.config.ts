@@ -4,7 +4,7 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  //base: '/site/', 
+  base: '/site/', 
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'), // @를 src로 매핑

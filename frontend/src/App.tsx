@@ -6,8 +6,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Mainpage_index />}></Route>
-        <Route path="/auth_prcess" element={<Auth />}></Route>
+        <Route path="/site/" element={<Mainpage_index />}></Route>
+        <Route path="/site/auth_prcess" element={<Auth />}></Route>
       </Routes>
       <footer className="mobile_none">
         <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />

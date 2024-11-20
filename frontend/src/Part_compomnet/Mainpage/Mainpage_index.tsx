@@ -67,10 +67,8 @@ function Mainpage_index() {
     return (
         <div className="p-0 lg:p-20">
             <Topnav />
-            <div style={{ height: "5vh" }}></div>
-            <div className="xl:h-40 md:h-10"></div>
             <div className="xl:flex md:grid items-center flex-nowrap gap-20 " >
-                <div className="grid custon-with">
+                <div className="grid custon-with mt-10">
                     <div className="m-5 xl:m-20">
                         <p className="mianpage_header">저희는 서버가 필요하는</p>
                         <p className="mianpage_header">프로젝트에 무상으로 서버를</p>
@@ -85,6 +83,7 @@ function Mainpage_index() {
                     </div>
                 </div>
                 <div className="grid custon-with">
+                   
                     <p className="title">서버 현황</p>
                     <div className="lg:h-7 h-5"></div>
                     <div className="grid  grid-cols-2 grid-rows-2 lg:flex gap-10 lg:w-80 m-5 lg:m-0 ">

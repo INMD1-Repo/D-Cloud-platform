@@ -5,10 +5,10 @@ $request_uri = $_SERVER['REQUEST_URI'];
 if (strpos($request_uri, '/api') === 0) {
     // API 요청 처리
     require __DIR__ . '/../api/index.php';
-} elseif (strpos($request_uri, '/site') === 0) {
-    // site 파일 직접 제공
-    return false;
+} elseif (strpos($request_uri, '/site') !== false) {
+    // /site가 포함된 모든 요청에 대해 React 앱 제공
+    readfile(__DIR__ . '/../site/index.html');
 } else {
-    // React 앱 제공
+    // 그 외의 모든 요청에 대해 React 앱 제공
     readfile(__DIR__ . '/../site/index.html');
 }
