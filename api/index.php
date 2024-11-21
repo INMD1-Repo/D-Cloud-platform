@@ -1,8 +1,5 @@
 <?php
 
-//다른 파일 참조
-require "./board/endpoint.php"
-
 // header 설정
 header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
@@ -20,40 +17,26 @@ array_shift($path_parts);
 switch ($path_parts[0]) {
     case 'apitest':
         if ($request_method == 'GET') {
-            echo json_encode(array("test" => "successfull"));
+            echo json_encode(array("message" => "successfull"));
         } else {
             http_response_code(405);
             echo json_encode(['error' => 'Method not allowed']);
         }
         break;
     case 'proxmox':
-        require "./proxmox/index.php";
-    break;
-    case 'hello':
-        echo json_encode(['message' => 'Hello, World!']);
+        require __DIR__ . "/proxmox/index.php";
         break;
-
-    case 'createPost':  //글 작성시 호출
-        if ($request_method == 'POST') {
-            createPost();
-        } else {
-            http_response_code(405);
-            echo json_encode(['error' => 'Method not allowed']);
-        }
+    //회원가입&로그인
+    case "login":
+        require __DIR__ . '/auth/login.php';
         break;
-
-    case 'readPost':    //글 조회시 호출
-        if ($request_method == 'POST') {
-            readPost();
-        } else {
-            http_response_code(405);
-            echo json_encode(['error' => 'Method not allowed']);
-        }
+    case "singup":
+        require __DIR__ . '/auth/signup.php';
         break;
-
-    
+    //게시판D
     default:
         http_response_code(404);
         echo json_encode(['error' => 'Not Found']);
         break;
 }
+?>
