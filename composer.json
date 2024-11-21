@@ -1,0 +1,6 @@
+{
+    "require": {
+        "saleh7/proxmox-ve_php_api": "^1.0",
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
