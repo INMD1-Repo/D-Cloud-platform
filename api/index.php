@@ -25,7 +25,9 @@ switch ($path_parts[0]) {
             echo json_encode(['error' => 'Method not allowed']);
         }
         break;
-    
+    case 'proxmox':
+        require "./proxmox/index.php";
+    break;
     case 'hello':
         echo json_encode(['message' => 'Hello, World!']);
         break;
