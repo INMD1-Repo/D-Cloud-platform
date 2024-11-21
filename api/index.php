@@ -1,4 +1,5 @@
 <?php
+
 header('Content-Type: application/json');
 
 // CORS 설정 (필요한 경우)
@@ -28,6 +29,25 @@ switch ($path_parts[0]) {
     case 'hello':
         echo json_encode(['message' => 'Hello, World!']);
         break;
+
+    case 'createPost':  //글 작성시 호출
+        if ($request_method == 'POST') {
+            createPost();
+        } else {
+            http_response_code(405);
+            echo json_encode(['error' => 'Method not allowed']);
+        }
+        break;
+
+    case 'readPost':    //글 조회시 호출
+        if ($request_method == 'POST') {
+            readPost();
+        } else {
+            http_response_code(405);
+            echo json_encode(['error' => 'Method not allowed']);
+        }
+        break;
+
     
     default:
         http_response_code(404);
