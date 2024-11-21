@@ -1,10 +1,14 @@
 <?php
+
+//모듈 폴더 path정의
 require(__DIR__ . '/../../vendor/autoload.php');
 
 use Proxmox\Request;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header('Content-Type: application/json');
 
 $parameter = $_GET["search"] ?? null;

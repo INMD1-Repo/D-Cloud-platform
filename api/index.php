@@ -1,11 +1,12 @@
 <?php
 
-header('Content-Type: application/json');
+//다른 파일 참조
+require "./board/endpoint.php"
 
-// CORS 설정 (필요한 경우)
+// header 설정
+header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 
 // 요청 메소드와 경로 가져오기
 $request_method = $_SERVER['REQUEST_METHOD'];

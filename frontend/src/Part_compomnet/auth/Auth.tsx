@@ -18,10 +18,10 @@ function Auth() {
             <div className="grid  place-content-center" >
                 <div className="grid">
                     <div className="h-[10vh] lg:h-[10vh]"></div>
-                    <Tabs defaultValue="account" className="pl-[8vh] lg:pl-0 w-[80vw] lg:w-[25vw]">
+                    <Tabs defaultValue="account" className="pl-[8vh] lg:pl-0 w-[80vw] lg:w-[35vw]">
                         <TabsList className="grid w-full grid-cols-2 lg:h-[4vh]">
-                            <TabsTrigger value="account" className="authtitle">로그인</TabsTrigger>
-                            <TabsTrigger value="password" className="authtitle">회원가입</TabsTrigger>
+                            <TabsTrigger value="account" className="authtitle  lg:h-[3.3vh]">로그인</TabsTrigger>
+                            <TabsTrigger value="password" className="authtitle lg:h-[3.3vh]">회원가입</TabsTrigger>
                         </TabsList>
                         <TabsContent value="account" >
                             <Card className="">
