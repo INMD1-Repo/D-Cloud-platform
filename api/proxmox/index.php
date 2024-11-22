@@ -6,22 +6,23 @@ require(__DIR__ . '/../../vendor/autoload.php');
 use Proxmox\Request;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 $Proxmox_id = $_ENV["Proxmox_id"];
 $Proxmox_Password = $_ENV["Proxmox_Password"];
 $Proxmox_ip = $_ENV["Proxmox_ip"];
+
+$configure = [
+    'hostname' =>  $Proxmox_ip,
+    'username' =>  $Proxmox_id,
+    'password' =>  $Proxmox_Password 
+];
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header('Content-Type: application/json');
 
 $parameter = $_GET["search"] ?? null;
-
-$configure = [
-    'hostname' => $Proxmox_ip ,
-    'username' => $Proxmox_id,
-    'password' => $Proxmox_Password
-];
 
 try {
     Request::Login($configure); 
