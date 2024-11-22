@@ -70,18 +70,18 @@ if ($conn->connect_error) {
 
             if ($count > 0) {
                 http_response_code(503); // 503 상태 코드 반환
-                echo json_encode(['Error' => "이메일이 이미 존재합니다. 관리자에게 문의 하십시오."]);
+                echo json_encode(["Code" => "51103",'Error' => "이메일이 이미 존재합니다. 관리자에게 문의 하십시오."]);
                 exit; // 나머지 코드 실행 중지
             } elseif ($student_id_count > 0) {
                 http_response_code(503); // 503 상태 코드 반환
-                echo json_encode(['Error' => "학생 ID가 이미 존재합니다. 관리자에게 문의 하십시오."]);
+                echo json_encode(["Code" => "51103", 'Error' => "학생 ID가 이미 존재합니다. 관리자에게 문의 하십시오."]);
                 exit; // 나머지 코드 실행 중지
             } else {
                 //없으면 업로드함
                 http_response_code(201); 
                 $result = $conn->query($sql);
                 if ($result) {
-                    echo json_encode(['message' => "OK", "data" => json_encode($input)]);
+                    echo json_encode(["Code" => "20000", 'message' => "OK", "data" => json_encode($input)]);
                 }
             }
 
@@ -89,7 +89,8 @@ if ($conn->connect_error) {
             $stmt->close();
             $conn->close();
         } catch (\Throwable $th) {
-            json_encode(['Error' => "생성실패" . $th->getMessage()]);
+            http_response_code(500); // 500 상태 코드 반환
+            json_encode(["Code" => "50001", 'Error' => "Server ERROR" . $th->getMessage()]);
         }
     }
 }
