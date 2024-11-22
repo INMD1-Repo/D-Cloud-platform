@@ -7,6 +7,10 @@ use Proxmox\Request;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 
+$Proxmox_id = $_ENV["Proxmox_id"];
+$Proxmox_Password = $_ENV["Proxmox_Password"];
+$Proxmox_ip = $_ENV["Proxmox_ip"];
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header('Content-Type: application/json');
@@ -14,9 +18,9 @@ header('Content-Type: application/json');
 $parameter = $_GET["search"] ?? null;
 
 $configure = [
-    'hostname' => '10.10.2.1',
-    'username' => 'aksmdncc',
-    'password' => "kcearqjtnjv5rvy7wegkdgilexocli0m58kcaffsnk6ywpge81"
+    'hostname' => $Proxmox_ip ,
+    'username' => $Proxmox_id,
+    'password' => $Proxmox_Password
 ];
 
 try {
