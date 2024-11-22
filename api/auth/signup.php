@@ -78,6 +78,7 @@ if ($conn->connect_error) {
                 exit; // 나머지 코드 실행 중지
             } else {
                 //없으면 업로드함
+                http_response_code(201); 
                 $result = $conn->query($sql);
                 if ($result) {
                     echo json_encode(['message' => "OK", "data" => json_encode($input)]);

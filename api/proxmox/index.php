@@ -24,14 +24,16 @@ try {
 
     switch ($parameter) {
         case 'nodes':
+            http_response_code(200); 
             $response = Request::Request('/nodes', null, 'GET');
             echo json_encode($response);
             break;
-
         default:
+            http_response_code(400); 
             echo json_encode(['error' => "No valid parameter provided!"]);
             break;
     }
 } catch (Exception $e) {
+    http_response_code(500); 
     echo json_encode(['error' => $e->getMessage()]);
 }
