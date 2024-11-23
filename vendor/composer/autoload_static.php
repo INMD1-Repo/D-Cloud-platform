@@ -21,16 +21,17 @@ class ComposerStaticInite7eef11a68516bf9f424d6f406e039b1
         ),
         'P' => 
         array (
+            'Psr\\Clock\\' => 10,
             'Proxmox\\' => 8,
             'PhpOption\\' => 10,
+        ),
+        'L' => 
+        array (
+            'Lcobucci\\JWT\\' => 13,
         ),
         'G' => 
         array (
             'GrahamCampbell\\ResultType\\' => 26,
-        ),
-        'F' => 
-        array (
-            'Firebase\\JWT\\' => 13,
         ),
         'D' => 
         array (
@@ -55,6 +56,10 @@ class ComposerStaticInite7eef11a68516bf9f424d6f406e039b1
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
+        'Psr\\Clock\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/clock/src',
+        ),
         'Proxmox\\' => 
         array (
             0 => __DIR__ . '/..' . '/saleh7/proxmox-ve_php_api/src',
@@ -63,13 +68,13 @@ class ComposerStaticInite7eef11a68516bf9f424d6f406e039b1
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
         ),
+        'Lcobucci\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/lcobucci/jwt/src',
+        ),
         'GrahamCampbell\\ResultType\\' => 
         array (
             0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
-        ),
-        'Firebase\\JWT\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
         'Dotenv\\' => 
         array (
