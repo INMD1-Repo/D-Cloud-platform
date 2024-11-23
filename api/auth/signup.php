@@ -48,8 +48,7 @@ if ($conn->connect_error) {
             $sql = "insert into User_infomaiton (email, name, password, phone_number, student_id, student_class, created_at)";
             $sql = $sql . "values('$email','$name','$password','$phone_number','$student_ID','$student_class','$created_at')";
 
-            ;
-
+    
             // 이메일 중복 체크
             $check_email_sql = "SELECT COUNT(*) FROM User_infomaiton WHERE email = ?";
             $stmt = $conn->prepare($check_email_sql);
