@@ -15,6 +15,7 @@ array_shift($path_parts);
 
 // API 엔드포인트에 따른 처리
 switch ($path_parts[0]) {
+    //API TEST
     case 'apitest':
         if ($request_method == 'GET') {
             echo json_encode(array("message" => "successfull"));
@@ -32,6 +33,12 @@ switch ($path_parts[0]) {
         break;
     case "singup":
         require __DIR__ . '/auth/signup.php';
+        break;
+    case "logout":
+        require __DIR__ . '/auth/logout.php';
+        break;
+    case 'department':
+        require __DIR__ . '/auth/department.php';
         break;
     //게시판D
     default:
