@@ -81,6 +81,7 @@ if ($conn->connect_error) {
                     echo json_encode(["Code" => "20000", 'message' => "OK", "data" => json_encode($input)]);
                 }
             }
+
         } catch (\Throwable $th) {
             http_response_code(500); // 500 상태 코드 반환
             json_encode(["Code" => "50001", 'Error' => "Server ERROR" ]);

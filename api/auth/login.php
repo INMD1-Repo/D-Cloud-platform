@@ -60,9 +60,10 @@ try {
         $email = $input['email'];
         $password = $input['password'];
 
-        $sql = "SELECT * FROM User_infomaiton  WHERE email = '$email'";
-        $DB_result = $conn->query($sql);
-        $DB_result = mysqli_fetch_array($DB_result);
+        $stmt = $conn->prepare("SELECT * FROM User_infomaiton WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $DB_result = $stmt->get_result()->fetch_array();
         
         //비빌번호가 대칭하는지
         if (password_verify($password, $DB_result["password"])) {
@@ -110,6 +111,7 @@ try {
             $sql = "insert into auth_session (jwt_resfresh, jwt_access)";
             $sql = $sql . "values('$Refresh','$Acess')";
             $result = $conn->query($sql);
+            
             //-------------------------------------------------------------------
         } else {
             http_response_code(502);
