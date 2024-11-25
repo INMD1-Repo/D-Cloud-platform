@@ -15,6 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
@@ -22,7 +23,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@radix-ui/react-label";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const FormSchema = z.object({
   name: z.string().min(1, {
@@ -43,6 +45,7 @@ const FormSchema = z.object({
   phone_number: z.string().min(13, {
     message: "전화번호가 입력되지 않았습니다. - 도 추가해야 합니다.",
   }),
+  check_value: z.boolean().default(false).optional(),
 })
 
 function Auth() {
@@ -50,6 +53,7 @@ function Auth() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     //@ts-ignore
+    check_value: false,
     name: "",
     email: "",
     password: "",
@@ -58,10 +62,43 @@ function Auth() {
     phone_number: ""
   })
 
-  function onSubmit(values: z.infer<typeof FormSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof FormSchema>) {
+    console.log("Test");
+    
+    if (values.check_value) {
+      delete values.check_value;
+      await fetch("http://localhost/api/singup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values)
+      }).then((response) => {
+        if (response.status == 201) {
+          toast.success("회원가입 성공 했습니다.", {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "colored"
+          });
+          window.location.reload();
+        }
+      })
+    } else {
+      toast.error("수집동의에 체크표시 해주세요.", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored"
+      });
+    }
+
   }
 
   return (
@@ -201,18 +238,22 @@ function Auth() {
                           </FormItem>
                         )}
                       />
-                      <br />
-                      <div className="items-top flex space-x-2">
-                        <Checkbox id="terms1" />
-                        <div className="grid gap-1.5 leading-none">
-                          <label
-                            htmlFor="terms1"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            개인정보수집에 동의합니다.
-                          </label>
-                        </div>
-                      </div>
+                      <FormField
+                        control={form.control}
+                        name="check_value"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <span> 본서비스를 이용할때 개인정보 수집에 동의합니다.</span>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                       <br />
                       <Button type="submit" className="singup w-full">회원가입</Button>
                     </form>
@@ -221,6 +262,7 @@ function Auth() {
               </Card>
             </TabsContent>
           </Tabs>
+          <ToastContainer />
         </div>
       </div>
     </>

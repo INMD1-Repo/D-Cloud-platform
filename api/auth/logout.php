@@ -5,6 +5,23 @@ require(__DIR__ . '/../../vendor/autoload.php');
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
+// header 설정
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    // CORS 헤더 설정
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization");
+    header("Access-Control-Allow-Credentials: true");
+
+    // HTTP 200 상태 반환
+    http_response_code(200);
+    exit;
+}
+
+header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+
 // 공개되는 프로젝트 이므로 키값 무단 공개 금지
 $servername = $_ENV['DB_HOST'];
 $name = $_ENV['DB_USERNAME'];

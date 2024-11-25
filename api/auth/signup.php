@@ -12,6 +12,18 @@ $port = $_ENV['DB_PORT'];
 
 
 // header 설정
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    // CORS 헤더 설정
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization");
+    header("Access-Control-Allow-Credentials: true");
+
+    // HTTP 200 상태 반환
+    http_response_code(200);
+    exit;
+}
+
 header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
