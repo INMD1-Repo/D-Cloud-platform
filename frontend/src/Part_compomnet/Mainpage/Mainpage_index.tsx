@@ -53,7 +53,8 @@ function Mainpage_index() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await fetch(process.env.API_URL + "/api/proxmox?search=nodes");
+                
+                const response = await fetch("https://phpproject.powerinmd.com/api/proxmox?search=nodes");
                 const data = await response.json();
 
                 // 데이터 기반으로 상태 업데이트
