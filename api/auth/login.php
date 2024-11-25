@@ -3,6 +3,11 @@
 //모듈 불려오기기
 require(__DIR__ . '/../../vendor/autoload.php');
 
+header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+
+
 //모듈로드 하기
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
