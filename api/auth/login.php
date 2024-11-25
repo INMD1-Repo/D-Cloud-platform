@@ -1,5 +1,6 @@
 <?php
 
+//모듈 불려오기기
 require(__DIR__ . '/../../vendor/autoload.php');
 
 //모듈로드 하기
@@ -62,15 +63,9 @@ try {
         $sql = "SELECT * FROM User_infomaiton  WHERE email = '$email'";
         $DB_result = $conn->query($sql);
         $DB_result = mysqli_fetch_array($DB_result);
-
+        
         //비빌번호가 대칭하는지
         if (password_verify($password, $DB_result["password"])) {
-            //암호화전 데이터 넣기
-            $payload = array(
-                "username" => "MESSI",
-                "email" => "MESSI@example.com"
-            );
-
             //보안 향상을 위해 JWT로 입장권 생성하기
             //-------------------------------------------------------------------
             function insertRandomLetters($numbers)
@@ -123,10 +118,8 @@ try {
     } else {
         http_response_code(501);
     }
-
 } catch (\Throwable $th) {
+    print($th);
     http_response_code(500);
-    json_encode(["Code" => "50001", 'Error' => "Server ERROR" . $th->getMessage()]);
 }
-
 ?>
