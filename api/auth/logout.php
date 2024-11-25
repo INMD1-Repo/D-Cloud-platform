@@ -2,6 +2,10 @@
 //모듈 불려오기기
 require(__DIR__ . '/../../vendor/autoload.php');
 
+header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 

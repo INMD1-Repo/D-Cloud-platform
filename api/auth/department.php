@@ -2,6 +2,10 @@
 // 모듈 불러오기
 require(__DIR__ . '/../../vendor/autoload.php');
 
+header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+
 // 네임스페이스 설정
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Validation\Constraint;
