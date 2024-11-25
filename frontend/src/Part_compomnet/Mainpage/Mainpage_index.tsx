@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/table"
 import Topnav from "../nav"
 import { useEffect, useState } from "react"
+import { useAtom } from "jotai"
+import { Access_jwt } from "@/store/strore_data"
 
 
 const invoices = [
@@ -42,6 +44,7 @@ const invoices = [
 
 
 function Mainpage_index() {
+    const [logCount] = useAtom(Access_jwt)
     const [statuses, setStatuses] = useState({
         Computer1: "🟡 Checking",
         Computer2: "🟡 Checking",
@@ -51,9 +54,11 @@ function Mainpage_index() {
     });
 
     useEffect(() => {
+        console.log(logCount);
+
         async function fetchData() {
             try {
-                
+
                 const response = await fetch("https://phpproject.powerinmd.com/api/proxmox?search=nodes");
                 const data = await response.json();
 
@@ -86,8 +91,10 @@ function Mainpage_index() {
         fetchData();
     }, []);
     return (
+
         <div className="p-0 lg:p-20">
             <Topnav />
+            <div className="mobile_none mt-20"></div>
             <div className="xl:flex md:grid items-center flex-nowrap gap-20 " >
                 <div className="grid custon-with mt-10">
                     <div className="m-5 xl:m-20">
@@ -150,12 +157,14 @@ function Mainpage_index() {
                             </Card>
                         </div>
                     </div>
-                    <br/>
-                    <p>업데이트 시각: {Date()}</p>
+                    <br />
+                    <div className="mobile_none">
+                        <p>업데이트 시각: {Date()}</p>
+                    </div>
                     <br />
                     <div className="flex items-stretch">
-                    <p className="title">공지사항ㅤ</p>
-                    <Button className="self-end">게시판 이동</Button>
+                        <p className="title">공지사항ㅤ</p>
+                        <Button className="self-end">게시판 이동</Button>
                     </div>
                     <div className="lg:h-7 h-5"></div>
                     <div className="m-2 lg:m-0">
