@@ -41,6 +41,12 @@ switch ($path_parts[0]) {
         require __DIR__ . '/auth/department.php';
         break;
     //게시판D
+    case 'createPost':
+        require __DIR__ . '/board/createPost.php';
+        break;
+    case 'readPost':
+        require __DIR__ . '/board/readPost.php';
+        break;
     default:
         http_response_code(404);
         echo json_encode(['error' => 'Not Found']);
