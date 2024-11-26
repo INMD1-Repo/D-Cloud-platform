@@ -1,48 +1,104 @@
 <?php
-$host = 'localhost'; // DB 호스트
-$db_name = 'boardDB'; // 사용할 DB 이름
-$username = 'root'; // DB 사용자명
-$password = ''; // DB 비밀번호 (설정한 경우 추가)
+error_reporting(E_ALL);
 
-$conn = new mysqli($host, $username, $password, $db_name);
-    // 입력 데이터 가져오기
-$input = json_decode(file_get_contents('php://input'), true);
+require(__DIR__ . '/../../vendor/autoload.php');
 
-    // 유효성 검사
-    if (empty($input['username']) || empty($input['title']) || empty($input['content'])) {
-        http_response_code(400);
-        echo json_encode(['error' => 'Invalid input data']);
-        return;
-    }
+// CORS 헤더 설정
+function setCorsHeaders()
+{
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization");
+    header("Access-Control-Allow-Credentials: true");
+}
 
-    // 변수 매핑
-    $username = $input['username'];
-    $title = $input['title'];
-    $content = $input['content'];
-    $updatedate = date('Y-m-d H:i:s'); // 현재 시간으로 설정
+// OPTIONS 요청 처리
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    setCorsHeaders();
+    http_response_code(200);
+    exit;
+}
 
+header('Content-Type: application/json');
+setCorsHeaders();
 
-    // 연결 오류 처리
-    if ($conn->connect_error) {
-        http_response_code(500);
-        echo json_encode(['error' => 'Database connection failed: ' . $conn->connect_error]);
-        return;
-    }
+// 환경 변수 로드
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
-    // SQL 쿼리 실행
-    $query = "INSERT INTO notice (username, title, content, updatedate) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("ssss", $username, $title, $content, $updatedate);
+// 데이터베이스 연결
+$conn = new mysqli($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME'], $_ENV['DB_PORT']);
 
-    if ($stmt->execute()) {
-        http_response_code(201);
-        echo json_encode(['message' => 'Post created successfully']);
-    } else {
-        http_response_code(500);
-    echo json_encode(['error' => 'Failed to create post: ' . $stmt->error]);
-    }
+if ($conn->connect_error) {
+    die(json_encode(['Error' => "데이터베이스 연결 실패: " . $conn->connect_error]));
+}
 
-    // 연결 종료
-$stmt->close();
+$request_method = $_SERVER['REQUEST_METHOD'];
+
+if ($request_method == 'GET') {
+    echo json_encode(['message' => "I'm here"]);
+} elseif ($request_method == 'POST') {
+    handlePostRequest($conn);
+} else {
+    http_response_code(405);
+    echo json_encode(['error' => 'Method Not Allowed']);
+}
+
 $conn->close();
+
+function handlePostRequest($conn)
+{
+    $input = json_decode(file_get_contents('php://input'), TRUE);
+    $post_board = $_GET['board'];
+
+    if ($post_board != "notice" && $post_board != "Suggestions") {
+        http_response_code(404);
+        echo json_encode(['error' => 'Not Found']);
+        return;
+    }
+
+    if (!verifyAccess($conn, $input['Access'])) {
+        http_response_code(401);
+        echo json_encode(['error' => 'Unauthorized']);
+        return;
+    } else {
+        if (!validateInput($input)) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid input data']);
+            return;
+        } else {
+            $query = "INSERT INTO $post_board (Username, title, content, User_email, created_at) VALUES (?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("sssss", $input['username'], $input['title'], $input['content'], $input['User_email'], date("Y-m-d H:i:s"));
+
+            if ($stmt->execute()) {
+                http_response_code(201);
+                echo json_encode(['message' => 'Post created successfully']);
+            } else {
+                http_response_code(500);
+                echo json_encode(['error' => 'Failed to create post: ' . $stmt->error]);
+            }
+            $stmt->close();
+        }
+    }
+}
+
+//데이터 잘 들어왔는지지
+function validateInput($input)
+{
+    return !empty($input['username']) && !empty($input['title']) && !empty($input['content']) &&
+        !empty($input['User_email']) && !empty($input['Access']);
+}
+
+//Access토큰 조회
+function verifyAccess($conn, $access)
+{
+    $sql = "SELECT * FROM auth_session WHERE jwt_access = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $access);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+    return $result->num_rows > 0;
+}
 ?>
