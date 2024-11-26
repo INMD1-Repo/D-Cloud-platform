@@ -3,32 +3,10 @@
 //모듈 불려오기기
 require(__DIR__ . '/../../vendor/autoload.php');
 
-header('Content-Type: application/json');
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-
-
 //모듈로드 하기
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
-
-// header 설정
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    // CORS 헤더 설정
-    header("Access-Control-Allow-Origin: *");
-    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-    header("Access-Control-Allow-Headers: Content-Type, Authorization");
-    header("Access-Control-Allow-Credentials: true");
-
-    // HTTP 200 상태 반환
-    http_response_code(200);
-    exit;
-}
-
-header('Content-Type: application/json');
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();

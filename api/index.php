@@ -1,10 +1,5 @@
 <?php
 
-// header 설정
-header('Content-Type: application/json');
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-
 // 요청 메소드와 경로 가져오기
 $request_method = $_SERVER['REQUEST_METHOD'];
 $request_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);

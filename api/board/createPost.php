@@ -3,21 +3,6 @@ error_reporting(E_ALL);
 
 require(__DIR__ . '/../../vendor/autoload.php');
 
-// CORS 헤더 설정
-function setCorsHeaders()
-{
-    header("Access-Control-Allow-Origin: *");
-    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-    header("Access-Control-Allow-Headers: Content-Type, Authorization");
-    header("Access-Control-Allow-Credentials: true");
-}
-
-// OPTIONS 요청 처리
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    setCorsHeaders();
-    http_response_code(200);
-    exit;
-}
 
 header('Content-Type: application/json');
 setCorsHeaders();
