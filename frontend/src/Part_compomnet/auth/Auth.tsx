@@ -84,7 +84,7 @@ function Auth() {
 
     if (values.check_value) {
       delete values.check_value;
-      await fetch("http://phpproject.powerinmd.com/api/singup", {
+      await fetch("https://phpproject.powerinmd.com/api/singup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
