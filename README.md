@@ -1,9 +1,26 @@
-# 이 프로젝트가 뭐지?
+![image](https://github.com/user-attachments/assets/c40e1fcd-e1dd-4883-b4d0-42e75bf6933c)
+# 이 프로젝트가 뭐지?(발단)
 <img src="https://github.com/user-attachments/assets/e8a88537-7efc-42e2-9856-b7f6a3b3b6ef" style="width: 200px; height: 200px">
 
 이번에 웹서버 괴목에서 기말과제를 프로젝트 형식으로 하는데 우리 웹서버에는 PHP를 이용서 공부를 한다.<br/>
 하지만 나는 PHP를 쓰기 싫어서 php위에 프론트단에서는 Vue를 쓰기로 했다.<br/>
 백엔드는 그래도 PHP는 써야되기 때문에 php + mysql을 쓰기로 했다 아마도?
+
+# 프로젝트 설명
+제가 운영하고 클라우드 동아리에서 쉽게 운영하기 위한 시스템솔류션을 개발하고 있습니다.<br/>
+해당 솔류션은 Proxmox API를 바탕으로 제작하고 주요 기능은 공지사항,서버신청이 있습니다.
+
+# 개발인원
+```
+이호준
+[백엔드,프론트 개발 및 팀장]
+
+강신혁
+[간단한 백엔드 작성]
+
+정재록
+[문서작성]
+```
 
 ## 쓰게될 프레임워크 및 CSS, DB
 ### PHP
@@ -17,7 +34,7 @@
 
 ### Shadcn
 tailwind기반으로 만들어진 UI 템블릿
-
+> 자세한 기술스택이나 과정을 볼려면 `Frontend`, `api`파일에 가서 봐주세요!
 ## 파일폴더 구조
 ```
 Project
