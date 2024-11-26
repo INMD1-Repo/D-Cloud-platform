@@ -84,7 +84,7 @@ function Auth() {
 
     if (values.check_value) {
       delete values.check_value;
-      await fetch("https://phpproject.powerinmd.com/api/singup", {
+      await fetch("/api/singup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -121,7 +121,7 @@ function Auth() {
   }
 
   async function login() {
-    await fetch("https://phpproject.powerinmd.com/api/login", {
+    await fetch("/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -163,12 +163,12 @@ function Auth() {
   }, [])
   return (
     <>
-      <div className="grid  place-content-center">
-        <div className="grid">
+      <div className="grow h-dvh w-dvw">
+        <div className="grow h-full flex justify-center items-center">
           <div className="h-[10vh] lg:h-[10vh]"></div>
           <Tabs
             defaultValue="account"
-            className="pl-[8vh] lg:pl-0 w-[80vw] lg:w-[30vw]"
+            className="px-[3vh] lg:pl-0 w-full md:max-w-[500px]"
           >
             <TabsList className="grid w-full grid-cols-2 lg:h-[4vh]">
               <TabsTrigger value="account" className="authtitle  lg:h-[3.3vh]">

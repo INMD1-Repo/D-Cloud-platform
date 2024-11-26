@@ -18,6 +18,7 @@ import Topnav from "../nav"
 import { useEffect, useState } from "react"
 import { useAtom } from "jotai"
 import { Access_jwt } from "@/store/strore_data"
+import { useNavigate } from "react-router-dom"
 
 
 const invoices = [
@@ -44,6 +45,7 @@ const invoices = [
 
 
 function Mainpage_index() {
+    const navigate = useNavigate();
     const [logCount] = useAtom(Access_jwt)
     const [statuses, setStatuses] = useState({
         Computer1: "🟡 Checking",
@@ -59,7 +61,7 @@ function Mainpage_index() {
         async function fetchData() {
             try {
 
-                const response = await fetch("https://phpproject.powerinmd.com/api/proxmox?search=nodes");
+                const response = await fetch("/api/proxmox?search=nodes");
                 const data = await response.json();
 
                 // 데이터 기반으로 상태 업데이트
@@ -92,8 +94,8 @@ function Mainpage_index() {
     }, []);
     return (
 
-        <div className="p-0 lg:p-20">
-            <Topnav />
+        <div className="p-5 md:p-20">
+            <Topnav  />
             <div className="mobile_none mt-20"></div>
             <div className="xl:flex md:grid items-center flex-nowrap gap-20 " >
                 <div className="grid custon-with mt-10">
@@ -114,7 +116,7 @@ function Mainpage_index() {
 
                     <p className="title">서버 현황</p>
                     <div className="lg:h-7 h-5"></div>
-                    <div className="grid  grid-cols-2 grid-rows-2 lg:flex gap-10 lg:w-80 m-5 lg:m-0 ">
+                    <div className="grid grid-cols-2 grid-rows-2  lg:flex gap-10 lg:w-80 m-5 lg:m-0 ">
                         {/*서버 현황을 보여주는 컴포넌트*/}
                         <div>
                             <Card>
@@ -162,15 +164,15 @@ function Mainpage_index() {
                         <p>업데이트 시각: {Date()}</p>
                     </div>
                     <br />
-                    <div className="flex items-stretch">
+                    <div style={{ display: "flex", alignItems: "center" }}>
                         <p className="title">공지사항ㅤ</p>
-                        <Button className="self-end">게시판 이동</Button>
+                        <Button className="self-end mb-2.5" onClick={() => {navigate("/site/board");}}>게시판 이동</Button>
                     </div>
                     <div className="lg:h-7 h-5"></div>
                     <div className="m-2 lg:m-0">
                         <Card className="p-4">
                             <Table>
-                                <TableCaption>좀더 보고 싶으면 공지사항 게시판에서 조회하시기 바람니다.</TableCaption>
+                                <TableCaption>공지사항 게시판에서 조회하시기 바람니다.</TableCaption>
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead className="w-[100px]">ID</TableHead>

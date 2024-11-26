@@ -15,7 +15,7 @@ import {
 
 interface UserInfo {
     name: string;
-  }
+}
 
 function Topnav() {
 
@@ -23,10 +23,11 @@ function Topnav() {
     const [logCount, setlogCount] = useAtom(login_Count);
     const [Accessjwt, setAccessjwt] = useAtom(Access_jwt);
     const [userinfo, setUserInfo] = useAtom(User_info);
+
     //@ts-ignore
     const userinfod: UserInfo = userinfo
     async function logout() {
-        await fetch("https://phpproject.powerinmd.com/api/logout", {
+        await fetch("/api/logout", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -48,7 +49,7 @@ function Topnav() {
     useEffect(() => {
         if (logCount == 1) {
             async function api() {
-                await fetch("https://phpproject.powerinmd.com/api/department?type=infoUser", {
+                await fetch("/api/department?type=infoUser", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -70,9 +71,9 @@ function Topnav() {
     return (
         <>
             <header>
-                <div className='flex justify-between m-4 lg:m-0'>
+                <div className='flex justify-between m-4 lg:m-0' >
                     {/* 로고 입력부분 */}
-                    <div style={{ display: "flex", alignItems: "center" }}>
+                    <div style={{ display: "flex", alignItems: "center" }}  onClick={() => {navigate("/site/")}}>
                         <img className="rounded-md lg:w-20 lg:h-20  w-10 h-10" src="./image/161593018.png" alt="" />
                         <div className='w-3'></div>
                         <p className='title'>D Cloud Platform</p>
@@ -91,7 +92,7 @@ function Topnav() {
                                                         <AvatarFallback>CN</AvatarFallback>
                                                     </Avatar>
                                                     ㅤ
-                                                    <p style={{ fontSize: "1.5em", fontWeight: "bold" }}>{userinfod.name}</p>
+                                                    <p style={{ fontSize: "1.5em", fontWeight: "bold" }}>{userinfod.name}님</p>
                                                 </div>
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent>
@@ -104,17 +105,17 @@ function Topnav() {
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </div>
-                                    <div className='pc_none' style={{ display: 'flex' }}>
-                                        <DropdownMenu >
+                                    <div className='pc_none' >
+                                        <DropdownMenu>
                                             <DropdownMenuTrigger>
                                                 <Avatar className='pc_none'>
                                                     <AvatarImage src="./image/Windows-10-user-icon-big.png" />
                                                     <AvatarFallback>CN</AvatarFallback>
                                                 </Avatar>
                                             </DropdownMenuTrigger>
-                                            <DropdownMenuContent>
+                                            <DropdownMenuContent className='mr-8'>
                                                 {/* //@ts-ignore */}
-                                                <DropdownMenuLabel>환영합니다. <br /> {userinfod.name }</DropdownMenuLabel>
+                                                <DropdownMenuLabel>환영합니다. <br /> {userinfod.name}</DropdownMenuLabel>
                                                 <DropdownMenuSeparator />
                                                 <DropdownMenuItem>정보 수정</DropdownMenuItem>
                                                 <DropdownMenuItem>서버신청 현황</DropdownMenuItem>
