@@ -106,12 +106,17 @@ function Suggestions() {
                             }
                             className="max-w-sm"
                         />
+                        <div>
+                            
+                        </div>
+                   
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="outline" className="ml-auto">
                                     필터 <ChevronDown />
                                 </Button>
                             </DropdownMenuTrigger>
+                            
                             <DropdownMenuContent align="end">
                                 {table
                                     .getAllColumns()

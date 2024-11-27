@@ -7,14 +7,18 @@ import {
 } from "@/components/ui/card"
 import Topnav from "../nav"
 import { useEffect, useState } from "react"
-import { useAtom } from "jotai"
-import { Access_jwt } from "@/store/strore_data"
 import { useNavigate } from "react-router-dom"
 import Mainpage_part_Board from "./notice"
-
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
 function Mainpage_index() {
     const navigate = useNavigate();
-    const [logCount] = useAtom(Access_jwt)
     const [statuses, setStatuses] = useState({
         Computer1: "🟡 Checking",
         Computer2: "🟡 Checking",
@@ -24,11 +28,8 @@ function Mainpage_index() {
     });
 
     useEffect(() => {
-        console.log(logCount);
-
         async function fetchData() {
             try {
-
                 const response = await fetch("/api/proxmox?search=nodes");
                 const data = await response.json();
 
@@ -57,7 +58,6 @@ function Mainpage_index() {
                 );
             }
         }
-
         fetchData();
     }, []);
     return (
@@ -80,65 +80,105 @@ function Mainpage_index() {
                         </div>
                     </div>
                 </div>
-                <div className="grid custon-with">
-
-                    <p className="title">서버 현황</p>
-                    <div className="lg:h-7 h-5"></div>
-                    <div className="grid grid-cols-2 grid-rows-2  lg:flex gap-10 lg:w-80 m-5 lg:m-0 ">
-                        {/*서버 현황을 보여주는 컴포넌트*/}
-                        <div>
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Computer1</CardTitle>
-                                    <CardDescription>{statuses.Computer1}</CardDescription>
-                                </CardHeader>
-                            </Card>
-                        </div>
-                        <div>
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Computer2</CardTitle>
-                                    <CardDescription>{statuses.Computer2}</CardDescription>
-                                </CardHeader>
-                            </Card>
-                        </div>
-                        <div>
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Computer3</CardTitle>
-                                    <CardDescription>{statuses.Computer3}</CardDescription>
-                                </CardHeader>
-                            </Card>
-                        </div>
-                        <div>
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Computer4</CardTitle>
-                                    <CardDescription>{statuses.Computer4}</CardDescription>
-                                </CardHeader>
-                            </Card>
-                        </div>
-                        <div>
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Computer5</CardTitle>
-                                    <CardDescription>{statuses.Computer5}</CardDescription>
-                                </CardHeader>
-                            </Card>
-                        </div>
-                    </div>
-                    <br />
+                <div className="grow">
                     <div className="mobile_none">
+                        <p className="title">서버 현황</p>
+                        <div className="lg:h-7 h-5"></div>
+                        <div className="grid grid-cols-3 grid-rows-3 lg:flex gap-10  m-5 lg:m-0 content-start">
+                            {/*서버 현황을 보여주는 컴포넌트*/}
+                            <div>
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>Computer1</CardTitle>
+                                        <CardDescription>{statuses.Computer1}</CardDescription>
+                                    </CardHeader>
+                                </Card>
+                            </div>
+                            <div>
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>Computer2</CardTitle>
+                                        <CardDescription>{statuses.Computer2}</CardDescription>
+                                    </CardHeader>
+                                </Card>
+                            </div>
+                            <div>
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>Computer3</CardTitle>
+                                        <CardDescription>{statuses.Computer3}</CardDescription>
+                                    </CardHeader>
+                                </Card>
+                            </div>
+                            <div>
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>Computer4</CardTitle>
+                                        <CardDescription>{statuses.Computer4}</CardDescription>
+                                    </CardHeader>
+                                </Card>
+                            </div>
+                            <div>
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>Computer5</CardTitle>
+                                        <CardDescription>{statuses.Computer5}</CardDescription>
+                                    </CardHeader>
+                                </Card>
+                            </div>
+                        </div>
+                        <br />
                         <p>업데이트 시각: {Date()}</p>
                     </div>
+
                     <br />
+
                     <div style={{ display: "flex", alignItems: "center" }}>
                         <p className="title">공지사항ㅤ</p>
                         <Button className="self-end mb-2.5" onClick={() => { navigate("/site/board"); }}>게시판 이동</Button>
                     </div>
+
                     <div className="lg:h-7 h-5"></div>
+
                     <div className="m-2 lg:m-0">
                         <Mainpage_part_Board />
+                    </div>
+
+                    <div className="pc_none" >
+                        <p className="title">서버 현황</p>
+                        <Card>
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>서버</TableHead>
+                                        <TableHead>현재상태</TableHead>
+
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell>Compute1</TableCell>
+                                        <TableCell>{statuses.Computer1}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Compute2</TableCell>
+                                        <TableCell>{statuses.Computer2}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Compute3</TableCell>
+                                        <TableCell>{statuses.Computer3}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Compute4</TableCell>
+                                        <TableCell>{statuses.Computer4}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Compute5</TableCell>
+                                        <TableCell>{statuses.Computer5}</TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </Card>
                     </div>
                 </div>
             </div>

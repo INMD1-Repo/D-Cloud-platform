@@ -8,23 +8,15 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
 
 @media screen and (max-width : 800px) {
-
-  body {
-    display: flex;
-    height: 170vh;
-  }
-
   .title{
     font-size: 1.5em;
     font-weight: bold;
-  }
-  .custon-with{
-    
   }
   .mianpage_header{
     font-size: 1.8em;
@@ -47,12 +39,11 @@ a:hover {
   }
 }
 
-@media screen and (min-width : 1024px) {
+@media screen and (min-width : 900px) {
 
   .board_button{
     font-size: 1.2em;
   }
-
 
   .authtitle{
     font-size: 1.3em;
@@ -64,9 +55,6 @@ a:hover {
   .title{
     font-size: 2.4em;
     font-weight: bold;
-  }
-  .custon-with{
-    width: 50vw;
   }
   .mianpage_header{
     font-size: 3em;
@@ -80,7 +68,7 @@ a:hover {
     font-weight: bold;
   }
   .mainpage_button {
-    font-size: 1.6em;
+    font-size: 1.3em;
     font-weight: bold;
   }
 }
