@@ -17,8 +17,8 @@ function Suggestions_write() {
       <div className="p-5 md:p-20">
         <Topnav />
         <div className="h-[10vh] md:h-[15vh]"></div>
-        <div>
-
+        <div className="grid">
+        <p className="title">건의사항 게시판 작성</p>
         </div>
       </div>
     </>
