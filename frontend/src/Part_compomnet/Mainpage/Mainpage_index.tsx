@@ -182,9 +182,7 @@ function Mainpage_index() {
                     </div>
                 </div>
             </div>
-
         </div>
-
     )
 }
 
