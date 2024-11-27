@@ -4,49 +4,19 @@ import { ArrowUpDown, ChevronDown } from "lucide-react"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table"
-import React from 'react';
+import React, { useEffect } from 'react';
 
-const data: Payment[] = [
-    {
-        id: "m5gr84i9",
-        amount: 316,
-        Date: "ken99@yahoo.com",
-        title: "테스트 생성중입니다."
-    },
-    {
-        id: "3u1reuv4",
-        amount: 242,
-        Date: "Abe45@gmail.com",
-        title: "테스트 생성중입니다."
-    },
-    {
-        id: "derv1ws0",
-        amount: 837,
-        Date: "Monserrat44@gmail.com",
-        title: "테스트 생성중입니다."
-    },
-    {
-        id: "5kma53ae",
-        amount: 874,
-        Date: "Silas22@gmail.com",
-        title: "테스트 생성중입니다."
-    },
-    {
-        id: "bhqecj4p",
-        amount: 721,
-        Date: "carmella@hotmail.com",
-        title: "테스트 생성중입니다."
-    },
-]
 
-export type Payment = {
+export type Notice = {
     id: string
-    amount: number
-    Date: string
+    Username: string,
     title: string
+    content: number
+    created_at: string
+    updated_at: string
 }
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Notice>[] = [
     {
         accessorKey: "id",
         header: "ID",
@@ -55,10 +25,10 @@ export const columns: ColumnDef<Payment>[] = [
         ),
     },
     {
-        accessorKey: "amount",
+        accessorKey: "Username",
         header: () => <div className="text-left">작성자</div>,
         cell: ({ row }) => {
-            return <div className="text-left font-medium">{row.getValue("amount")}</div>
+            return <div className="text-left font-medium">{row.getValue("Username")}</div>
         },
     },
     {
@@ -67,7 +37,7 @@ export const columns: ColumnDef<Payment>[] = [
         cell: ({ row }) => <div className="lowercase">{row.getValue("title")}</div>,
     },
     {
-        accessorKey: "Date",
+        accessorKey: "created_at",
         header: ({ column }) => {
             return (
                 <Button
@@ -79,13 +49,25 @@ export const columns: ColumnDef<Payment>[] = [
                 </Button>
             )
         },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("Date")}</div>,
+        cell: ({ row }) => <div className="lowercase">{row.getValue("created_at")}</div>,
     },
 ]
 
 function Notice_part_Board() {
+    useEffect(() => {
+        async function get() {
+            try {
+                const response = await fetch("/api/readPost?board=notice&id=all");
+                const GetData = await response.json();
+                setGETFetch(GetData);
+            } catch (error) {
+                console.error("데이터 가져오기 오류:", error);
+            }
+        }
+        get();
+    }, []);
 
-
+    const [GETFetch, setGETFetch] = React.useState({})
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
     const [columnVisibility, setColumnVisibility] =
@@ -93,7 +75,8 @@ function Notice_part_Board() {
     const [rowSelection, setRowSelection] = React.useState({})
 
     const table = useReactTable({
-        data,
+        //@ts-ignore
+        data: GETFetch,
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -110,7 +93,6 @@ function Notice_part_Board() {
             rowSelection,
         },
     })
-
     return (
         <>
 

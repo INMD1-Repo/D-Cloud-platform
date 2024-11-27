@@ -5,44 +5,12 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
 import Topnav from "../nav"
 import { useEffect, useState } from "react"
 import { useAtom } from "jotai"
 import { Access_jwt } from "@/store/strore_data"
 import { useNavigate } from "react-router-dom"
-
-
-const invoices = [
-    {
-        invoice: "INV001",
-        paymentStatus: "Paid",
-        totalAmount: "$250.00",
-        paymentMethod: "Credit Card",
-    },
-    {
-        invoice: "INV002",
-        paymentStatus: "Pending",
-        totalAmount: "$150.00",
-        paymentMethod: "PayPal",
-    },
-    {
-        invoice: "INV003",
-        paymentStatus: "Unpaid",
-        totalAmount: "$350.00",
-        paymentMethod: "Bank Transfer",
-    },
-
-]
-
+import Mainpage_part_Board from "./notice"
 
 function Mainpage_index() {
     const navigate = useNavigate();
@@ -95,7 +63,7 @@ function Mainpage_index() {
     return (
 
         <div className="p-5 md:p-20">
-            <Topnav  />
+            <Topnav />
             <div className="mobile_none mt-20"></div>
             <div className="xl:flex md:grid items-center flex-nowrap gap-20 " >
                 <div className="grid custon-with mt-10">
@@ -166,33 +134,11 @@ function Mainpage_index() {
                     <br />
                     <div style={{ display: "flex", alignItems: "center" }}>
                         <p className="title">공지사항ㅤ</p>
-                        <Button className="self-end mb-2.5" onClick={() => {navigate("/site/board");}}>게시판 이동</Button>
+                        <Button className="self-end mb-2.5" onClick={() => { navigate("/site/board"); }}>게시판 이동</Button>
                     </div>
                     <div className="lg:h-7 h-5"></div>
                     <div className="m-2 lg:m-0">
-                        <Card className="p-4">
-                            <Table>
-                                <TableCaption>공지사항 게시판에서 조회하시기 바람니다.</TableCaption>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead className="w-[100px]">ID</TableHead>
-                                        <TableHead>작성자</TableHead>
-                                        <TableHead>제목</TableHead>
-                                        <TableHead className="text-right">작성일</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {invoices.map((invoice) => (
-                                        <TableRow key={invoice.invoice}>
-                                            <TableCell className="font-medium">{invoice.invoice}</TableCell>
-                                            <TableCell>{invoice.paymentStatus}</TableCell>
-                                            <TableCell>{invoice.paymentMethod}</TableCell>
-                                            <TableCell className="text-right">{invoice.totalAmount}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </Card>
+                        <Mainpage_part_Board />
                     </div>
                 </div>
             </div>

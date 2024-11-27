@@ -44,8 +44,8 @@ if ($request_method == 'GET') {
                 $count = count($total_record);
 
                 if ($count == 0) {
-                    http_response_code(405);
-                    echo json_encode(['error' => 'Method Not Allowed']);
+                    http_response_code(400);
+                    echo json_encode(['error' => 'Not Data']);
                 } else {
                     echo json_encode($total_record);
                 }

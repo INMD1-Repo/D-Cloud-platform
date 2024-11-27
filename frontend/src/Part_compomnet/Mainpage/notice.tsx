@@ -1,19 +1,20 @@
 import { Button } from '@/components/ui/button';
 import { ColumnDef, ColumnFiltersState, SortingState, VisibilityState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown } from "lucide-react"
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
+import { ArrowUpDown } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table"
 import React, { useEffect } from 'react';
 
-export type Suggestions = {
+
+export type Notice = {
     id: string
-    amount: number
-    Date: string
+    Username: string,
     title: string
+    content: number
+    created_at: string
+    updated_at: string
 }
 
-export const columns: ColumnDef<Suggestions>[] = [
+export const columns: ColumnDef<Notice>[] = [
     {
         accessorKey: "id",
         header: "ID",
@@ -22,10 +23,10 @@ export const columns: ColumnDef<Suggestions>[] = [
         ),
     },
     {
-        accessorKey: "amount",
+        accessorKey: "Username",
         header: () => <div className="text-left">작성자</div>,
         cell: ({ row }) => {
-            return <div className="text-left font-medium">{row.getValue("amount")}</div>
+            return <div className="text-left font-medium">{row.getValue("Username")}</div>
         },
     },
     {
@@ -34,7 +35,7 @@ export const columns: ColumnDef<Suggestions>[] = [
         cell: ({ row }) => <div className="lowercase">{row.getValue("title")}</div>,
     },
     {
-        accessorKey: "Date",
+        accessorKey: "created_at",
         header: ({ column }) => {
             return (
                 <Button
@@ -46,16 +47,15 @@ export const columns: ColumnDef<Suggestions>[] = [
                 </Button>
             )
         },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("Date")}</div>,
+        cell: ({ row }) => <div className="lowercase">{row.getValue("created_at")}</div>,
     },
 ]
 
-function Suggestions() {
-
+function Mainpage_part_Board() {
     useEffect(() => {
         async function get() {
             try {
-                const response = await fetch("/api/readPost?board=Suggestions&id=all");
+                const response = await fetch("/api/readPost?board=notice&id=all");
                 const GetData = await response.json();
                 setGETFetch(GetData);
             } catch (error) {
@@ -64,8 +64,8 @@ function Suggestions() {
         }
         get();
     }, []);
-    const [GETFetch, setGETFetch] = React.useState({})
 
+    const [GETFetch, setGETFetch] = React.useState({})
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
     const [columnVisibility, setColumnVisibility] =
@@ -91,54 +91,12 @@ function Suggestions() {
             rowSelection,
         },
     })
-
     return (
         <>
 
             <div>
                 <div className="w-full">
-                    <div className="flex items-center py-4">
-                        <Input
-                            placeholder="검색창..."
-                            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-                            onChange={(event) =>
-                                table.getColumn("title")?.setFilterValue(event.target.value)
-                            }
-                            className="max-w-sm"
-                        />
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="outline" className="ml-auto">
-                                    필터 <ChevronDown />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                {table
-                                    .getAllColumns()
-                                    .filter((column) => column.getCanHide())
-                                    .map((column) => {
-                                        return (
-                                            <DropdownMenuCheckboxItem
-                                                key={column.id}
-                                                className="capitalize"
-                                                checked={column.getIsVisible()}
-                                                onCheckedChange={(value) =>
-                                                    column.toggleVisibility(!!value)
-                                                }
-                                            >
-                                                {
-                                                    column.id == "id" ? "id"
-                                                        : column.id == "title" ? "제목"
-                                                            : column.id == "Date" ? "날짜"
-                                                                : column.id == "amount" ? "작성자"
-                                                                    : null
-                                                }
-                                            </DropdownMenuCheckboxItem>
-                                        )
-                                    })}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
+              
                     <div className="rounded-md border">
                         <Table>
                             <TableHeader>
@@ -213,4 +171,4 @@ function Suggestions() {
     )
 }
 
-export default Suggestions;
+export default Mainpage_part_Board;
