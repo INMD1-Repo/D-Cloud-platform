@@ -39,7 +39,6 @@ function Main_board() {
         <Topnav />
         <div className="h-[10vh] md:h-[15vh]"></div>
         <div className="xl:flex md:grid  justify-center  flex-nowrap" >
-
           <div className="container">
             <div className="grid">
               <p className="title">

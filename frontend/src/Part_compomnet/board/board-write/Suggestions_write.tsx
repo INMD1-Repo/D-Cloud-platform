@@ -26,7 +26,7 @@ function Suggestions_write() {
 
   useEffect(() => {
     //@ts-ignore
-    if (logCount == 1) {
+    if (logCount == 0) {
       navigate("/site/")
     }
   })

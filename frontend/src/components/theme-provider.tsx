@@ -34,7 +34,7 @@ export function ThemeProvider({
     const root = window.document.documentElement
 
     root.classList.remove("light", "dark")
-
+    document.documentElement.setAttribute('data-color-mode', theme);
     if (theme === "system") {
       const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
         .matches
@@ -65,7 +65,6 @@ export function ThemeProvider({
 
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext)
-
   if (context === undefined)
     throw new Error("useTheme must be used within a ThemeProvider")
 

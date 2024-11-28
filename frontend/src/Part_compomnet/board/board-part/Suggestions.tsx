@@ -5,6 +5,7 @@ import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMe
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table"
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export type Suggestions = {
     id: string
@@ -53,7 +54,7 @@ export const columns: ColumnDef<Suggestions>[] = [
 ]
 
 function Suggestions() {
-
+    const navigate = useNavigate();
     useEffect(() => {
         async function get() {
             try {
@@ -61,7 +62,7 @@ function Suggestions() {
                 const GetData = await response.json();
                 setGETFetch(GetData);
                 console.log(GetData);
-                
+
             } catch (error) {
                 console.error("데이터 가져오기 오류:", error);
             }
@@ -111,16 +112,16 @@ function Suggestions() {
                             className="max-w-sm"
                         />
                         <div>
-                            
+
                         </div>
-                   
+
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="outline" className="ml-auto">
                                     필터 <ChevronDown />
                                 </Button>
                             </DropdownMenuTrigger>
-                            
+
                             <DropdownMenuContent align="end">
                                 {table
                                     .getAllColumns()
@@ -171,7 +172,10 @@ function Suggestions() {
                             <TableBody>
                                 {table.getRowModel().rows?.length ? (
                                     table.getRowModel().rows.map((row) => (
-                                        <TableRow key={row.id} >
+                                        <TableRow key={row.id} onClick={() => {
+                                            navigate("/site/board/show?board=Suggestions&id=" + row.original.id);
+                                            console.log("/site/board/show?board=Suggestions&id=" + row.original.id);
+                                        }} >
                                             {row.getVisibleCells().map((cell) => (
                                                 <TableCell key={cell.id}>
                                                     {flexRender(

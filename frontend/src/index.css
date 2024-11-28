@@ -37,6 +37,11 @@ a:hover {
   .board_button{
     font-size: 1em;
   }
+
+  .board_title {
+    font-weight: bold;
+    font-size: 2em;
+  }
 }
 
 @media screen and (min-width : 900px) {
@@ -70,6 +75,10 @@ a:hover {
   .mainpage_button {
     font-size: 1.3em;
     font-weight: bold;
+  }
+  .board_title {
+    font-weight: bold;
+    font-size: 2em;
   }
 }
 

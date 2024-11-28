@@ -5,6 +5,7 @@ import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMe
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table"
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 export type Notice = {
@@ -54,6 +55,7 @@ export const columns: ColumnDef<Notice>[] = [
 ]
 
 function Notice_part_Board() {
+    const navigate = useNavigate();
     useEffect(() => {
         async function get() {
             try {
@@ -163,7 +165,10 @@ function Notice_part_Board() {
                             <TableBody>
                                 {table.getRowModel().rows?.length ? (
                                     table.getRowModel().rows.map((row) => (
-                                        <TableRow key={row.id} >
+                                        <TableRow key={row.id} onClick={() => {
+                                            navigate("/site/board/show?board=notice&id="+ row.original.id);
+                                            console.log("/site/board/show?board=notice&id="+ row.original.id);
+                                        }} >
                                             {row.getVisibleCells().map((cell) => (
                                                 <TableCell key={cell.id}>
                                                     {flexRender(

@@ -8,7 +8,7 @@ import {
 import Topnav from "../nav"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import Mainpage_part_Board from "./notice"
+import Mainpage_part_Board from "./part/notice"
 import {
     Table,
     TableBody,
