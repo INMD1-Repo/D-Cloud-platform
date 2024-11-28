@@ -65,7 +65,7 @@ function Mainpage_index() {
         <div className="p-5 md:p-20">
             <Topnav />
             <div className="mobile_none mt-20"></div>
-            <div className="xl:flex md:grid items-center flex-nowrap gap-20 " >
+            <div className="xl:flex md:grid  justify-center  items-center flex-nowrap gap-20 " >
                 <div className="grid custon-with mt-10">
                     <div className="m-5 xl:m-20">
                         <p className="mianpage_header">저희는 서버가 필요하는</p>
@@ -80,11 +80,11 @@ function Mainpage_index() {
                         </div>
                     </div>
                 </div>
-                <div className="grow">
-                    <div className="mobile_none">
+                <div className="">
+                    <div className="mobile_none ">
                         <p className="title">서버 현황</p>
                         <div className="lg:h-7 h-5"></div>
-                        <div className="grid grid-cols-3 grid-rows-3 lg:flex gap-10  m-5 lg:m-0 content-start">
+                        <div className="grid grid-cols-3 grid-rows-3  lg:flex gap-10  m-5 lg:m-0 content-start">
                             {/*서버 현황을 보여주는 컴포넌트*/}
                             <div>
                                 <Card>
