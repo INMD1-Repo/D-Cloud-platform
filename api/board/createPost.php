@@ -1,11 +1,9 @@
-<?php
-error_reporting(E_ALL);
 
+<?php
 require(__DIR__ . '/../../vendor/autoload.php');
 
 
 header('Content-Type: application/json');
-setCorsHeaders();
 
 // 환경 변수 로드
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
