@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ModeToggle } from "@/components/mode-toggle";
+import { toast, ToastContainer } from "react-toastify";
 
 interface UserInfo {
   name: string;
@@ -46,25 +47,65 @@ function Topnav() {
     });
   }
 
+  async function retoken() {
+    //토큰 재발급
+    await fetch("/api/department?type=token_fresh", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        //@ts-ignore
+        token: Accessjwt.Access,
+      }),
+    }).then((response) => {
+      setAccessjwt(response.json());
+    });
+  }
+
   useEffect(() => {
+
+    async function api() {
+      await fetch("/api/department?type=infoUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          //@ts-ignore
+          token: Accessjwt.Access,
+        }),
+      }).then((response) => {
+        setUserInfo(response.json());
+        if (response.status != 200) {
+          retoken();
+        }
+        return response.status;
+      });
+    }
+
     if (logCount == 1) {
-      async function api() {
-        await fetch("/api/department?type=infoUser", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            //@ts-ignore
-            token: Accessjwt.Access,
-          }),
-        }).then((response) => {
-          setUserInfo(response.json());
+      //기본적으로 한번 조회함
+      const data_status_code = api();
+
+      //토큰으로 유저 데이터를 못불려오면 토큰 재발행후 재실행
+      //@ts-ignore
+      if (data_status_code != 200) {
+        api();
+      } else {
+        //그래도 안될 경우 로그아웃 처리하고 다시 로그인 해달라고 재요청
+        logout();
+        toast.error("토큰이 만료되었습니다. 다시 로그인 해주시기 바람니다.", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
         });
       }
-      api();
     }
-    console.log(userinfo);
   }, []);
 
   return (
@@ -163,12 +204,13 @@ function Topnav() {
                 </p>
               </Button>
             )}
-            <div className="ml-10">
+            <div className="ml-5">
               <ModeToggle />
             </div>
           </div>
         </div>
       </header>
+      <ToastContainer />
     </>
   );
 }

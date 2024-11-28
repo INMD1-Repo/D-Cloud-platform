@@ -8,9 +8,11 @@ import React, { useEffect } from 'react';
 
 export type Suggestions = {
     id: string
-    amount: number
-    Date: string
+    Username: string,
     title: string
+    content: number
+    created_at: string
+    updated_at: string
 }
 
 export const columns: ColumnDef<Suggestions>[] = [
@@ -22,10 +24,10 @@ export const columns: ColumnDef<Suggestions>[] = [
         ),
     },
     {
-        accessorKey: "amount",
+        accessorKey: "Username",
         header: () => <div className="text-left">작성자</div>,
         cell: ({ row }) => {
-            return <div className="text-left font-medium">{row.getValue("amount")}</div>
+            return <div className="text-left font-medium">{row.getValue("Username")}</div>
         },
     },
     {
@@ -34,7 +36,7 @@ export const columns: ColumnDef<Suggestions>[] = [
         cell: ({ row }) => <div className="lowercase">{row.getValue("title")}</div>,
     },
     {
-        accessorKey: "Date",
+        accessorKey: "created_at",
         header: ({ column }) => {
             return (
                 <Button
@@ -46,7 +48,7 @@ export const columns: ColumnDef<Suggestions>[] = [
                 </Button>
             )
         },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("Date")}</div>,
+        cell: ({ row }) => <div className="lowercase">{row.getValue("created_at")}</div>,
     },
 ]
 
@@ -58,6 +60,8 @@ function Suggestions() {
                 const response = await fetch("/api/readPost?board=Suggestions&id=all");
                 const GetData = await response.json();
                 setGETFetch(GetData);
+                console.log(GetData);
+                
             } catch (error) {
                 console.error("데이터 가져오기 오류:", error);
             }
