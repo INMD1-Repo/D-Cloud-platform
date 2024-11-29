@@ -1,4 +1,4 @@
-import Topnav from '@/Part_compomnet/nav';
+import Topnav from '@/Part_compomnet/common parts/Nav';
 import { useSearchParams } from 'react-router-dom';
 import MarkdownPreview from '@uiw/react-markdown-preview';
 import { Card } from '@/components/ui/card';

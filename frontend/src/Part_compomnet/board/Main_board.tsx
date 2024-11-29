@@ -1,7 +1,7 @@
 import { login_Count } from "@/store/strore_data";
 import { useAtom } from "jotai";
 import { useNavigate } from "react-router-dom";
-import Topnav from "../nav";
+import Topnav from "../common parts/Nav";
 import { Button } from "@/components/ui/button";
 import Notice_part_Board from "./board-part/notice";
 import { useState } from "react";

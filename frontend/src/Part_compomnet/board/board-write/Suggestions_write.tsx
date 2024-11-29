@@ -1,4 +1,4 @@
-import Topnav from "@/Part_compomnet/nav";
+import Topnav from "@/Part_compomnet/common parts/Nav";
 import { login_Count, User_info, Access_jwt } from "@/store/strore_data";
 import { useAtom } from "jotai";
 import MDEditor from '@uiw/react-md-editor';

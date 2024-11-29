@@ -5,7 +5,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import Topnav from "../nav"
+import Topnav from "../common parts/Nav"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import Mainpage_part_Board from "./part/notice"
@@ -74,7 +74,9 @@ function Mainpage_index() {
                         <div className="lg:h-10 h-5"></div>
                         <p className="mianpage_sidheader ">프로젝트를 하는데 서버 비용이 문제라면 저희 서버를 한번 이용해보세요.</p>
                         <div className="flex lg:justify-end mt-3 lg:mt-5 ">
-                            <Button className="h-10 w-20 lg:h-16 lg:w-40" >
+                            <Button className="h-10 w-20 lg:h-16 lg:w-40" onClick={() => {
+                                navigate("/site/server/subscription");
+                            }} >
                                 <p className="mainpage_button">서버 신청</p>
                             </Button>
                         </div>

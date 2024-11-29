@@ -157,7 +157,7 @@ function Auth() {
   };
 
   useEffect(() => {
-    if (logCount == 1) {
+    if (logCount == 0) {
       navigate("/site/")
     }
   }, [])
