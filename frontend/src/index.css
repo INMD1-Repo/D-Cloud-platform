@@ -80,6 +80,20 @@ a:hover {
     font-weight: bold;
     font-size: 2em;
   }
+
+  .server_title{
+    font-size: 4em;
+    font-weight: bold;
+  }
+
+  .server_sub_title{
+    font-size: 2em;
+  }
+
+  .server_sub_sub_title{
+    font-size: 1.8em;
+    font-weight: bold;
+  }
 }
 
 @layer base {

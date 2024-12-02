@@ -42,6 +42,10 @@ switch ($path_parts[0]) {
     case 'readPost':
         require __DIR__ . '/board/readPost.php';
         break;
+    //서버 관련
+    case 'writeserver':
+        require __DIR__ . '/Server/index.php';
+        break;
     default:
         http_response_code(404);
         echo json_encode(['error' => 'Not Found']);
