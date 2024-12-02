@@ -34,10 +34,11 @@ import {
     SidebarRail,
     SidebarTrigger,
 } from "@/components/ui/sidebar"
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes, useNavigate} from "react-router-dom";
 import Dashboard_main from "@/Part_compomnet/DashBoard/part/main_page.tsx";
 import {useAtom} from 'jotai'
-import {User_info} from "@/store/strore_data";
+import {login_Count, User_info} from "@/store/strore_data";
+import {useEffect} from "react";
 
 // This is sample data.
 const data = {
@@ -87,7 +88,15 @@ const data = {
 
 
 function Main_DashBoard() {
+
+    const navigate = useNavigate();
     const [userinfo] = useAtom(User_info);
+    const [logCount] = useAtom(login_Count);
+    useEffect(() => {
+        if (logCount == 0) {
+            navigate("/site/")
+        }
+    }, [])
 
     return (
         <SidebarProvider>
