@@ -7,6 +7,7 @@ import Suggestions_write from "./Part_compomnet/board/board-write/Suggestions_wr
 import Board_view from "./Part_compomnet/board/board-view/board_view";
 import Main_server from "./Part_compomnet/Server application/Main-server";
 import Main_server_mobile from "./Part_compomnet/Server application/Mian-server-mobile";
+import Main_DashBoard from "@/Part_compomnet/DashBoard/Main_DashBoard.tsx";
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
@@ -21,18 +22,19 @@ function App() {
 
           <Route path="/site/server/subscription" element={<Main_server />}></Route>
           <Route path="/site/server/subscription_mobile" element={< Main_server_mobile />}></Route>
+          <Route path="/site/dashboard" element={< Main_DashBoard />}></Route>
         </Routes>
-        <footer className="mobile_none">
-          <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-          <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
-            © 2024{" "}
-            <a href="https://github.com/INMD1" className="hover:underline">
-              INMD1
-            </a>
-            . All Rights Reserved.
-          </span>
-          <br />
-        </footer>
+        {/*<footer className="mobile_none">*/}
+        {/*  <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />*/}
+        {/*  <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">*/}
+        {/*    © 2024{" "}*/}
+        {/*    <a href="https://github.com/INMD1" className="hover:underline">*/}
+        {/*      INMD1*/}
+        {/*    </a>*/}
+        {/*    . All Rights Reserved.*/}
+        {/*  </span>*/}
+        {/*  <br />*/}
+        {/*</footer>*/}
       </BrowserRouter>
     </ThemeProvider>
   );

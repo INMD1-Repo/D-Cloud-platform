@@ -1,7 +1,6 @@
 <?php
 require(__DIR__ . '/../../vendor/autoload.php');
 
-
 header('Content-Type: application/json');
 
 // 환경 변수 로드
@@ -92,7 +91,8 @@ if ($request_method == 'GET') {
             break;
     }
 
-} else if ($request_method == 'POST') {
+}
+else if ($request_method == 'POST') {
     $writename = $_GET['writename'] ?? null;
     $email = $_GET['email'] ?? null;
     $type = $_GET['type'] ?? null;
@@ -102,9 +102,10 @@ if ($request_method == 'GET') {
         case 'user':
             $created_at = date('Y-m-d H:i:s'); // 현재 날짜/시간을 변수에 저장
             $Appecet = 0;
+            $rand = rand(0, 16584653);
 
             $stmt = $conn->prepare("INSERT INTO Server_application (id, Username, content, User_email, created_at, Appcet) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssss", rand(0, 16584653), $writename, $input, $email, $created_at, $Appecet);
+            $stmt->bind_param("ssssss", $rand, $writename, $input, $email, $created_at, $Appecet);
 
             if ($stmt->execute()) {
                 http_response_code(201);
@@ -139,7 +140,8 @@ if ($request_method == 'GET') {
             http_response_code(405);
             echo json_encode(['error' => 'Method Not Allowed']);
     }
-} else {
+}
+else {
     http_response_code(405);
     echo json_encode(['error' => 'Method Not Allowed']);
 }

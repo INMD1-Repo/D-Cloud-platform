@@ -43,7 +43,7 @@ switch ($path_parts[0]) {
         require __DIR__ . '/board/readPost.php';
         break;
     //서버 관련
-    case 'writeserver':
+    case 'server_application':
         require __DIR__ . '/Server/index.php';
         break;
     default:

@@ -64,7 +64,6 @@ function Topnav() {
   }
 
   useEffect(() => {
-
     async function api() {
       await fetch("/api/department?type=infoUser", {
         method: "POST",
@@ -151,7 +150,7 @@ function Topnav() {
                     <DropdownMenuContent>
                       <DropdownMenuLabel>My Account</DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem>정보 수정</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => {navigate("/site/dashboard")}}>데시보드 이동</DropdownMenuItem>
                       <DropdownMenuItem>서버신청 현황</DropdownMenuItem>
                       <DropdownMenuItem>서버 현황</DropdownMenuItem>
                       <DropdownMenuItem
@@ -178,7 +177,7 @@ function Topnav() {
                         환영합니다. <br /> {userinfod.name}
                       </DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem>정보 수정</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => {navigate("/site/dashboard")}}>데시보드 이동</DropdownMenuItem>
                       <DropdownMenuItem>서버신청 현황</DropdownMenuItem>
                       <DropdownMenuItem>서버 현황</DropdownMenuItem>
                       <DropdownMenuItem

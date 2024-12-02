@@ -167,7 +167,7 @@ function Main_server({
         json.date = date;
 
         //@ts-ignore
-        await fetch(`/api/writeserver/?writename=${userinfo.name}&writename=${userinfo.eamil}&type=user`, {
+        await fetch(`/api/server_application/?writename=${userinfo.name}&writename=${userinfo.eamil}&type=user`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -417,7 +417,7 @@ function Main_server({
                                     </div>
                                     <div>
                                         <p className='flex server_sub_sub_title'>이용 약관</p>
-                                        <Card className="w-[40vw] p-4 h-[50vh]"
+                                        <Card className="w-[30vw] p-4 h-[50vh]"
                                               style={{overflowX: "auto", overflowY: "auto"}}>
                                             <MarkdownPreview source={source} style={{padding: 16}}/>
                                         </Card>
