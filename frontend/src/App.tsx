@@ -8,6 +8,9 @@ import Board_view from "./Part_compomnet/board/board-view/board_view";
 import Main_server from "./Part_compomnet/Server application/Main-server";
 import Main_server_mobile from "./Part_compomnet/Server application/Mian-server-mobile";
 import Main_DashBoard from "@/Part_compomnet/DashBoard/Main_DashBoard.tsx";
+import Show_Appect from "./Part_compomnet/DashBoard/show_Appect";
+import Judgment from "@/Part_compomnet/DashBoard/Admin/judgment.tsx";
+
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
@@ -22,7 +25,10 @@ function App() {
 
           <Route path="/site/server/subscription" element={<Main_server />}></Route>
           <Route path="/site/server/subscription_mobile" element={< Main_server_mobile />}></Route>
+         
           <Route path="/site/dashboard" element={< Main_DashBoard />}></Route>
+          <Route path="/site/server/show_Accpet" element={<Show_Appect />}></Route>
+          <Route path="/site/server/Admin/judgment" element={<Judgment />}></Route>
         </Routes>
         {/*<footer className="mobile_none">*/}
         {/*  <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />*/}

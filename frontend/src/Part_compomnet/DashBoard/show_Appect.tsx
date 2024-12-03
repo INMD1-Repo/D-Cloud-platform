@@ -34,25 +34,24 @@ import {
     SidebarRail,
     SidebarTrigger,
 } from "@/components/ui/sidebar"
+
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
+
 import {useNavigate} from "react-router-dom";
 import {useAtom} from 'jotai'
 import {Access_jwt, login_Count, User_info} from "@/store/strore_data";
+import {Card} from "@/components/ui/card"
+import {useEffect, useState} from "react";
 
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TablePagination from '@mui/material/TablePagination';
-import IconButton from '@mui/material/IconButton';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import Collapse from '@mui/material/Collapse';
-import Box from '@mui/material/Box';
-import {Card} from "@/components/ui/card.tsx";
-
+// This is sample data.
 const data = {
     navMain: [
         {
@@ -112,69 +111,13 @@ const data = {
 
 }
 
-//@ts-ignore
-function createData(name, calories, fat, carbs, protein) {
-    return {name, calories, fat, carbs, protein};
-}
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6, 24, 4),
-    createData('Ice cream sandwich', 237, 9, 37, 4.3),
-    createData('Eclair', 262, 16, 24, 6),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16, 49, 3.9),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16, 49, 3.9),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16, 49, 3.9),
-];
-
-//@ts-ignore
-function Row({row}) {
-    const [open, setOpen] = React.useState(false);
-    return (
-        <React.Fragment>
-            <TableRow sx={{'& > *': {borderBottom: 'unset'}}}>
-                <TableCell>
-                    <IconButton
-                        aria-label="expand row"
-                        size="small"
-                        onClick={() => setOpen(!open)}
-                    >
-                        {open ? <KeyboardArrowUpIcon/> : <KeyboardArrowDownIcon/>}
-                    </IconButton>
-                </TableCell>
-                <TableCell>{row.name}</TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
-            <TableRow>
-                <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={6}>
-                    <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Box sx={{margin: 1}}>
-                            <Table size="small">
-                                <TableBody>
-                                    <TableRow>
-                                        <TableCell>Details about {row.name}</TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </Box>
-                    </Collapse>
-                </TableCell>
-            </TableRow>
-        </React.Fragment>
-    );
-}
-
-function Judgment() {
+function Show_Appect() {
+    const [invoices, setinvoices] = useState([]);
     const navigate = useNavigate();
     const setlogCount = useAtom(login_Count);
     const [Accessjwt, setAccessjwt] = useAtom(Access_jwt);
     const [userinfo, setUserInfo] = useAtom(User_info);
-    console.log(rows);
 
     async function logout() {
         await fetch("/api/logout", {
@@ -197,26 +140,47 @@ function Judgment() {
         });
     }
 
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-//@ts-ignore
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-//@ts-ignore
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
+    //@ts-ignore
+    const [isLoading, setIsLoading] = useState(false);
+
+    async function GetApi() {
+        setIsLoading(true);
+        try {
+            //@ts-ignore
+            const response = await fetch(`/api/server_application/?username=${userinfo.name}&email=${userinfo.email}&type=user`);
+            const Restapi = await response.json();
+            for (let i = 0; i < Restapi.length; i++) {
+                const data = JSON.parse(Restapi[i].content);
+                Restapi[i].content = data.Servername
+                if (Restapi[i].Appcet == 0) {
+                    Restapi[i].Appcet = "⚪️ 진행중"
+                } else if (Restapi[i].Appcet == 1) {
+                    Restapi[i].Appcet = "🟢 승인되었습니다."
+                } else {
+                    Restapi[i].Appcet = "🔴 거절 되었습니다."
+                }
+            }
+            setinvoices(Restapi);
+        } catch (error) {
+            console.error("API 호출 오류:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        //@ts-ignore
+        if (userinfo.name && userinfo.email) {
+            GetApi();
+        }//@ts-ignore
+    }, [userinfo.name, userinfo.email]);
 
     return (
         <SidebarProvider>
             <Sidebar collapsible="icon">
                 {/*상단 플랫폼 이름 표기*/}
                 <SidebarHeader>
-                    <SidebarMenu onClick={() => {
-                        navigate("/site/dashboard")
-                    }}>
+                    <SidebarMenu onClick={() => {navigate("/site/dashboard")}}>
                         <SidebarMenuButton
                             size="lg"
                             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
@@ -388,48 +352,40 @@ function Judgment() {
                     </div>
                 </header>
                 <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                    <p className="title"> 서버 신청 인허가 </p>
+                    <p className="title"> 서버 신청 현황 </p>
                     <p>서버 신청 현황을 볼수 있습니다. 만약에 신청 거부가 뜨면 다시 신청 해주시기 바람니다.</p>
                     <br/>
-                    <div>
-                        <Card>
-                            <TableContainer>
-                                <Table aria-label="collapsible table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell/>
-                                            <TableCell sx={{color: 'white'}}>Dessert (100g serving)</TableCell>
-                                            <TableCell sx={{color: 'white'}} align="right">Calories</TableCell>
-                                            <TableCell sx={{color: 'white'}} align="right">Fat&nbsp;(g)</TableCell>
-                                            <TableCell sx={{color: 'white'}} align="right">Carbs&nbsp;(g)</TableCell>
-                                            <TableCell sx={{color: 'white'}} align="right">Protein&nbsp;(g)</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {rows
-                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                            .map((row) => (
-                                                <Row key={row.name} row={row}/>
-                                            ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                            <TablePagination
-                                rowsPerPageOptions={[5, 10, 25]}
-                                component="div"
-                                count={rows.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
-                                sx={{color: 'black'}}
-                            />
-                        </Card>
-                    </div>
+                    <Card>
+                        <Table>
+                            <TableCaption>A list of your recent invoices.</TableCaption>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>ID</TableHead>
+                                    <TableHead>신청자</TableHead>
+                                    <TableHead>서버이름</TableHead>
+                                    <TableHead>신청시간</TableHead>
+                                    <TableHead>신청결과</TableHead>
+                                    <TableHead>거절사유</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {invoices.map(({created_at, denine, id, Appcet, content, Username}) => (
+                                    <TableRow key={id}>
+                                        <TableCell className="font-medium">{id}</TableCell>
+                                        <TableCell>{Username}</TableCell>
+                                        <TableCell>{content}</TableCell>
+                                        <TableCell>{created_at}</TableCell>
+                                        <TableCell>{Appcet}</TableCell>
+                                        <TableCell>{denine}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </Card>
                 </div>
             </SidebarInset>
         </SidebarProvider>
     )
 }
 
-export default Judgment;
+export default Show_Appect

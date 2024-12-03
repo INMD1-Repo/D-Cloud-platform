@@ -34,19 +34,16 @@ import {
     SidebarRail,
     SidebarTrigger,
 } from "@/components/ui/sidebar"
-import {Route, Routes, useNavigate} from "react-router-dom";
-import Dashboard_main from "@/Part_compomnet/DashBoard/part/main_page.tsx";
+import {useNavigate} from "react-router-dom";
 import {useAtom} from 'jotai'
-import {login_Count, User_info} from "@/store/strore_data";
-import {useEffect} from "react";
+import {Access_jwt, login_Count, User_info} from "@/store/strore_data";
 
-// This is sample data.
 const data = {
-
     navMain: [
         {
             title: "정보 수정",
             url: "#",
+            Admin: 0,
             icon: SquareTerminal,
             isActive: true,
             items: [
@@ -59,21 +56,23 @@ const data = {
         {
             title: "서버 신청",
             url: "#",
+            Admin: 0,
             icon: Bot,
             items: [
                 {
                     title: "서버 신청 현황",
-                    url: "#",
+                    url: "/site/server/show_Accpet",
                 },
                 {
                     title: "서버 신청하기",
-                    url: "#",
+                    url: "/site/server/subscription",
                 },
             ],
         },
         {
             title: "보유 서버",
             url: "#",
+            Admin: 0,
             icon: BookOpen,
             items: [
                 {
@@ -82,21 +81,49 @@ const data = {
                 },
             ],
         },
+        {
+            title: "관리자 패널",
+            url: "#",
+            Admin: 1,
+            icon: BookOpen,
+            items: [
+                {
+                    title: "서버 승인",
+                    url: "/site/server/Admin/judgment",
+                },
+            ],
+        },
     ],
-
 }
-
 
 function Main_DashBoard() {
 
     const navigate = useNavigate();
-    const [userinfo] = useAtom(User_info);
-    const [logCount] = useAtom(login_Count);
-    useEffect(() => {
-        if (logCount == 0) {
-            navigate("/site/")
-        }
-    }, [])
+    const [setlogCount] = useAtom(login_Count);
+    const [Accessjwt, setAccessjwt] = useAtom(Access_jwt);
+    const [userinfo, setUserInfo] = useAtom(User_info);
+
+    async function logout() {
+        await fetch("/api/logout", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                //@ts-ignore
+                token: Accessjwt.Access,
+            }),
+        }).then((response) => {
+            if (response.status == 200) {
+                setUserInfo({});
+                //@ts-ignore
+                setlogCount(0);
+                setAccessjwt({});
+                navigate("/site/")
+            }
+        });
+    }
+
 
     return (
         <SidebarProvider>
@@ -116,7 +143,7 @@ function Main_DashBoard() {
                                     D Cloud Platform
                                 </span>
                                 <span className="truncate text-xs">
-                                    Deu region
+                                    Deu Univ region
                                 </span>
                             </div>
                             <ChevronsUpDown className="ml-auto"/>
@@ -129,36 +156,74 @@ function Main_DashBoard() {
                         <SidebarGroupLabel>Menu</SidebarGroupLabel>
                         <SidebarMenu>
                             {data.navMain.map((item) => (
-                                <Collapsible
-                                    key={item.title}
-                                    asChild
-                                    defaultOpen={item.isActive}
-                                    className="group/collapsible"
-                                >
-                                    <SidebarMenuItem>
-                                        <CollapsibleTrigger asChild>
-                                            <SidebarMenuButton tooltip={item.title}>
-                                                {item.icon && <item.icon/>}
-                                                <span>{item.title}</span>
-                                                <ChevronRight
-                                                    className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"/>
-                                            </SidebarMenuButton>
-                                        </CollapsibleTrigger>
-                                        <CollapsibleContent>
-                                            <SidebarMenuSub>
-                                                {item.items?.map((subItem) => (
-                                                    <SidebarMenuSubItem key={subItem.title}>
-                                                        <SidebarMenuSubButton asChild>
-                                                            <a href={subItem.url}>
-                                                                <span>{subItem.title}</span>
-                                                            </a>
-                                                        </SidebarMenuSubButton>
-                                                    </SidebarMenuSubItem>
-                                                ))}
-                                            </SidebarMenuSub>
-                                        </CollapsibleContent>
-                                    </SidebarMenuItem>
-                                </Collapsible>
+                                item.Admin == 0 ? <Collapsible
+                                        key={item.title}
+                                        asChild
+                                        defaultOpen={item.isActive}
+                                        className="group/collapsible"
+                                    >
+                                        <SidebarMenuItem>
+                                            <CollapsibleTrigger asChild>
+                                                <SidebarMenuButton tooltip={item.title}>
+                                                    {item.icon && <item.icon/>}
+                                                    <span>{item.title}</span>
+                                                    <ChevronRight
+                                                        className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"/>
+                                                </SidebarMenuButton>
+                                            </CollapsibleTrigger>
+                                            <CollapsibleContent>
+                                                <SidebarMenuSub>
+                                                    {item.items?.map((subItem) => (
+                                                        <SidebarMenuSubItem key={subItem.title}>
+                                                            <SidebarMenuSubButton asChild>
+                                                                <a href={subItem.url}>
+                                                                    <span>{subItem.title}</span>
+                                                                </a>
+                                                            </SidebarMenuSubButton>
+                                                        </SidebarMenuSubItem>
+                                                    ))}
+                                                </SidebarMenuSub>
+                                            </CollapsibleContent>
+                                        </SidebarMenuItem>
+                                    </Collapsible>
+                                    : <></>
+
+                            ))}
+                        </SidebarMenu>
+                        <SidebarMenu>
+                            {data.navMain.map((item) => (
+                                item.Admin == 1 ? <Collapsible
+                                        key={item.title}
+                                        asChild
+                                        defaultOpen={item.isActive}
+                                        className="group/collapsible"
+                                    >
+                                        <SidebarMenuItem>
+                                            <CollapsibleTrigger asChild>
+                                                <SidebarMenuButton tooltip={item.title}>
+                                                    {item.icon && <item.icon/>}
+                                                    <span>{item.title}</span>
+                                                    <ChevronRight
+                                                        className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"/>
+                                                </SidebarMenuButton>
+                                            </CollapsibleTrigger>
+                                            <CollapsibleContent>
+                                                <SidebarMenuSub>
+                                                    {item.items?.map((subItem) => (
+                                                        <SidebarMenuSubItem key={subItem.title}>
+                                                            <SidebarMenuSubButton asChild>
+                                                                <a href={subItem.url}>
+                                                                    <span>{subItem.title}</span>
+                                                                </a>
+                                                            </SidebarMenuSubButton>
+                                                        </SidebarMenuSubItem>
+                                                    ))}
+                                                </SidebarMenuSub>
+                                            </CollapsibleContent>
+                                        </SidebarMenuItem>
+                                    </Collapsible>
+                                    : <></>
+
                             ))}
                         </SidebarMenu>
                     </SidebarGroup>
@@ -182,7 +247,7 @@ function Main_DashBoard() {
                                                 {userinfo.name}
                                             </span>
                                             <span className="truncate text-xs">
-                                                 {/*//@ts-ignore*/}
+                                                {/*//@ts-ignore*/}
                                                 {userinfo.email}
                                             </span>
                                         </div>
@@ -205,18 +270,20 @@ function Main_DashBoard() {
                                             </Avatar>
                                             <div className="grid flex-1 text-left text-sm leading-tight">
                                                 <span className="truncate font-semibold">
-                                                     {/*//@ts-ignore*/}
+                                                    {/*//@ts-ignore*/}
                                                     {userinfo.name}
                                                 </span>
                                                 <span className="truncate text-xs">
-                                                     {/*//@ts-ignore*/}
+                                                    {/*//@ts-ignore*/}
                                                     {userinfo.email}
                                                 </span>
                                             </div>
                                         </div>
                                     </DropdownMenuLabel>
                                     <DropdownMenuSeparator/>
-                                    <DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => {
+                                        logout();
+                                    }}>
                                         <LogOut/>
                                         Log out
                                     </DropdownMenuItem>
@@ -235,9 +302,8 @@ function Main_DashBoard() {
                     </div>
                 </header>
                 <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                    <Routes>
-                        <Route path="/" element={<Dashboard_main/>}/>
-                    </Routes>
+                    <p className="title"> DCP에 오신걸 환영합니다.</p>
+                    <p className="sub_title">옆 사이드에 있는 메뉴를 눌려서 서비스 이용해주세요.</p>
                 </div>
             </SidebarInset>
         </SidebarProvider>

@@ -23,7 +23,7 @@ import Select from 'react-select';
 import {Card} from "@/components/ui/card";
 import {Checkbox} from "@radix-ui/react-checkbox";
 import {useAtom} from 'jotai'
-import {User_info} from "@/store/strore_data";
+import {login_Count, User_info} from "@/store/strore_data";
 import {useNavigate} from "react-router-dom";
 
 const source =
@@ -137,6 +137,10 @@ function Main_server({
     })
     const navigate = useNavigate();
     const [userinfo] = useAtom(User_info);
+    const info = userinfo;
+
+    const [logCount] = useAtom(login_Count);
+
     const [selectedOption, setSelectedOption] = useState("선택안함");
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -160,22 +164,37 @@ function Main_server({
 
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
-        let json = data;
-        //@ts-ignore
-        json.os = selectedOption.label;
-        //@ts-ignore
-        json.date = date;
+        if (logCount == 1) {
+            let json = data;
+            //@ts-ignore
+            json.os = selectedOption.label;
+            //@ts-ignore
+            json.date = date;
 
-        //@ts-ignore
-        await fetch(`/api/server_application/?writename=${userinfo.name}&writename=${userinfo.eamil}&type=user`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(json)
-        }).then((response) => {
-            if (response.status == 201) {
-                toast.success("성공적으로 제출 했습니다. \n 관리자에게 문자가 올때까지 기다려 주세요.", {
+            //@ts-ignore
+            await fetch(`/api/server_application/?writename=${info.name}&email=${info.email}&type=user`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(json)
+            }).then((response) => {
+                if (response.status == 201) {
+                    toast.success("성공적으로 제출 했습니다. \n 관리자에게 문자가 올때까지 기다려 주세요.", {
+                        position: "bottom-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        theme: "colored"
+                    });
+                    setTimeout(() => {
+                        navigate("/site/")
+                    }, 2000);
+                }
+            }).catch(() => {
+                toast.error("다시 제출해주시기 바람니다.", {
                     position: "bottom-right",
                     autoClose: 3000,
                     hideProgressBar: false,
@@ -184,12 +203,9 @@ function Main_server({
                     draggable: true,
                     theme: "colored"
                 });
-                setTimeout(() => {
-                    navigate("/site/")
-                }, 2000);
-            }
-        }).catch(() => {
-            toast.error("다시 제출해주시기 바람니다.", {
+            })
+        } else {
+            toast.error("로그인을 하고 제출해주시기 바람니다.", {
                 position: "bottom-right",
                 autoClose: 3000,
                 hideProgressBar: false,
@@ -198,20 +214,13 @@ function Main_server({
                 draggable: true,
                 theme: "colored"
             });
-        })
-
-        console.log("폼 제출 데이터:", json);
-        console.log(userinfo);
-
+            setTimeout(() => {
+                navigate("/site/")
+            }, 2000);
+        }
 
     }
 
-    //모바일이면 모바일 페이지로 넘어감
-    // useEffect(() => {
-    //     if (isMobile) {
-    //         navigate('/mobile', { replace: true });
-    //     }
-    // }, [navigate]);
 
     return (
         <>

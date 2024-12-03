@@ -93,9 +93,9 @@ if ($request_method == 'GET') {
 
 }
 else if ($request_method == 'POST') {
-    $writename = $_GET['writename'] ?? null;
-    $email = $_GET['email'] ?? null;
-    $type = $_GET['type'] ?? null;
+    $writename = $_GET['writename'];
+    $email = $_GET['email'];
+    $type = $_GET['type'];
 
     switch ($type) {
         //유저일 경우
@@ -105,7 +105,7 @@ else if ($request_method == 'POST') {
             $rand = rand(0, 16584653);
 
             $stmt = $conn->prepare("INSERT INTO Server_application (id, Username, content, User_email, created_at, Appcet) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssss", $rand, $writename, $input, $email, $created_at, $Appecet);
+            $stmt->bind_param("ssssss", $rand, $writename, json_encode($input), $email, $created_at, $Appecet);
 
             if ($stmt->execute()) {
                 http_response_code(201);
