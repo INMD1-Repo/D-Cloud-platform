@@ -41,18 +41,18 @@ import {Access_jwt, login_Count, User_info} from "@/store/strore_data";
 const data = {
     navMain: [
         {
-            title: "정보 수정",
-            url: "#",
+            title: "사이트 이동",
             Admin: 0,
+            url: "#",
             icon: SquareTerminal,
             isActive: true,
             items: [
-                {
-                    title: "제작중",
-                    url: "#",
-                }
+              {
+                title: "메인 페이지",
+                url: "/site/",
+              },
             ],
-        },
+          },
         {
             title: "서버 신청",
             url: "#",

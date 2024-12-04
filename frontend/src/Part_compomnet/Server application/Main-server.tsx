@@ -236,7 +236,7 @@ function Main_server({
                     <div className="justify-items-center ">
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)}>
-                                <div className="flex gap-x-8 grow">
+                                <div className="grid md:flex gap-x-8 grow">
                                     <div className="grid">
                                         <p className='flex server_sub_sub_title'>사용자 정보</p>
                                         <FormField
@@ -426,7 +426,7 @@ function Main_server({
                                     </div>
                                     <div>
                                         <p className='flex server_sub_sub_title'>이용 약관</p>
-                                        <Card className="w-[30vw] p-4 h-[50vh]"
+                                        <Card className="md:w-[30vw] p-4 h-[50vh]"
                                               style={{overflowX: "auto", overflowY: "auto"}}>
                                             <MarkdownPreview source={source} style={{padding: 16}}/>
                                         </Card>
