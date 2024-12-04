@@ -51,7 +51,6 @@ import {Access_jwt, login_Count, User_info} from "@/store/strore_data";
 import {Card} from "@/components/ui/card"
 import {useEffect, useState} from "react";
 
-// This is sample data.
 const data = {
     navMain: [
         {
@@ -111,8 +110,8 @@ const data = {
 
 }
 
-
 function Show_Appect() {
+
     const [invoices, setinvoices] = useState([]);
     const navigate = useNavigate();
     const setlogCount = useAtom(login_Count);

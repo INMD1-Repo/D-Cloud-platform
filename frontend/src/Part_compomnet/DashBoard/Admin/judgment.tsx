@@ -52,6 +52,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Collapse from '@mui/material/Collapse';
 import Box from '@mui/material/Box';
 import {Card} from "@/components/ui/card.tsx";
+import {useEffect, useState} from "react";
 
 const data = {
     navMain: [
@@ -197,6 +198,49 @@ function Judgment() {
         });
     }
 
+
+    const [Jsondata, setJsondata] = React.useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    async function GetApi() {
+        setIsLoading(true);
+        try {
+            //@ts-ignore
+            const response = await fetch(`/api/server_application/?username=${userinfo.name}&email=${userinfo.email}&type=user`);
+            const Restapi = await response.json();
+            for (let i = 0; i < Restapi.length; i++) {
+                const data = JSON.parse(Restapi[i].content);
+                Restapi[i].Servername = data.Servername
+            }
+            setJsondata(Restapi);
+            //Example Data
+            // [
+            //     {
+            //         "id": 2586594,
+            //         "Username": "TestNAME",
+            //         "content": "JSON DATA",
+            //         "User_email": "Test@gmail.com",
+            //         "created_at": "2024-12-03 13:36:13",
+            //         "updated_at": null,
+            //         "Appcet": 0,
+            //         "Servername": "AMD-Server"
+            //     }
+            // ]
+        } catch (error) {
+            console.error("API 호출 오류:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        //@ts-ignore
+        if (userinfo.name && userinfo.email) {
+            GetApi();
+
+        }//@ts-ignore
+    }, [userinfo.name, userinfo.email]);
+
+    //--------------------------------------------------------------------------------
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 //@ts-ignore
@@ -388,7 +432,7 @@ function Judgment() {
                     </div>
                 </header>
                 <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                    <p className="title"> 서버 신청 인허가 </p>
+                    <p className="title"> 서버 신청 허가 </p>
                     <p>서버 신청 현황을 볼수 있습니다. 만약에 신청 거부가 뜨면 다시 신청 해주시기 바람니다.</p>
                     <br/>
                     <div>

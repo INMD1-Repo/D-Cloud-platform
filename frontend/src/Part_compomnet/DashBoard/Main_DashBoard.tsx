@@ -99,7 +99,9 @@ const data = {
 function Main_DashBoard() {
 
     const navigate = useNavigate();
-    const [setlogCount] = useAtom(login_Count);
+
+    //@ts-ignore
+    const [logCount,setlogCount] = useAtom(login_Count);
     const [Accessjwt, setAccessjwt] = useAtom(Access_jwt);
     const [userinfo, setUserInfo] = useAtom(User_info);
 
