@@ -108,6 +108,10 @@ const data = {
           title: "서버 승인",
           url: "/site/server/Admin/judgment",
         },
+        {
+          title: "공지사항 작성",
+          url: "/site/server/Admin/judgment",
+        },
       ],
     },
   ],
@@ -153,7 +157,7 @@ function Show_Appect() {
         Restapi[i].content = data.Servername;
         if (Restapi[i].Appcet == 0) {
           Restapi[i].Appcet = "⚪️ 진행중";
-        } else if (Restapi[i].Appcet == 1) {
+        } else if (Restapi[i].Appcet == 381) {
           Restapi[i].Appcet = "🟢 승인되었습니다.";
         } else {
           Restapi[i].Appcet = "🔴 거절 되었습니다.";
@@ -240,39 +244,40 @@ function Show_Appect() {
             </SidebarMenu>
             <SidebarMenu>
               {data.navMain.map((item) =>
-                item.Admin == 1 ? (
-                  <Collapsible
-                    key={item.title}
-                    asChild
-                    defaultOpen={item.isActive}
-                    className="group/collapsible"
-                  >
-                    <SidebarMenuItem>
-                      <CollapsibleTrigger asChild>
-                        <SidebarMenuButton tooltip={item.title}>
-                          {item.icon && <item.icon />}
-                          <span>{item.title}</span>
-                          <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                        </SidebarMenuButton>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent>
-                        <SidebarMenuSub>
-                          {item.items?.map((subItem) => (
-                            <SidebarMenuSubItem key={subItem.title}>
-                              <SidebarMenuSubButton asChild>
-                                <a href={subItem.url}>
-                                  <span>{subItem.title}</span>
-                                </a>
-                              </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-                          ))}
-                        </SidebarMenuSub>
-                      </CollapsibleContent>
-                    </SidebarMenuItem>
-                  </Collapsible>
-                ) : (
-                  <></>
-                )
+                //@ts-ignore
+                  userinfo.Admin == 1 && item.Admin == 1? (
+                      <Collapsible
+                          key={item.title}
+                          asChild
+                          defaultOpen={item.isActive}
+                          className="group/collapsible"
+                      >
+                        <SidebarMenuItem>
+                          <CollapsibleTrigger asChild>
+                            <SidebarMenuButton tooltip={item.title}>
+                              {item.icon && <item.icon />}
+                              <span>{item.title}</span>
+                              <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                            </SidebarMenuButton>
+                          </CollapsibleTrigger>
+                          <CollapsibleContent>
+                            <SidebarMenuSub>
+                              {item.items?.map((subItem) => (
+                                  <SidebarMenuSubItem key={subItem.title}>
+                                    <SidebarMenuSubButton asChild>
+                                      <a href={subItem.url}>
+                                        <span>{subItem.title}</span>
+                                      </a>
+                                    </SidebarMenuSubButton>
+                                  </SidebarMenuSubItem>
+                              ))}
+                            </SidebarMenuSub>
+                          </CollapsibleContent>
+                        </SidebarMenuItem>
+                      </Collapsible>
+                  ) : (
+                      <></>
+                  )
               )}
             </SidebarMenu>
           </SidebarGroup>

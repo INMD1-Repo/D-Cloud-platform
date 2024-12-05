@@ -91,6 +91,10 @@ const data = {
                     title: "서버 승인",
                     url: "/site/server/Admin/judgment",
                 },
+                {
+                    title: "공지사항 작성",
+                    url: "/site/server/Admin/judgment",
+                },
             ],
         },
     ],
@@ -193,8 +197,10 @@ function Main_DashBoard() {
                             ))}
                         </SidebarMenu>
                         <SidebarMenu>
-                            {data.navMain.map((item) => (
-                                item.Admin == 1 ? <Collapsible
+                            {data.navMain.map((item) =>
+                              //@ts-ignore
+                                userinfo.Admin == 1 && item.Admin == 1? (
+                                    <Collapsible
                                         key={item.title}
                                         asChild
                                         defaultOpen={item.isActive}
@@ -203,10 +209,9 @@ function Main_DashBoard() {
                                         <SidebarMenuItem>
                                             <CollapsibleTrigger asChild>
                                                 <SidebarMenuButton tooltip={item.title}>
-                                                    {item.icon && <item.icon/>}
+                                                    {item.icon && <item.icon />}
                                                     <span>{item.title}</span>
-                                                    <ChevronRight
-                                                        className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"/>
+                                                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                                                 </SidebarMenuButton>
                                             </CollapsibleTrigger>
                                             <CollapsibleContent>
@@ -224,9 +229,10 @@ function Main_DashBoard() {
                                             </CollapsibleContent>
                                         </SidebarMenuItem>
                                     </Collapsible>
-                                    : <></>
-
-                            ))}
+                                ) : (
+                                    <></>
+                                )
+                            )}
                         </SidebarMenu>
                     </SidebarGroup>
                 </SidebarContent>

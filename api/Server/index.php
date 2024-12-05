@@ -1,4 +1,8 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', '0');
+
 require(__DIR__ . '/../../vendor/autoload.php');
 
 header('Content-Type: application/json');
@@ -105,8 +109,8 @@ else if ($request_method == 'POST') {
                 $Appcet = $_GET['Appcet'] ?? null;
 
                 $updated_at = date('Y-m-d H:i:s');
-                $stmt = $conn->prepare("UPDATE Server_application SET Appcet = ?, updated_at = ? WHERE id = ?");
-                $stmt->bind_param("isi", $Appcet, $updated_at, $id);
+                $stmt = $conn->prepare("UPDATE Server_application SET Appcet = ?, content = ?, updated_at = ? WHERE id = ?");
+                $stmt->bind_param("sssi", $Appcet, json_encode($input), $updated_at, $id);
 
                 if ($stmt->execute()) {
                     http_response_code(200);
