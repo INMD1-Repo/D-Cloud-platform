@@ -15,25 +15,6 @@ if ($conn->connect_error) {
 }
 
 $request_method = $_SERVER['REQUEST_METHOD'];
-// 샘픓
-// {
-//     "name": "sadasdasd",
-//     "email": "lyw514549@gmail.com",
-//     "phone_number": "asdasdasdasdasd",
-//     "Application_period": "",
-//     "Reason_for_renta": "asdsadadas",
-//     "Servername": "asdasdasd",
-//     "Username": "asdasdasdasd",
-//     "User_pw": "asdasdasda",
-//     "root_pw": "asdasdasd",
-//     "Network_Requirements": "asdasdas",
-//     "iamcheck": true,
-//     "os": "Ubuntu 22.04.5",
-//     "date": {
-//         "from": "2024-01-19T15:00:00.000Z",
-//         "to": "2025-02-08T15:00:00.000Z"
-//     }
-// }
 
 function checkAdmin($conn, $email)
 {
