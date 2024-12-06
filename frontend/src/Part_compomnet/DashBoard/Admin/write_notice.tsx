@@ -174,7 +174,7 @@ function Write_notice() {
                 //@ts-ignore
                 newData.navMain[2].items = restApi.map(item => ({
                     title: JSON.parse(item.content).Servername,
-                    url: "#",
+                    url: `/site/server/View_vm/${item.id}`,
                 }));
                 return newData;
             });

@@ -69,15 +69,29 @@ if ($request_method == 'GET') {
                 echo json_encode(['error' => '권한이 없습니다.']);
             }
             break;
+        case 'personal':
+            $id = $_GET['id'] ?? null;
+            if ($id) {
+                $stmt = $conn->prepare("SELECT * FROM Server_application WHERE Username = ? AND id = ?");
+                $stmt->bind_param("si", $username, $id);
 
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                $data = $result->fetch_all(MYSQLI_ASSOC);
+                echo json_encode($data);
+            } else {
+                http_response_code(400);
+                echo json_encode(['error' => '신청한 ID를 적어주십시오.']);
+            }
+            break;
         default:
             http_response_code(405);
             echo json_encode(['error' => 'Method Not Allowed']);
             break;
     }
 
-}
-else if ($request_method == 'POST') {
+} else if ($request_method == 'POST') {
     $writename = $_GET['writename'];
     $email = $_GET['email'];
     $type = $_GET['type'];
@@ -125,8 +139,7 @@ else if ($request_method == 'POST') {
             http_response_code(405);
             echo json_encode(['error' => 'Method Not Allowed']);
     }
-}
-else {
+} else {
     http_response_code(405);
     echo json_encode(['error' => 'Method Not Allowed']);
 }

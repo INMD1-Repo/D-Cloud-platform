@@ -38,14 +38,15 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAtom } from "jotai";
 import { Access_jwt, login_Count, User_info } from "@/store/strore_data";
 import { useEffect, useState } from "react";
+import Proxmox_vm_status from "./Part/Proxmox_vm_status";
 
-function Main_DashBoard() {
+function View_vm() {
   const navigate = useNavigate();
-
+  const { id } = useParams();
   //@ts-ignore
   const [logCount, setlogCount] = useAtom(login_Count);
   const [Accessjwt, setAccessjwt] = useAtom(Access_jwt);
@@ -119,7 +120,6 @@ function Main_DashBoard() {
       const restApi = await response.json();
       setNavData((prevData) => {
         const newData = { ...prevData };
-
         //@ts-ignore
         newData.navMain[2].items = restApi.map((item) => ({
           title: JSON.parse(item.content).Servername,
@@ -140,11 +140,11 @@ function Main_DashBoard() {
     //@ts-ignore
   }, [userinfo.name, userinfo.email]);
 
-  useEffect(() => {
-    if (logCount == 0) {
-      navigate("/site/");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (logCount == 0) {D
+  //     navigate("/site/");
+  //   }
+  // }, []);
 
   return (
     <SidebarProvider>
@@ -322,14 +322,12 @@ function Main_DashBoard() {
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <p className="title"> DCP에 오신걸 환영합니다.</p>
-          <p className="sub_title">
-            옆 사이드에 있는 메뉴를 눌려서 서비스 이용해주세요.
-          </p>
+          {/*//@ts-ignore */}
+          <Proxmox_vm_status VMID={id} />
         </div>
       </SidebarInset>
     </SidebarProvider>
   );
 }
 
-export default Main_DashBoard;
+export default View_vm;

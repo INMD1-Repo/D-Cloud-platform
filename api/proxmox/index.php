@@ -32,7 +32,6 @@ $Search_VM = $_GET["vmid"] ?? null;
 //실시간 데이터조회를 위한
 $node = $_GET["node"] ?? null;
 $type = $_GET["type"] ?? null;
-$ID = $_GET["id"] ?? null;
 
 try {
     Request::Login($configure);
@@ -44,28 +43,29 @@ try {
             echo json_encode($response);
             break;
 
-        //각 VM 별정보 제공을 함
-        case 'Status-VM':
-            $nodes = Request::Request('/cluster/resources', null, 'GET');
-            $jsonString = json_encode($nodes);
-            $decodedArray = json_decode($jsonString, true);
+        // //각 VM 별정보 제공을 함
+        // case 'Status-VM':
+        //     $nodes = Request::Request('/cluster/resources', null, 'GET');
+        //     $jsonString = json_encode($nodes);
+        //     $decodedArray = json_decode($jsonString, true);
 
-            $result = array_filter($decodedArray["data"], function ($item) use ($Search_VM) {
-                return $item['vmid'] === (int) $Search_VM;
-            });
+        //     $result = array_filter($decodedArray["data"], function ($item) use ($Search_VM) {
+        //         return $item['vmid'] === (int) $Search_VM;
+        //     });
             
-            if ($result == []) {
-                http_response_code(404);
-                echo json_encode($result);
-            } else {
-                http_response_code(200);
-                echo json_encode($result);
-            }
-            break;
-        
+        //     if ($result == []) {
+        //         http_response_code(404);
+        //         echo json_encode($result);
+        //     } else {
+        //         http_response_code(200);
+        //         echo json_encode($result);
+        //     }
+        //     break;
         //실시간 정보 수집
         case 'livedata':
-            $nodes = Request::Request('/nodes/'. $node .'/'. $type . '/'. $ID .'/rrddata?timeframe=hour&cf=AVERAGE', null, 'GET');
+            $ID = $_GET["id"] ?? null;
+            //{node}/qemu/{vmid}/status/current
+            $nodes = Request::Request('/nodes/'. $node .'/'. $type . '/'. $ID .'/status/current', null, 'GET');
             echo json_encode($nodes);
             break;
 
