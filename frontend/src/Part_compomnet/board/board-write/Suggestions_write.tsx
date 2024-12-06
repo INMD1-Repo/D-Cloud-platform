@@ -14,7 +14,7 @@ function Suggestions_write() {
   const [title, settitle] = useState('');
   const [value, setValue] = useState("**Hello world!!!**");
   const [logCount] = useAtom(login_Count);
-  const [AccessToken] = useAtom(Access_jwt);
+
   const [userinfo] = useAtom(User_info);
   const navigate = useNavigate();
 

@@ -43,67 +43,6 @@ import {Button} from "@/components/ui/button";
 import {useNavigate} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
 
-const data = {
-    navMain: [
-        {
-            title: "사이트 이동",
-            Admin: 0,
-            url: "#",
-            icon: SquareTerminal,
-            isActive: true,
-            items: [
-                {
-                    title: "메인 페이지",
-                    url: "/site/",
-                },
-            ],
-        },
-        {
-            title: "서버 신청",
-            url: "#",
-            Admin: 0,
-            icon: Bot,
-            items: [
-                {
-                    title: "서버 신청 현황",
-                    url: "/site/server/show_Accpet",
-                },
-                {
-                    title: "서버 신청하기",
-                    url: "/site/server/subscription",
-                },
-            ],
-        },
-        {
-            title: "보유 서버",
-            url: "#",
-            Admin: 0,
-            icon: BookOpen,
-            items: [
-                {
-                    title: "활성화된 서버가 없습니다.",
-                    url: "#",
-                },
-            ],
-        },
-        {
-            title: "관리자 패널",
-            url: "#",
-            Admin: 1,
-            icon: BookOpen,
-            items: [
-                {
-                    title: "서버 승인",
-                    url: "/site/server/Admin/judgment",
-                },
-                {
-                    title: "공지사항 작성",
-                    url: "/site/server/Admin/write_notice",
-                },
-            ],
-        },
-    ],
-}
 
 function Write_notice() {
 
@@ -115,6 +54,45 @@ function Write_notice() {
     const [userinfo, setUserInfo] = useAtom(User_info);
     const [title, settitle] = useState('');
     const [value, setValue] = useState("**Hello world!!!**");
+    const [navData, setNavData] = useState({
+        navMain: [
+            {
+                title: "사이트 이동",
+                Admin: 0,
+                url: "#",
+                icon: SquareTerminal,
+                isActive: true,
+                items: [{title: "메인 페이지", url: "/site/"}],
+            },
+            {
+                title: "서버 신청",
+                url: "#",
+                Admin: 0,
+                icon: Bot,
+                items: [
+                    {title: "서버 신청 현황", url: "/site/server/show_Accpet"},
+                    {title: "서버 신청하기", url: "/site/server/subscription"},
+                ],
+            },
+            {
+                title: "보유 서버",
+                url: "#",
+                Admin: 0,
+                icon: BookOpen,
+                items: [],
+            },
+            {
+                title: "관리자 패널",
+                url: "#",
+                Admin: 1,
+                icon: BookOpen,
+                items: [
+                    {title: "서버 승인", url: "/site/server/Admin/judgment"},
+                    {title: "공지사항 작성", url: "/site/server/Admin/write_notice"},
+                ],
+            },
+        ],
+    });
 
     async function logout() {
         await fetch("/api/logout", {
@@ -186,11 +164,36 @@ function Write_notice() {
         }
     }
 
-    useEffect(() => {
-        if (logCount == 0) {
-            navigate("/site/")
+    async function getApiNav() {
+        try {
+            //@ts-ignore
+            const response = await fetch(`/api/server_application/?username=${userinfo.name}&email=${userinfo.email}&type=user`);
+            const restApi = await response.json();
+            setNavData(prevData => {
+                const newData = {...prevData};
+                //@ts-ignore
+                newData.navMain[2].items = restApi.map(item => ({
+                    title: JSON.parse(item.content).Servername,
+                    url: "#",
+                }));
+                return newData;
+            });
+        } catch (error) {
+            console.error("API 호출 오류:", error);
         }
-    }, []);
+    }
+
+    useEffect(() => {
+        //@ts-ignore
+        if (userinfo.name && userinfo.email) {
+            getApiNav();
+        }
+        //@ts-ignore
+        if (userinfo.Admin == 0) {
+            navigate("/site/");
+        }
+        //@ts-ignore
+    }, [userinfo.name, userinfo.email])
 
     return (
         <SidebarProvider>
@@ -222,7 +225,7 @@ function Write_notice() {
                     <SidebarGroup>
                         <SidebarGroupLabel>Menu</SidebarGroupLabel>
                         <SidebarMenu>
-                            {data.navMain.map((item) => (
+                            {navData.navMain.map((item) => (
                                 item.Admin == 0 ? <Collapsible
                                         key={item.title}
                                         asChild
@@ -258,7 +261,7 @@ function Write_notice() {
                             ))}
                         </SidebarMenu>
                         <SidebarMenu>
-                            {data.navMain.map((item) =>
+                            {navData.navMain.map((item) =>
                                 //@ts-ignore
                                 userinfo.Admin == 1 && item.Admin == 1 ? (
                                     <Collapsible
