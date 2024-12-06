@@ -34,10 +34,14 @@ import {
     SidebarRail,
     SidebarTrigger,
 } from "@/components/ui/sidebar"
+import {login_Count, User_info, Access_jwt} from "@/store/strore_data";
+import {useAtom} from "jotai";
+import MDEditor from '@uiw/react-md-editor';
+import {useEffect, useState} from "react";
+import {Input} from "@/components/ui/input";
+import {Button} from "@/components/ui/button";
 import {useNavigate} from "react-router-dom";
-import {useAtom} from 'jotai'
-import {Access_jwt, login_Count, User_info} from "@/store/strore_data";
-import {useEffect} from "react";
+import {toast, ToastContainer} from "react-toastify";
 
 const data = {
     navMain: [
@@ -101,7 +105,7 @@ const data = {
     ],
 }
 
-function Main_DashBoard() {
+function Write_notice() {
 
     const navigate = useNavigate();
 
@@ -109,6 +113,8 @@ function Main_DashBoard() {
     const [logCount, setlogCount] = useAtom(login_Count);
     const [Accessjwt, setAccessjwt] = useAtom(Access_jwt);
     const [userinfo, setUserInfo] = useAtom(User_info);
+    const [title, settitle] = useState('');
+    const [value, setValue] = useState("**Hello world!!!**");
 
     async function logout() {
         await fetch("/api/logout", {
@@ -128,6 +134,56 @@ function Main_DashBoard() {
                 navigate("/site/")
             }
         });
+    }
+
+    const saveTitle = (event: any) => {
+        settitle(event.target.value);
+    };
+
+    async function Upload() {
+        if (title.length != 0) {
+            await fetch("/api/createPost?board=notice", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    //@ts-ignore
+                    Access: Accessjwt.Access,
+                    title: title,
+                    content: value,
+                    //@ts-ignore
+                    User_email: userinfo.email,
+                    //@ts-ignore
+                    username: userinfo.name
+                })
+            }).then((response) => {
+                if (response.status == 201) {
+                    toast.success("성공적으로 저장했습니다.", {
+                        position: "bottom-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        theme: "colored"
+                    });
+                    setTimeout(() => {
+                        navigate("/site/server/Admin/write_notice")
+                    }, 2000);
+                }
+            })
+        } else {
+            toast.error("제목이나 본문에 값이 없습니다.", {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: "dark",
+            });
+        }
     }
 
     useEffect(() => {
@@ -316,12 +372,41 @@ function Main_DashBoard() {
                     </div>
                 </header>
                 <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                    <p className="title"> DCP에 오신걸 환영합니다.</p>
-                    <p className="sub_title">옆 사이드에 있는 메뉴를 눌려서 서비스 이용해주세요.</p>
+                    <div className="p-5 md:p-20">
+
+                        <div className="xl:flex md:grid  justify-center  flex-nowrap">
+                            <div className="container">
+                                <p className="title">공지사항 게시판 작성</p>
+                                <br/>
+                                <p className="authtitle" style={{fontWeight: "bold"}}>제목 추가 </p>
+                                <Input value={title}
+                                       onChange={saveTitle}></Input>
+                                <br/>
+                                <p className="authtitle mb-2" style={{fontWeight: "bold"}}>본문 내용추가 </p>
+                                <MDEditor
+                                    value={value}
+                                    //@ts-ignore
+                                    onChange={setValue}
+                                />
+                                <br/>
+                                <div className="justify-self-end ">
+                                    <Button onClick={() => {
+                                        Upload()
+                                    }} style={{backgroundColor: "#26a641"}}>
+                                        작성 완료
+                                    </Button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <ToastContainer/>
+
                 </div>
             </SidebarInset>
         </SidebarProvider>
     )
 }
 
-export default Main_DashBoard
+export default Write_notice

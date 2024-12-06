@@ -75,8 +75,6 @@ function Suggestions_write() {
         theme: "dark",
       });
     }
-
-
   }
   return (
     <>

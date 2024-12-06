@@ -10,6 +10,7 @@ import Main_server_mobile from "./Part_compomnet/Server application/Mian-server-
 import Main_DashBoard from "@/Part_compomnet/DashBoard/Main_DashBoard.tsx";
 import Show_Appect from "./Part_compomnet/DashBoard/show_Appect";
 import Judgment from "@/Part_compomnet/DashBoard/Admin/judgment.tsx";
+import Write_notice from "@/Part_compomnet/DashBoard/Admin/write_notice.tsx";
 
 function App() {
   return (
@@ -28,7 +29,9 @@ function App() {
          
           <Route path="/site/dashboard" element={< Main_DashBoard />}></Route>
           <Route path="/site/server/show_Accpet" element={<Show_Appect />}></Route>
+
           <Route path="/site/server/Admin/judgment" element={<Judgment />}></Route>
+          <Route path="/site/server/Admin/write_notice" element={<Write_notice />}></Route>
         </Routes>
         {/*<footer className="mobile_none">*/}
         {/*  <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />*/}

@@ -42,7 +42,6 @@ import {
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -110,7 +109,7 @@ const data = {
         },
         {
           title: "공지사항 작성",
-          url: "/site/server/Admin/judgment",
+          url: "/site/server/Admin/write_notice",
         },
       ],
     },
@@ -120,7 +119,7 @@ const data = {
 function Show_Appect() {
   const [invoices, setinvoices] = useState([]);
   const navigate = useNavigate();
-  const setlogCount = useAtom(login_Count);
+  const [setlogCount] = useAtom(login_Count);
   const [Accessjwt, setAccessjwt] = useAtom(Access_jwt);
   const [userinfo, setUserInfo] = useAtom(User_info);
 
@@ -140,7 +139,7 @@ function Show_Appect() {
         //@ts-ignore
         setlogCount(0);
         setAccessjwt({});
-        navigate("/site/");
+        navigate("/site/")
       }
     });
   }
@@ -169,6 +168,29 @@ function Show_Appect() {
     } 
   }
 
+  async function GetApi_nav() {
+    try {
+      const response = await fetch(
+          //@ts-ignore
+          `/api/server_application/?username=${userinfo.name}&email=${userinfo.email}&type=user`
+      );
+      const Restapi = await response.json();
+      for (let i = 0; i < Restapi.length; i++) {
+        const data = JSON.parse(Restapi[i].content);
+        Restapi[i].content = data.Servername;
+        if (Restapi[i].Appcet == 0) {
+          Restapi[i].Appcet = "⚪️ 진행중";
+        } else if (Restapi[i].Appcet == 381) {
+          Restapi[i].Appcet = "🟢 승인되었습니다.";
+        } else {
+          Restapi[i].Appcet = "🔴 거절 되었습니다.";
+        }
+      }
+      setinvoices(Restapi);
+    } catch (error) {
+      console.error("API 호출 오류:", error);
+    }
+  }
   useEffect(() => {
     //@ts-ignore
     if (userinfo.name && userinfo.email) {
@@ -364,7 +386,6 @@ function Show_Appect() {
           <br />
           <Card>
             <Table>
-              <TableCaption>A list of your recent invoices.</TableCaption>
               <TableHeader>
                 <TableRow>
                   <TableHead>ID</TableHead>

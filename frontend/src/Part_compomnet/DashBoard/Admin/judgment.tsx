@@ -126,7 +126,7 @@ const data = {
         },
         {
           title: "공지사항 작성",
-          url: "/site/server/Admin/judgment",
+          url: "/site/server/Admin/write_notice",
         },
       ],
     },
@@ -357,7 +357,7 @@ function Row({ row }) {
 
 function Judgment() {
   const navigate = useNavigate();
-  const setlogCount = useAtom(login_Count);
+  const [logCount, setlogCount] = useAtom(login_Count);
   const [Accessjwt, setAccessjwt] = useAtom(Access_jwt);
   const [userinfo, setUserInfo] = useAtom(User_info);
 
@@ -374,10 +374,9 @@ function Judgment() {
     }).then((response) => {
       if (response.status == 200) {
         setUserInfo({});
-        //@ts-ignore
         setlogCount(0);
         setAccessjwt({});
-        navigate("/site/");
+       navigate("/site/")
       }
     });
   }
@@ -407,6 +406,12 @@ function Judgment() {
       GetApi();
     } //@ts-ignore
   }, [userinfo.name, userinfo.email]);
+
+  useEffect(() => {
+    if (logCount == 0) {
+      navigate("/site/")
+    }
+  }, []);
 
   //--------------------------------------------------------------------------------
   const [page, setPage] = React.useState(0);
