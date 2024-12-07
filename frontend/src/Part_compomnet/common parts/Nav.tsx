@@ -65,6 +65,7 @@ function Topnav() {
 
   useEffect(() => {
     async function api() {
+      let status = 0;
       await fetch("/api/department?type=infoUser", {
         method: "POST",
         headers: {
@@ -75,36 +76,40 @@ function Topnav() {
           token: Accessjwt.Access,
         }),
       }).then((response) => {
+        status = response.status;
         setUserInfo(response.json());
         if (response.status != 200) {
           retoken();
         }
-        return response.status;
       });
+      return status;
     }
 
-    if (logCount == 1) {
-      //기본적으로 한번 조회함
-      const data_status_code = api();
-
-      //토큰으로 유저 데이터를 못불려오면 토큰 재발행후 재실행
-      //@ts-ignore
-      if (data_status_code != 200) {
-        api();
-      } else {
-        //그래도 안될 경우 로그아웃 처리하고 다시 로그인 해달라고 재요청
-        logout();
-        toast.error("토큰이 만료되었습니다. 다시 로그인 해주시기 바람니다.", {
-          position: "bottom-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: "dark",
-        });
+    async function checklogin() {
+      if (logCount == 1) {
+        //기본적으로 한번 조회함
+        const data_status_code = await api();
+        //토큰으로 유저 데이터를 못불려오면 토큰 재발행후 재실행
+        //@ts-ignore
+        console.log(data_status_code);
+        if (data_status_code != 200) {
+          // //그래도 안될 경우 로그아웃 처리하고 다시 로그인 해달라고 재요청
+          toast.error("토큰이 만료되었습니다. 다시 로그인 해주시기 바람니다.", {
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark",
+          });
+          setTimeout(() => {
+            logout();
+          }, 1000);
+        }
       }
     }
+    checklogin();
   }, []);
 
   return (
@@ -150,8 +155,20 @@ function Topnav() {
                     <DropdownMenuContent>
                       <DropdownMenuLabel>My Account</DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => {navigate("/site/dashboard")}}>대시보드 이동</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => {navigate("/site/server/show_Accpet")}}>서버신청 현황</DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          navigate("/site/dashboard");
+                        }}
+                      >
+                        대시보드 이동
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          navigate("/site/server/show_Accpet");
+                        }}
+                      >
+                        서버신청 현황
+                      </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => {
                           logout();
@@ -176,8 +193,20 @@ function Topnav() {
                         환영합니다. <br /> {userinfod.name}
                       </DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => {navigate("/site/dashboard")}}>대시보드 이동</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => {navigate("/site/server/show_Accpet")}}>서버신청 현황</DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          navigate("/site/dashboard");
+                        }}
+                      >
+                        대시보드 이동
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          navigate("/site/server/show_Accpet");
+                        }}
+                      >
+                        서버신청 현황
+                      </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => {
                           logout();

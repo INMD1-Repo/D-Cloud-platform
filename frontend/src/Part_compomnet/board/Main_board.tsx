@@ -44,7 +44,6 @@ function Main_board() {
               <p className="title">
                 {selected == "notice" ? "공지사항 게시판" : "건의사항 게시판"}
               </p>
-              <p>아 뭘적을지 고민중이에요</p>
               <br />
               <div className="flex justify-between ">
                 <div>

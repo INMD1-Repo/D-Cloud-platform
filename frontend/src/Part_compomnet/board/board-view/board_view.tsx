@@ -37,12 +37,12 @@ function Board_view() {
                     <div className='flex pc_none'>
                         <p>작성자: {content.Username}</p>
                     </div>
-                    <br className='pc_none'/>
-                    <Card>
+                    <br className='moblie_none'/>
+                    <Card className=''>
                         <MarkdownPreview source={content.content} style={{ padding: 16 }} />
                     </Card>
                 </div>
-                <div className='grid min-w-[20vw] mobile_none'>
+                <div className='min-w-[20vw] mobile_none'>
                     <div>
                         <p style={{ fontWeight: "bold" }}>작성자</p>
                         <div className="flex items-center gap-4">
@@ -53,6 +53,7 @@ function Board_view() {
                         </div>
                         <hr />
                     </div>
+                    <br/>
                     <div>
                         <p style={{ fontWeight: "bold" }}>작성날짜</p>
                         <p>{content.created_at}</p>
