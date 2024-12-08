@@ -155,8 +155,8 @@ function Row({ row }) {
 
   // @ts-ignore
   return (
-    <React.Fragment>
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+    <React.Fragment > 
+      <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="dark:bg-[#181818]" >
         <TableCell>
           <IconButton
             style={{ color: "gray" }}
@@ -172,7 +172,7 @@ function Row({ row }) {
         <TableCell sx={{ color: "gray" }}>{row.Servername}</TableCell>
         <TableCell sx={{ color: "gray" }}>{row.created_at}</TableCell>
       </TableRow>
-      <TableRow>
+      <TableRow className="dark:bg-[#181818]">
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
@@ -181,25 +181,26 @@ function Row({ row }) {
                   <TableRow>
                     <ScrollArea className="">
                       <div className="grid gap-4 grid-cols-2">
-                        <div>
-                          <Card>
-                            <Table>
+                        <div >
+                          <Card className="dark:bg-[#1f1f1f]">
+                            <Table >
                               <TableHead>
                                 <TableRow>
-                                  <TableCell>필드</TableCell>
-                                  <TableCell>값</TableCell>
+                                  <TableCell sx={{ color: "#cccccc" }}>필드</TableCell>
+                                  <TableCell sx={{ color: "#cccccc" }}>값</TableCell>
                                 </TableRow>
                               </TableHead>
 
                               <TableBody>
                                 {Object.entries(data).map(([key, value]) => (
                                   <TableRow key={key}>
-                                    <TableCell className="font-medium">
+                                    <TableCell className="font-medium" sx={{ color: "#cccccc" }}>
                                       {key}
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell sx={{ color: "#cccccc" }}>
                                       {key === "date"
-                                        ? null
+                                        //@ts-ignore
+                                        ? String(value.from) + " ~ " + String(value.to)
                                         : key === "iamcheck"
                                         ? value
                                           ? "예"
@@ -214,10 +215,10 @@ function Row({ row }) {
                         </div>
                         <div className="grid">
                           <div className="space-y-4 p-4">
-                            <p>결과를 눌려주세요.</p>
+                            <p className="dark:text-[#cccccc]">결과를 눌려주세요.</p>
                             <div className="flex space-x-2">
                               {/* @ts-ignore */}.
-                              <Button onClick={() => setIsApproved(true)}>
+                              <Button onClick={() => setIsApproved(true)} >
                                 승인
                               </Button>
                               {/* @ts-ignore */}.
@@ -227,7 +228,7 @@ function Row({ row }) {
                             </div>
                             {isApproved === false && (
                               <>
-                                <p>거절 사유를 필히 적어주십시오.</p>
+                                <p className="dark:text-[#cccccc]">거절 사유를 필히 적어주십시오.</p>
                                 <Textarea
                                   value={rejectionReason}
                                   //@ts-ignore
@@ -241,9 +242,9 @@ function Row({ row }) {
                             <hr />
                             {isApproved === true && (
                               <>
-                                <p>먼저 리전을 선택해주세요.</p>
+                                <p className="dark:text-[#cccccc]" >먼저 리전을 선택해주세요.</p>
                                 <Select onValueChange={setSelectedRegion}>
-                                  <SelectTrigger className="w-[180px]">
+                                  <SelectTrigger className="w-[180px] dark:bg-[#cccccc]">
                                     <SelectValue placeholder="서버 구역을 선택해주세요." />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -264,31 +265,31 @@ function Row({ row }) {
                                     </SelectItem>
                                   </SelectContent>
                                 </Select>
-                                <p>실제로 생성할 서버 이름을 적습니다.</p>
-                                <Input
+                                <p className="dark:text-[#cccccc]">실제로 생성할 서버 이름을 적습니다.</p>
+                                <Input className="dark:bg-[#cccccc]"
                                   value={serverName}
                                   onChange={(e) =>
                                     setServerName(e.target.value)
                                   }
                                   placeholder={serverName}
                                 />
-                                <p>실제로 생성할 타입을 적어주세요.</p>
+                                <p className="dark:text-[#cccccc]">실제로 생성할 타입을 적어주세요.</p>
                                 <Select onValueChange={setServertype}>
-                                  <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="타입을 선택해주세요" />
+                                  <SelectTrigger className="w-[180px] dark:bg-[#cccccc]">
+                                    <SelectValue  placeholder="타입을 선택해주세요" />
                                   </SelectTrigger>
                                   <SelectContent>
                                     <SelectItem value="qemu">VM</SelectItem>
                                     <SelectItem value="lxc">lxc</SelectItem>
                                   </SelectContent>
                                 </Select>
-                                <p>실제로 생성된 ID을 입력해주세요.</p>
-                                <Input
+                                <p className="dark:text-[#cccccc]">실제로 생성된 ID을 입력해주세요.</p>
+                                <Input className="dark:bg-[#cccccc]"
                                   value={vmId}
                                   onChange={(e) => setVmId(e.target.value)}
                                   placeholder={vmId}
                                 />
-                                <p>
+                                <p className="dark:text-[#cccccc]">
                                   승인하고 기타 네트워크 사항에 대해 적어주세요.
                                 </p>
                                 <Textarea
@@ -623,7 +624,7 @@ function Judgment() {
         </SidebarFooter>
         <SidebarRail />
       </Sidebar>
-      <SidebarInset>
+      <SidebarInset  className="dark:bg-[#181818]">
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
@@ -637,7 +638,7 @@ function Judgment() {
           </p>
           <br />
           <div>
-            <Card>
+            <Card className="dark:bg-[#181818]">
               <TableContainer>
                 <Table aria-label="collapsible table">
                   <TableHead>

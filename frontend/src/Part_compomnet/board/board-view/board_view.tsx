@@ -44,10 +44,10 @@ function Board_view() {
                 </div>
                 <div className='min-w-[20vw] mobile_none'>
                     <div>
-                        <p style={{ fontWeight: "bold" }}>작성자</p>
+                       
                         <div className="flex items-center gap-4">
                             <div className="font-medium dark:text-white">
-                                <div><p>{content.Username}</p></div>
+                                <div> <p style={{ fontWeight: "bold" }}>작성자: <span>{content.Username}</span></p></div>
                                 <div className="text-sm text-gray-500 dark:text-gray-400"><p>{content.User_email}</p></div>
                             </div>
                         </div>

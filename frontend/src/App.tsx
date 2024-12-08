@@ -16,8 +16,8 @@ import View_vm from "./Part_compomnet/DashBoard/View_vm";
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <BrowserRouter>
-        <Routes>
+      <BrowserRouter >
+        <Routes >
           <Route path="/site/" element={<Mainpage_index />}></Route>
           <Route path="/site/auth_prcess" element={<Auth />}></Route>
 
