@@ -84,7 +84,7 @@ function Proxmox_vm_status({ VMID }: { VMID: string }): JSX.Element {
   }
 
   return (
-    <div className="p-8  dark:bg-gray-900">
+    <div className="p-8">
       <h2 className="text-3xl font-bold mb-6 text-gray-800 dark:text-white">
         VM Monitor - 고유 ID: {vminfo.vmId}
       </h2>

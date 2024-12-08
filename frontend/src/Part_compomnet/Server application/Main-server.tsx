@@ -1,33 +1,43 @@
 // import { useNavigate } from "react-router-dom";
 import Topnav from "../common parts/Nav";
-import MarkdownPreview from '@uiw/react-markdown-preview';
-import {useState} from "react";
-import {ToastContainer, toast} from 'react-toastify';
+import MarkdownPreview from "@uiw/react-markdown-preview";
+import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 
 // import { isMobile } from 'react-device-detect';
-import {zodResolver} from "@hookform/resolvers/zod"
-import {useForm} from "react-hook-form"
-import {z} from "zod"
-import {Button} from "@/components/ui/button"
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form"
-import {Input} from "@/components/ui/input"
-import {addDays, format} from "date-fns"
-import {Calendar as CalendarIcon} from "lucide-react"
-import {DateRange} from "react-day-picker"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { addDays, format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { DateRange } from "react-day-picker";
 
-import {cn} from "@/lib/utils"
-import {Calendar} from "@/components/ui/calendar"
-import {Popover, PopoverContent, PopoverTrigger,} from "@/components/ui/popover"
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import React from "react";
-import Select from 'react-select';
-import {Card} from "@/components/ui/card";
-import {Checkbox} from "@radix-ui/react-checkbox";
-import {useAtom} from 'jotai'
-import {login_Count, User_info} from "@/store/strore_data";
-import {useNavigate} from "react-router-dom";
+import Select from "react-select";
+import { Card } from "@/components/ui/card";
+import { Checkbox } from "@radix-ui/react-checkbox";
+import { useAtom } from "jotai";
+import { login_Count, User_info } from "@/store/strore_data";
+import { useNavigate } from "react-router-dom";
 
-const source =
-    `
+const source = `
 # 서비스 이용약관
 
 ## 제1장 총칙
@@ -102,376 +112,402 @@ const source =
 `;
 
 const FormSchema = z.object({
-    name: z.string().min(1, "이름은 필수 항목입니다."),
-    email: z.string().email("유효한 이메일을 입력하세요."),
-    phone_number: z.string().min(10, "전화번호를 입력하세요."),
-    Application_period: z.string(),
-    Reason_for_renta: z.string(),
-    Servername: z.string().min(1, "필수 항목입니다."),
-    Username: z.string().min(1, "필수 항목입니다."),
-    User_pw: z.string().min(5, "5자리 이싱 및 필수 항목입니다."),
-    root_pw: z.string().min(5, "5자리 이싱 및 필수 항목입니다."),
-    Network_Requirements: z.string(),
-    iamcheck: z.boolean().refine((val) => val === true, {
-        message: "서비스 이용 약관에 동의해야 합니다.",
-    }),
+  name: z.string().min(1, "이름은 필수 항목입니다."),
+  email: z.string().email("유효한 이메일을 입력하세요."),
+  phone_number: z.string().min(10, "전화번호를 입력하세요."),
+  Application_period: z.string(),
+  Reason_for_renta: z.string(),
+  Servername: z.string().min(1, "필수 항목입니다."),
+  Username: z.string().min(1, "필수 항목입니다."),
+  User_pw: z.string().min(5, "5자리 이싱 및 필수 항목입니다."),
+  root_pw: z.string().min(5, "5자리 이싱 및 필수 항목입니다."),
+  Network_Requirements: z.string(),
+  iamcheck: z.boolean().refine((val) => val === true, {
+    message: "서비스 이용 약관에 동의해야 합니다.",
+  }),
 });
 
 const options = [
-    {value: 'ubuntu24', label: 'Ubuntu 24.04.1'},
-    {value: 'ubuntu22', label: 'Ubuntu 22.04.5'},
-    {value: 'ubuntu20', label: 'Ubuntu 20.04.6'},
-    {value: 'ubuntu18', label: 'Ubuntu 18.04.6'},
-    {value: 'debian', label: 'Debian 12.8.0'},
-    {value: 'rocky9', label: 'Rocky 9.5'},
-    {value: 'rocky8', label: 'Rocky 8.9'},
+  { value: "ubuntu24", label: "Ubuntu 24.04.1" },
+  { value: "ubuntu22", label: "Ubuntu 22.04.5" },
+  { value: "ubuntu20", label: "Ubuntu 20.04.6" },
+  { value: "ubuntu18", label: "Ubuntu 18.04.6" },
+  { value: "debian", label: "Debian 12.8.0" },
+  { value: "rocky9", label: "Rocky 9.5" },
+  { value: "rocky8", label: "Rocky 8.9" },
 ];
 
+function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
+  const [date, setDate] = React.useState<DateRange | undefined>({
+    from: new Date(2024, 0, 20),
+    to: addDays(new Date(2025, 0, 20), 20),
+  });
+  const navigate = useNavigate();
+  const [userinfo] = useAtom(User_info);
+  const info = userinfo;
 
-function Main_server({
-                         className,
-                     }: React.HTMLAttributes<HTMLDivElement>) {
-    const [date, setDate] = React.useState<DateRange | undefined>({
-        from: new Date(2024, 0, 20),
-        to: addDays(new Date(2025, 0, 20), 20),
-    })
-    const navigate = useNavigate();
-    const [userinfo] = useAtom(User_info);
-    const info = userinfo;
+  const [logCount] = useAtom(login_Count);
 
-    const [logCount] = useAtom(login_Count);
+  const [selectedOption, setSelectedOption] = useState("선택안함");
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone_number: "",
+      Application_period: "",
+      Reason_for_renta: "",
+      Servername: "",
+      Username: "",
+      User_pw: "",
+      root_pw: "",
+      Network_Requirements: "",
+      //@ts-ignore
+      iamcheck: false,
+    },
+  });
 
-    const [selectedOption, setSelectedOption] = useState("선택안함");
-    const form = useForm<z.infer<typeof FormSchema>>({
-        resolver: zodResolver(FormSchema),
-        defaultValues: {
-            name: "",
-            email: "",
-            phone_number: "",
-            Application_period: "",
-            Reason_for_renta: "",
-            Servername: "",
-            Username: "",
-            User_pw: "",
-            root_pw: "",
-            Network_Requirements: "",
-            //@ts-ignore
-            iamcheck: false
-        },
-    })
+  // const navigate = useNavigate();
 
-    // const navigate = useNavigate();
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    if (logCount == 1) {
+      let json = data;
+      //@ts-ignore
+      json.os = selectedOption.label;
+      //@ts-ignore
+      json.date = date;
 
-
-    async function onSubmit(data: z.infer<typeof FormSchema>) {
-        if (logCount == 1) {
-            let json = data;
-            //@ts-ignore
-            json.os = selectedOption.label;
-            //@ts-ignore
-            json.date = date;
-
-            //@ts-ignore
-            await fetch(`/api/server_application/?writename=${info.name}&email=${info.email}&type=user`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(json)
-            }).then((response) => {
-                if (response.status == 201) {
-                    toast.success("성공적으로 제출 했습니다. \n 관리자에게 문자가 올때까지 기다려 주세요.", {
-                        position: "bottom-right",
-                        autoClose: 3000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        theme: "colored"
-                    });
-                    setTimeout(() => {
-                        navigate("/site/")
-                    }, 2000);
-                }
-            }).catch(() => {
-                toast.error("다시 제출해주시기 바람니다.", {
-                    position: "bottom-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    theme: "colored"
-                });
-            })
-        } else {
-            toast.error("로그인을 하고 제출해주시기 바람니다.", {
+      await fetch(
+        //@ts-ignore
+        `/api/server_application/?writename=${info.name}&email=${info.email}&type=user`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(json),
+        }
+      )
+        .then((response) => {
+          if (response.status == 201) {
+            toast.success(
+              "성공적으로 제출 했습니다. \n 관리자에게 문자가 올때까지 기다려 주세요.",
+              {
                 position: "bottom-right",
                 autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
-                theme: "colored"
-            });
+                theme: "colored",
+              }
+            );
             setTimeout(() => {
-                navigate("/site/")
+              navigate("/site/");
             }, 2000);
-        }
-
+          }
+        })
+        .catch(() => {
+          toast.error("다시 제출해주시기 바람니다.", {
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "colored",
+          });
+        });
+    } else {
+      toast.error("로그인을 하고 제출해주시기 바람니다.", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+      setTimeout(() => {
+        navigate("/site/");
+      }, 2000);
     }
+  }
 
-
-    return (
-        <>
-            <div className="p-5 md:p-20">
-                <Topnav/>
-                <div className="h-[10vh] md:h-[15vh]"></div>
-                <div className="gird justify-start flex-nowrap">
-                    <div>
-                        <p className='flex server_title'>서버 신청</p>
-                        <p className="server_sub_title">서버 신청을 원하는 경우 아래 정보란에 입력해주세요.</p>
+  return (
+    <>
+      <div className="p-5 md:p-20">
+        <Topnav />
+        <div className="h-[10vh] md:h-[15vh]"></div>
+        <div className="gird justify-start flex-nowrap">
+          <div>
+            <p className="flex server_title">서버 신청</p>
+            <p className="server_sub_title">
+              서버 신청을 원하는 경우 아래 정보란에 입력해주세요.
+            </p>
+          </div>
+          <br />
+          <div className="justify-items-center ">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <div className="grid md:flex gap-x-8 grow">
+                  <div className="grid">
+                    <p className="flex server_sub_sub_title">사용자 정보</p>
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>이름</FormLabel>
+                          <FormControl>
+                            <Input placeholder="이름" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    ></FormField>
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>이메일</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="이메일"
+                              type="email"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    ></FormField>
+                    <FormField
+                      control={form.control}
+                      name="phone_number"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>전화번호</FormLabel>
+                          <FormControl>
+                            <Input placeholder="전화번호" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    ></FormField>
+                    <p className="flex server_sub_sub_title">대여 정보</p>
+                    <div className={cn("grid gap-2", className)}>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            id="date"
+                            variant={"outline"}
+                            className={cn(
+                              "w-[300px] justify-start text-left font-normal",
+                              !date && "text-muted-foreground"
+                            )}
+                          >
+                            <CalendarIcon />
+                            {date?.from ? (
+                              date.to ? (
+                                <>
+                                  {format(date.from, "LLL dd, y")} -{" "}
+                                  {format(date.to, "LLL dd, y")}
+                                </>
+                              ) : (
+                                format(date.from, "LLL dd, y")
+                              )
+                            ) : (
+                              <span>날짜를 선택하세요.</span>
+                            )}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            initialFocus
+                            mode="range"
+                            defaultMonth={date?.from}
+                            selected={date}
+                            onSelect={setDate}
+                            numberOfMonths={2}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormField
+                        control={form.control}
+                        name="Reason_for_renta"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>대여사유</FormLabel>
+                            <FormControl>
+                              <Input
+                                className="h-60"
+                                placeholder=""
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      ></FormField>
                     </div>
-                    <br/>
-                    <div className="justify-items-center ">
-                        <Form {...form}>
-                            <form onSubmit={form.handleSubmit(onSubmit)}>
-                                <div className="grid md:flex gap-x-8 grow">
-                                    <div className="grid">
-                                        <p className='flex server_sub_sub_title'>사용자 정보</p>
-                                        <FormField
-                                            control={form.control}
-                                            name="name"
-                                            render={({field}) => (
-                                                <FormItem>
-                                                    <FormLabel>이름</FormLabel>
-                                                    <FormControl>
-                                                        <Input placeholder="이름" {...field} />
-                                                    </FormControl>
-                                                    <FormMessage/>
-                                                </FormItem>
-                                            )}
-                                        >
-                                        </FormField>
-                                        <FormField
-                                            control={form.control}
-                                            name="email"
-                                            render={({field}) => (
-                                                <FormItem>
-                                                    <FormLabel>이메일</FormLabel>
-                                                    <FormControl>
-                                                        <Input placeholder="이메일" type="email" {...field} />
-                                                    </FormControl>
-                                                    <FormMessage/>
-                                                </FormItem>
-                                            )}
-                                        >
-                                        </FormField>
-                                        <FormField
-                                            control={form.control}
-                                            name="phone_number"
-                                            render={({field}) => (
-                                                <FormItem>
-                                                    <FormLabel>전화번호</FormLabel>
-                                                    <FormControl>
-                                                        <Input placeholder="전화번호" {...field} />
-                                                    </FormControl>
-                                                    <FormMessage/>
-                                                </FormItem>
-                                            )}
-                                        >
-                                        </FormField>
-                                        <p className='flex server_sub_sub_title'>대여 정보</p>
-                                        <div className={cn("grid gap-2", className)}>
-                                            <Popover>
-                                                <PopoverTrigger asChild>
-                                                    <Button
-                                                        id="date"
-                                                        variant={"outline"}
-                                                        className={cn(
-                                                            "w-[300px] justify-start text-left font-normal",
-                                                            !date && "text-muted-foreground"
-                                                        )}
-                                                    >
-                                                        <CalendarIcon/>
-                                                        {date?.from ? (
-                                                            date.to ? (
-                                                                <>
-                                                                    {format(date.from, "LLL dd, y")} -{" "}
-                                                                    {format(date.to, "LLL dd, y")}
-                                                                </>
-                                                            ) : (
-                                                                format(date.from, "LLL dd, y")
-                                                            )
-                                                        ) : (
-                                                            <span>날짜를 선택하세요.</span>
-                                                        )}
-                                                    </Button>
-                                                </PopoverTrigger>
-                                                <PopoverContent className="w-auto p-0" align="start">
-                                                    <Calendar
-                                                        initialFocus
-                                                        mode="range"
-                                                        defaultMonth={date?.from}
-                                                        selected={date}
-                                                        onSelect={setDate}
-                                                        numberOfMonths={2}
-                                                    />
-                                                </PopoverContent>
-                                            </Popover>
-                                            <FormField
-                                                control={form.control}
-                                                name="Reason_for_renta"
-                                                render={({field}) => (
-                                                    <FormItem>
-                                                        <FormLabel>대여사유</FormLabel>
-                                                        <FormControl>
-                                                            <Input className="h-60" placeholder="" {...field} />
-                                                        </FormControl>
-                                                        <FormMessage/>
-                                                    </FormItem>
-                                                )}
-                                            >
-                                            </FormField>
-                                        </div>
-                                    </div>
-                                    <div className="grid">
-                                        <p className='flex server_sub_sub_title'>서버 정보</p>
-                                        <FormField
-                                            control={form.control}
-                                            name="Servername"
-                                            render={({field}) => (
-                                                <FormItem>
-                                                    <FormLabel>서버 이름</FormLabel>
-                                                    <FormControl>
-                                                        <Input placeholder="" {...field} />
-                                                    </FormControl>
-                                                    <FormMessage/>
-                                                </FormItem>
-                                            )}
-                                        >
-                                        </FormField>
-                                        <FormItem>
-                                            <FormLabel>운영체제</FormLabel>
-                                            <FormControl>
-                                                <Select
-                                                    defaultValue={selectedOption}
-                                                    //@ts-ignore
-                                                    onChange={setSelectedOption}
-                                                    //@ts-ignore
-                                                    options={options}
-                                                />
-                                            </FormControl>
-                                            <FormMessage/>
-                                        </FormItem>
-                                        <p className='flex server_sub_sub_title'>서버 계정 정보</p>
-                                        <div className="flex gap-x-4">
-                                            <FormField
-                                                control={form.control}
-                                                name="Username"
-                                                render={({field}) => (
-                                                    <FormItem>
-                                                        <FormLabel>일반 계정 이름</FormLabel>
-                                                        <FormControl>
-                                                            <Input className="" placeholder="입력해주세요" {...field} />
-                                                        </FormControl>
-                                                        <FormMessage/>
-                                                    </FormItem>
-                                                )}
-                                            >
-                                            </FormField>
-                                            <FormField
-                                                control={form.control}
-                                                name="User_pw"
-                                                render={({field}) => (
-                                                    <FormItem>
-                                                        <FormLabel>일반 계정 비밀번호</FormLabel>
-                                                        <FormControl>
-                                                            <Input className="" placeholder="입력해주세요" {...field} />
-                                                        </FormControl>
-                                                        <FormMessage/>
-                                                    </FormItem>
-                                                )}
-                                            >
-                                            </FormField>
-                                        </div>
-                                        <FormField
-                                            control={form.control}
-                                            name="root_pw"
-                                            render={({field}) => (
-                                                <FormItem>
-                                                    <FormLabel>루트 계정 비빌번호</FormLabel>
-                                                    <FormControl>
-                                                        <Input className="" placeholder="입력해주세요" {...field} />
-                                                    </FormControl>
-                                                    <FormMessage/>
-                                                </FormItem>
-                                            )}
-                                        >
-                                        </FormField>
-                                        <FormField
-                                            control={form.control}
-                                            name="Network_Requirements"
-                                            render={({field}) => (
-                                                <FormItem>
-                                                    <FormLabel>네트워크 추가 사항</FormLabel>
-                                                    <FormControl>
-                                                        <Input className="h-40" placeholder="" {...field} />
-                                                    </FormControl>
-                                                    <FormMessage/>
-                                                </FormItem>
-                                            )}
-                                        >
-                                        </FormField>
-                                    </div>
-                                    <div>
-                                        <p className='flex server_sub_sub_title'>이용 약관</p>
-                                        <Card className="md:w-[30vw] p-4 h-[50vh]"
-                                              style={{overflowX: "auto", overflowY: "auto"}}>
-                                            <MarkdownPreview source={source} style={{padding: 16}}/>
-                                        </Card>
-                                        <br/>
-                                        <FormField
-                                            control={form.control}
-                                            name="iamcheck"
-                                            render={({field}) => (
-                                                <FormItem>
-                                                    <FormControl>
-                                                        <Checkbox
-                                                            style={{
-                                                                width: '20px',
-                                                                height: '20px',
-                                                                backgroundColor: field.value ? '#4caf50' : '#fff',
-                                                                border: '2px solid #000',
-                                                            }}
-                                                            //@ts-ignore
-                                                            checked={field.value}
-                                                            onCheckedChange={field.onChange}
-                                                        />
-
-                                                    </FormControl>
-                                                    <span> 본 서비스를 이용하기 위해 서비스 이용약관에 동의합니다.</span>
-                                                    <FormMessage/>
-                                                </FormItem>
-                                            )}
-                                        >
-                                        </FormField>
-                                        <br/>
-                                        <div className="justify-self-end">
-                                            <Button type="submit" className=" w-full">
-                                                신청서 체출
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </Form>
+                  </div>
+                  <div className="grid">
+                    <p className="flex server_sub_sub_title">서버 정보</p>
+                    <FormField
+                      control={form.control}
+                      name="Servername"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>서버 이름</FormLabel>
+                          <FormControl>
+                            <Input placeholder="" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    ></FormField>
+                    <FormItem>
+                      <FormLabel>운영체제</FormLabel>
+                      <FormControl>
+                        <Select
+                          className="my-react-select-container"
+                          classNamePrefix="my-react-select"
+                          defaultValue={selectedOption}
+                          //@ts-ignore
+                          onChange={setSelectedOption}
+                          //@ts-ignore
+                          options={options}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                    <p className="flex server_sub_sub_title">서버 계정 정보</p>
+                    <div className="flex gap-x-4">
+                      <FormField
+                        control={form.control}
+                        name="Username"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>일반 계정 이름</FormLabel>
+                            <FormControl>
+                              <Input
+                                className=""
+                                placeholder="입력해주세요"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      ></FormField>
+                      <FormField
+                        control={form.control}
+                        name="User_pw"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>일반 계정 비밀번호</FormLabel>
+                            <FormControl>
+                              <Input
+                                className=""
+                                placeholder="입력해주세요"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      ></FormField>
                     </div>
-                    <ToastContainer/>
+                    <FormField
+                      control={form.control}
+                      name="root_pw"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>루트 계정 비빌번호</FormLabel>
+                          <FormControl>
+                            <Input
+                              className=""
+                              placeholder="입력해주세요"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    ></FormField>
+                    <FormField
+                      control={form.control}
+                      name="Network_Requirements"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>네트워크 추가 사항</FormLabel>
+                          <FormControl>
+                            <Input className="h-40" placeholder="" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    ></FormField>
+                  </div>
+                  <div>
+                    <p className="flex server_sub_sub_title">이용 약관</p>
+                    <Card
+                      className="md:w-[30vw] p-4 h-[50vh]"
+                      style={{ overflowX: "auto", overflowY: "auto" }}
+                    >
+                      <MarkdownPreview
+                        source={source}
+                        style={{ padding: 16 }}
+                      />
+                    </Card>
+                    <br />
+                    <FormField
+                      control={form.control}
+                      name="iamcheck"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Checkbox
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                                backgroundColor: field.value
+                                  ? "#4caf50"
+                                  : "#fff",
+                                border: "2px solid #000",
+                              }}
+                              //@ts-ignore
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <span>
+                            {" "}
+                            본 서비스를 이용하기 위해 서비스 이용약관에
+                            동의합니다.
+                          </span>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    ></FormField>
+                    <br />
+                    <div className="justify-self-end">
+                      <Button type="submit" className=" w-full">
+                        신청서 체출
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-            </div>
-        </>
-    )
+              </form>
+            </Form>
+          </div>
+          <ToastContainer />
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default Main_server;
