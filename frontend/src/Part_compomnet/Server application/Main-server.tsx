@@ -454,7 +454,7 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                   <div>
                     <p className="flex server_sub_sub_title">이용 약관</p>
                     <Card
-                      className="md:w-[30vw] p-4 h-[40vh]"
+                      className="md:w-[30vw] p-4 h-[30vh]"
                       style={{ overflowX: "auto", overflowY: "auto" }}
                     >
                       <MarkdownPreview
