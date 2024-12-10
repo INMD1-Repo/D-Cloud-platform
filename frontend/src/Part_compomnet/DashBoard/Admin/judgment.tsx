@@ -186,18 +186,18 @@ function Row({ row }) {
                             <Table >
                               <TableHead>
                                 <TableRow>
-                                  <TableCell sx={{ color: "#cccccc" }}>필드</TableCell>
-                                  <TableCell sx={{ color: "#cccccc" }}>값</TableCell>
+                                  <TableCell className="dark:text-[#cccccc]">필드</TableCell>
+                                  <TableCell className="dark:text-[#cccccc]">값</TableCell>
                                 </TableRow>
                               </TableHead>
 
                               <TableBody>
                                 {Object.entries(data).map(([key, value]) => (
                                   <TableRow key={key}>
-                                    <TableCell className="font-medium" sx={{ color: "#cccccc" }}>
+                                    <TableCell className="font-medium dark:text-[#cccccc]">
                                       {key}
                                     </TableCell>
-                                    <TableCell sx={{ color: "#cccccc" }}>
+                                    <TableCell className="dark:text-[#cccccc]">
                                       {key === "date"
                                         //@ts-ignore
                                         ? String(value.from) + " ~ " + String(value.to)
