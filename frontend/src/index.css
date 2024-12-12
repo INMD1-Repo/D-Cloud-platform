@@ -126,6 +126,9 @@ a:hover {
     font-size: 1.8em;
     font-weight: bold;
   }
+  .mobile_none {
+   
+  }
 }
 
 @layer base {

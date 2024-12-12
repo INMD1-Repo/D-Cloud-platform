@@ -86,7 +86,7 @@ function Mainpage_index() {
                     <div className="mobile_none ">
                         <p className="title">서버 현황</p>
                         <div className="lg:h-7 h-5"></div>
-                        <div className="grid grid-cols-3 grid-rows-3  lg:flex gap-10  m-5 lg:m-0 content-start">
+                        <div className="grid grid-cols-3 grid-rows-2 2xl:flex gap-5  lg:m-0 content-start">
                             {/*서버 현황을 보여주는 컴포넌트*/}
                             <div>
                                 <Card>
