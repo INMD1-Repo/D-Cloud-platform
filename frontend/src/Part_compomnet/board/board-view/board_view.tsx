@@ -31,15 +31,15 @@ function Board_view() {
             <Topnav />
             <div className="h-[10vh] md:h-[15vh]"></div>
             <div className="flex justify-center flex-nowrap gap-10">
-                <div className="container">
+                <div className="">
                     <p className='title lg:mb-5'>게시판 View</p>
                     <p className='board_title'>{content.title}</p>
                     <div className='flex pc_none'>
                         <p>작성자: {content.Username}</p>
                     </div>
                     <br className='moblie_none'/>
-                    <Card className=''>
-                        <MarkdownPreview source={content.content} style={{ padding: 16 }} />
+                    <Card className=''   >
+                        <MarkdownPreview source={content.content} style={{ padding: 16, width: "70svw" }}/>
                     </Card>
                 </div>
                 <div className='min-w-[20vw] mobile_none'>
