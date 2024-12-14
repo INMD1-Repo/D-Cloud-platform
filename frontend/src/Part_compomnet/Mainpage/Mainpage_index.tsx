@@ -85,6 +85,7 @@ function Mainpage_index() {
                 <div className="">
                     <div className="mobile_none ">
                         <p className="title">서버 현황</p>
+                        <p>서버에서 백업을 하고 있는 경우 Error가 표시가 될수 있습니다.</p>
                         <div className="lg:h-7 h-5"></div>
                         <div className="grid grid-cols-3 grid-rows-2 2xl:flex gap-5  lg:m-0 content-start">
                             {/*서버 현황을 보여주는 컴포넌트*/}

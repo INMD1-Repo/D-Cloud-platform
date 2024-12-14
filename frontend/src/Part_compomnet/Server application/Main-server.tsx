@@ -48,7 +48,7 @@ const source = `
 
 ### 제2조 (약관의 효력 및 변경)
 
-1. 본 약관은 고객이 이메일을 통해 동의 의사를 밝힘으로써 효력이 발생합니다. 또한, 약관은 기관의 웹사이트에도 게시됩니다(홈페이지: https://url.kr/gdx52r).
+1. 본 약관은 고객이 이메일을 통해 동의 의사를 밝힘으로써 효력이 발생합니다. 또한, 약관은 기관의 웹사이트에도 게시됩니다(홈페이지: https://dcp.powerinmd.com/site/).
 2. 약관의 효력은 고객이 서비스 이용을 신청한 시점부터, 서비스가 종료되고 모든 정산이 완료된 시점까지 유지됩니다.
 3. 기관은 관련 법령에 위배되지 않는 범위 내에서, 합리적인 사유가 있을 경우 약관을 변경할 수 있습니다. 중요한 사항(요금, 고객 권리 또는 의무에 중대한 영향을 미치는 변경)은 최소 7일 이전에 공지되며, 공지 후 그 효력이 발생합니다.
 4. 고객은 변경된 약관에 대해 동의하지 않을 권리가 있으며, 동의하지 않을 경우 서비스 이용 계약 해지를 요청할 수 있습니다. 변경된 약관의 효력 발생 이후에도 서비스를 계속 이용하는 경우, 해당 변경 사항에 동의한 것으로 간주됩니다.
@@ -121,6 +121,9 @@ const FormSchema = z.object({
   Username: z.string().min(1, "필수 항목입니다."),
   User_pw: z.string().min(5, "5자리 이싱 및 필수 항목입니다."),
   root_pw: z.string().min(5, "5자리 이싱 및 필수 항목입니다."),
+  CPU: z.string().min(1, "필수 항목입니다."),
+  RAM: z.string().min(1, "필수 항목입니다."),
+  Storage: z.string().min(1, "필수 항목입니다."),
   Network_Requirements: z.string(),
   iamcheck: z.boolean().refine((val) => val === true, {
     message: "서비스 이용 약관에 동의해야 합니다.",
@@ -161,6 +164,9 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
       Username: "",
       User_pw: "",
       root_pw: "",
+      CPU: "",
+      RAM: "",
+      Storage: "",
       Network_Requirements: "",
       //@ts-ignore
       iamcheck: false,
@@ -238,13 +244,14 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
     <>
       <div className="p-5 md:p-20">
         <Topnav />
-        <div className="h-[10vh] md:h-[15vh]"></div>
+        <div className="h-[10vh] md:h-[10vh]"></div>
         <div className="gird justify-start flex-nowrap">
           <div>
             <p className="flex server_title">서버 신청</p>
             <p className="server_sub_title">
               서버 신청을 원하는 경우 아래 정보란에 입력해주세요.
             </p>
+            <p>서버 신청 승인은 평일에 이루어 짐니다.</p>
           </div>
           <br />
           <div className="justify-items-center ">
@@ -383,6 +390,59 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                       </FormControl>
                       <FormMessage />
                     </FormItem>
+                    <div className="flex gap-x-4">
+                      <FormField
+                        control={form.control}
+                        name="CPU"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>CPU(Core)</FormLabel>
+                            <FormControl>
+                              <Input
+                                className=""
+                                placeholder="입력해주세요"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      ></FormField>
+                      <FormField
+                        control={form.control}
+                        name="RAM"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>RAM(MB)</FormLabel>
+                            <FormControl>
+                              <Input
+                                className=""
+                                placeholder="입력해주세요"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      ></FormField>
+                      <FormField
+                        control={form.control}
+                        name="Storage"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Storage(GB)</FormLabel>
+                            <FormControl>
+                              <Input
+                                className=""
+                                placeholder="입력해주세요"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      ></FormField>
+                    </div>
                     <p className="flex server_sub_sub_title">서버 계정 정보</p>
                     <div className="flex gap-x-4">
                       <FormField
@@ -419,24 +479,25 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                           </FormItem>
                         )}
                       ></FormField>
+                      <FormField
+                        control={form.control}
+                        name="root_pw"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>루트 계정 비빌번호</FormLabel>
+                            <FormControl>
+                              <Input
+                                className=""
+                                placeholder="입력해주세요"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      ></FormField>
                     </div>
-                    <FormField
-                      control={form.control}
-                      name="root_pw"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>루트 계정 비빌번호</FormLabel>
-                          <FormControl>
-                            <Input
-                              className=""
-                              placeholder="입력해주세요"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    ></FormField>
+
                     <FormField
                       control={form.control}
                       name="Network_Requirements"
@@ -454,7 +515,7 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                   <div>
                     <p className="flex server_sub_sub_title">이용 약관</p>
                     <Card
-                      className="md:w-[30vw] p-4 h-[30vh]"
+                      className="md:w-[30vw] p-4 h-[40vh]"
                       style={{ overflowX: "auto", overflowY: "auto" }}
                     >
                       <MarkdownPreview

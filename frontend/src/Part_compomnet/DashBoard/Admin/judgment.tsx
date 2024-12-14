@@ -293,6 +293,7 @@ function Row({ row }) {
                                   승인하고 기타 네트워크 사항에 대해 적어주세요.
                                 </p>
                                 <Textarea
+                                className="dark:bg-[#cccccc]"
                                   value={NetworkInfo}
                                   //@ts-ignore
                                   onChange={(e) =>
