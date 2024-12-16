@@ -115,16 +115,29 @@ function View_vm() {
     try {
       const response = await fetch(
         //@ts-ignore
-        `/api/server_application/?username=${userinfo.name}&email=${userinfo.email}&type=user`
+        `/api/server_application/?username=${userInfo.name}&email=${userInfo.email}&type=user`
       );
       const restApi = await response.json();
+
       setNavData((prevData) => {
         const newData = { ...prevData };
         //@ts-ignore
-        newData.navMain[2].items = restApi.map((item) => ({
-          title: JSON.parse(item.content).Servername,
-          url: `/site/server/View_vm/${item.id}`,
-        }));
+        newData.navMain[2].items = restApi.map((item) =>
+          JSON.parse(item.Appcet) == 381
+            ? {
+                title: JSON.parse(item.content).Servername,
+                url: `/site/server/View_vm/${item.id}`,
+              }
+            : JSON.parse(item.Appcet) == 3812
+            ? {
+                title: "제작중입니다.",
+                url: `/site/server/show_Accpet`,
+              }
+            : {
+                title: "아직 승인되지 않았습니다.",
+                url: `/site/server/show_Accpet`,
+              }
+        );
         return newData;
       });
     } catch (error) {

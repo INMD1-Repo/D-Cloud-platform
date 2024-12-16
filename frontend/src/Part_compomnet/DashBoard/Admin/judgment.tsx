@@ -39,11 +39,8 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { useAtom } from "jotai";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { ToastContainer, toast } from "react-toastify";
-
 import { Access_jwt, login_Count, User_info } from "@/store/strore_data";
-
 import * as React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -70,25 +67,31 @@ import {
 import { Button } from "@/components/ui/button.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
 import { useNavigate } from "react-router-dom";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
-//추후에 디자인 수정을 해야됨
 //@ts-ignore
 function Row({ row }) {
   const navigate = useNavigate();
-  const data = JSON.parse(row.content);
+  const DataParse = JSON.parse(row.content);
   const [selectedRegion, setSelectedRegion] = useState("");
   const [servertype, setServertype] = useState("");
   const [serverName, setServerName] = useState(
-    data.Servername === undefined ? "" : data.Servername
+    DataParse.Servername === undefined ? "" : DataParse.Servername
   );
-  const [vmId, setVmId] = useState(data.vmId === undefined ? "" : data.vmId);
-  const [isApproved, setIsApproved] = useState(null);
+  const [vmId, setVmId] = useState(
+    DataParse.vmId === undefined ? "" : DataParse.vmId
+  );
+  const [isApproved, setIsApproved] = useState("");
   const [rejectionReason, setRejectionReason] = useState("");
   const [NetworkInfo, setNetworkInfo] = useState("");
   const [open, setOpen] = React.useState(false);
   //@ts-ignore
   const [userinfo] = useAtom(User_info);
-
   const handleSubmit = async () => {
     const result_content = JSON.parse(row.content);
     let result = {
@@ -96,7 +99,7 @@ function Row({ row }) {
       isApproved: 0,
     };
 
-    if (isApproved) {
+    if (isApproved == "true") {
       try {
         delete result_content.rejectionReason;
         result_content.Servername = serverName;
@@ -110,7 +113,7 @@ function Row({ row }) {
           isApproved: 381,
         };
       }
-    } else {
+    } else if (isApproved == "false") {
       try {
         delete result_content.region;
         delete result_content.vmId;
@@ -122,6 +125,12 @@ function Row({ row }) {
           isApproved: 4394,
         };
       }
+    } else if (isApproved == "depending") {
+      result_content.rejectionReason = isApproved ? "" : rejectionReason;
+      result = {
+        content: result_content,
+        isApproved: 3812,
+      };
     }
 
     // 여기서 결과를 저장하는 로직을 구현합니다.
@@ -153,10 +162,23 @@ function Row({ row }) {
     }
   };
 
+  function DateReplace(data: string) {
+    const date = new Date(data);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
+
   // @ts-ignore
   return (
-    <React.Fragment > 
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="dark:bg-[#181818]" >
+    <React.Fragment>
+      <TableRow
+        sx={{ "& > *": { borderBottom: "unset" } }}
+        className="dark:bg-[#181818]"
+      >
         <TableCell>
           <IconButton
             style={{ color: "gray" }}
@@ -176,59 +198,201 @@ function Row({ row }) {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
-              <Table size="small">
+              <Table>
                 <TableBody>
                   <TableRow>
-                    <ScrollArea className="">
-                      <div className="grid gap-4 grid-cols-2">
-                        <div >
-                          <Card className="dark:bg-[#1f1f1f]">
-                            <Table >
-                              <TableHead>
-                                <TableRow>
-                                  <TableCell className="dark:text-[#cccccc]">필드</TableCell>
-                                  <TableCell className="dark:text-[#cccccc]">값</TableCell>
-                                </TableRow>
-                              </TableHead>
-
-                              <TableBody>
-                                {Object.entries(data).map(([key, value]) => (
-                                  <TableRow key={key}>
-                                    <TableCell className="font-medium dark:text-[#cccccc]">
-                                      {key}
-                                    </TableCell>
-                                    <TableCell className="dark:text-[#cccccc]">
-                                      {key === "date"
-                                        //@ts-ignore
-                                        ? String(value.from) + " ~ " + String(value.to)
-                                        : key === "iamcheck"
-                                        ? value
-                                          ? "예"
-                                          : "아니오"
-                                        : String(value)}
-                                    </TableCell>
-                                  </TableRow>
-                                ))}
-                              </TableBody>
-                            </Table>
-                          </Card>
-                        </div>
+                    <div className="flex gap-4">
+                      <div className="w-3/5">
+                        <Accordion
+                          className="dark:bg-[#1f1f1f] "
+                          type="single"
+                          collapsible
+                        >
+                          <AccordionItem value="item-1">
+                            <AccordionTrigger>사용자 정보</AccordionTrigger>
+                            <AccordionContent>
+                              <Card>
+                                <Table>
+                                  <TableHead>
+                                    <TableRow>
+                                      <TableCell className="font-medium dark:text-[#cccccc]">
+                                        이름
+                                      </TableCell>
+                                      <TableCell className="font-medium dark:text-[#cccccc]">
+                                        {DataParse.name}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell className="font-medium dark:text-[#cccccc]">
+                                        이메일
+                                      </TableCell>
+                                      <TableCell className="font-medium dark:text-[#cccccc]">
+                                        {DataParse.email}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell className="font-medium dark:text-[#cccccc]">
+                                        연락처
+                                      </TableCell>
+                                      <TableCell className="font-medium dark:text-[#cccccc]">
+                                        {DataParse.phone_number}
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                </Table>
+                              </Card>
+                            </AccordionContent>
+                          </AccordionItem>
+                          <AccordionItem value="item-2">
+                            <AccordionTrigger>신청 서버 정보</AccordionTrigger>
+                            <AccordionContent>
+                              <Card>
+                                <Table>
+                                  <TableBody>
+                                    <TableRow>
+                                      <TableCell className="font-medium">
+                                        OS
+                                      </TableCell>
+                                      <TableCell className="text-left">
+                                        {DataParse.os}
+                                      </TableCell>
+                                      <TableCell className="text-center">
+                                        |
+                                      </TableCell>
+                                      <TableCell className="font-medium">
+                                        생성자
+                                      </TableCell>
+                                      <TableCell className="text-left">
+                                        {DataParse.name}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell className="font-medium">
+                                        서버 이름
+                                      </TableCell>
+                                      <TableCell className="text-left">
+                                        {DataParse.Servername}
+                                      </TableCell>
+                                      <TableCell className="text-center">
+                                        |
+                                      </TableCell>
+                                      <TableCell className="font-medium">
+                                        유저 ID
+                                      </TableCell>
+                                      <TableCell className="text-left">
+                                        {DataParse.Username}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell className="font-medium">
+                                        유저 PW
+                                      </TableCell>
+                                      <TableCell className="text-left">
+                                        {DataParse.User_pw}
+                                      </TableCell>
+                                      <TableCell className="text-center">
+                                        |
+                                      </TableCell>
+                                      <TableCell className="font-medium">
+                                        Root PW
+                                      </TableCell>
+                                      <TableCell className="text-left">
+                                        {DataParse.root_pw}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell className="font-medium">
+                                        CPU / RAM
+                                      </TableCell>
+                                      <TableCell className="text-left">
+                                        {DataParse.CPU} (C) / {DataParse.RAM}
+                                        (MB)
+                                      </TableCell>
+                                      <TableCell className="text-center">
+                                        |
+                                      </TableCell>
+                                      <TableCell className="font-medium">
+                                        Storgae
+                                      </TableCell>
+                                      <TableCell className="text-left">
+                                        {DataParse.Storage} (GB)
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                              </Card>
+                            </AccordionContent>
+                          </AccordionItem>
+                          <AccordionItem value="item-3">
+                            <AccordionTrigger>기타 사항</AccordionTrigger>
+                            <AccordionContent>
+                              <Card>
+                                <Table>
+                                  <TableHead>
+                                    <TableRow>
+                                      <TableCell className="font-medium">
+                                        대여 시작
+                                      </TableCell>
+                                      <TableCell className="text-left">
+                                        {DateReplace(DataParse.date.from)}
+                                      </TableCell>
+                                      <TableCell className="text-center">
+                                        |
+                                      </TableCell>
+                                      <TableCell className="font-medium">
+                                        대여 종료
+                                      </TableCell>
+                                      <TableCell className="text-left">
+                                        {DateReplace(DataParse.date.to)}
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                </Table>
+                              </Card>
+                              <br/>
+                              <p>네트워크 추가사항</p>
+                              <br/>
+                              <Card className="p-4">
+                                {DataParse.Network_Requirements}
+                              </Card>
+                              <br/>
+                              <p>대여사유</p>
+                              <br/>
+                              <Card className="p-4">
+                                {DataParse.Application_period}
+                              </Card>
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
+                      </div>
+                      <div className="w-2/5">
                         <div className="grid">
                           <div className="space-y-4 p-4">
-                            <p className="dark:text-[#cccccc]">결과를 눌려주세요.</p>
-                            <div className="flex space-x-2">
-                              {/* @ts-ignore */}.
-                              <Button onClick={() => setIsApproved(true)} >
+                            <p className="dark:text-[#cccccc]">
+                              결과를 눌려주세요.
+                            </p>
+                            <div className="grid lg:flex lg:space-x-2">
+                              {/* @ts-ignore */}
+                              <Button onClick={() => setIsApproved("true")}>
                                 승인
                               </Button>
-                              {/* @ts-ignore */}.
-                              <Button onClick={() => setIsApproved(false)}>
+                              ㅤ{/* @ts-ignore */}
+                              <Button
+                                onClick={() => setIsApproved("depending")}
+                              >
+                                제작 대기
+                              </Button>
+                              ㅤ{/* @ts-ignore */}
+                              <Button onClick={() => setIsApproved("false")}>
                                 거절
                               </Button>
+                              ㅤ
                             </div>
-                            {isApproved === false && (
+                            {isApproved === "false" && (
                               <>
-                                <p className="dark:text-[#cccccc]">거절 사유를 필히 적어주십시오.</p>
+                                <p className="dark:text-[#cccccc]">
+                                  거절 사유를 필히 적어주십시오.
+                                </p>
                                 <Textarea
                                   value={rejectionReason}
                                   //@ts-ignore
@@ -240,51 +404,67 @@ function Row({ row }) {
                               </>
                             )}
                             <hr />
-                            {isApproved === true && (
+                            {isApproved === "true" && (
                               <>
-                                <p className="dark:text-[#cccccc]" >먼저 리전을 선택해주세요.</p>
+                                <p className="dark:text-[#cccccc]">
+                                  먼저 리전을 선택해주세요.
+                                </p>
                                 <Select onValueChange={setSelectedRegion}>
                                   <SelectTrigger className="w-[180px] dark:bg-[#cccccc]">
                                     <SelectValue placeholder="서버 구역을 선택해주세요." />
                                   </SelectTrigger>
                                   <SelectContent>
                                     <SelectItem value="compute1">
-                                      1번 서버
+                                      1번 서버 (HPE)
                                     </SelectItem>
                                     <SelectItem value="compute2">
-                                      2번 서버
+                                      2번 서버 (HPE)
                                     </SelectItem>
                                     <SelectItem value="computer3">
-                                      3번 서버
+                                      3번 서버 (HPE)
                                     </SelectItem>
                                     <SelectItem value="compute4">
-                                      4번 서버
+                                      4번 서버 (HPE)
                                     </SelectItem>
                                     <SelectItem value="compute5">
-                                      5번 서버
+                                      5번 서버 (INTEL)
+                                    </SelectItem>
+                                    <SelectItem value="compute6">
+                                      6번 서버 (HPE)
+                                    </SelectItem>
+                                    <SelectItem value="compute7">
+                                      7번 서버 (SuperMicro)
                                     </SelectItem>
                                   </SelectContent>
                                 </Select>
-                                <p className="dark:text-[#cccccc]">실제로 생성할 서버 이름을 적습니다.</p>
-                                <Input className="dark:bg-[#cccccc]"
+                                <p className="dark:text-[#cccccc]">
+                                  실제로 생성할 서버 이름을 적습니다.
+                                </p>
+                                <Input
+                                  className="dark:bg-[#cccccc]"
                                   value={serverName}
                                   onChange={(e) =>
                                     setServerName(e.target.value)
                                   }
                                   placeholder={serverName}
                                 />
-                                <p className="dark:text-[#cccccc]">실제로 생성할 타입을 적어주세요.</p>
+                                <p className="dark:text-[#cccccc]">
+                                  실제로 생성할 타입을 적어주세요.
+                                </p>
                                 <Select onValueChange={setServertype}>
                                   <SelectTrigger className="w-[180px] dark:bg-[#cccccc]">
-                                    <SelectValue  placeholder="타입을 선택해주세요" />
+                                    <SelectValue placeholder="타입을 선택해주세요" />
                                   </SelectTrigger>
                                   <SelectContent>
                                     <SelectItem value="qemu">VM</SelectItem>
                                     <SelectItem value="lxc">lxc</SelectItem>
                                   </SelectContent>
                                 </Select>
-                                <p className="dark:text-[#cccccc]">실제로 생성된 ID을 입력해주세요.</p>
-                                <Input className="dark:bg-[#cccccc]"
+                                <p className="dark:text-[#cccccc]">
+                                  실제로 생성된 ID을 입력해주세요.
+                                </p>
+                                <Input
+                                  className="dark:bg-[#cccccc]"
                                   value={vmId}
                                   onChange={(e) => setVmId(e.target.value)}
                                   placeholder={vmId}
@@ -293,7 +473,7 @@ function Row({ row }) {
                                   승인하고 기타 네트워크 사항에 대해 적어주세요.
                                 </p>
                                 <Textarea
-                                className="dark:bg-[#cccccc]"
+                                  className="dark:bg-[#cccccc]"
                                   value={NetworkInfo}
                                   //@ts-ignore
                                   onChange={(e) =>
@@ -308,7 +488,7 @@ function Row({ row }) {
                           </div>
                         </div>
                       </div>
-                    </ScrollArea>
+                    </div>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -412,13 +592,26 @@ function Judgment() {
         `/api/server_application/?username=${userinfo.name}&email=${userinfo.email}&type=user`
       );
       const restApi = await response.json();
+
       setNavData((prevData) => {
         const newData = { ...prevData };
         //@ts-ignore
-        newData.navMain[2].items = restApi.map((item) => ({
-          title: JSON.parse(item.content).Servername,
-          url: `/site/server/View_vm/${item.id}`,
-        }));
+        newData.navMain[2].items = restApi.map((item) =>
+          JSON.parse(item.Appcet) == 381
+            ? {
+                title: JSON.parse(item.content).Servername,
+                url: `/site/server/View_vm/${item.id}`,
+              }
+            : JSON.parse(item.Appcet) == 3812
+            ? {
+                title: "제작중입니다.",
+                url: `/site/server/show_Accpet`,
+              }
+            : {
+                title: "아직 승인되지 않았습니다.",
+                url: `/site/server/show_Accpet`,
+              }
+        );
         return newData;
       });
     } catch (error) {
@@ -625,7 +818,7 @@ function Judgment() {
         </SidebarFooter>
         <SidebarRail />
       </Sidebar>
-      <SidebarInset  className="dark:bg-[#181818]">
+      <SidebarInset className="dark:bg-[#181818]">
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
