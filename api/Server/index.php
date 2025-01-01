@@ -1,13 +1,20 @@
 <?php
 
+//#####################################
+//# 이 파일은 서버신청에 관련됨 파일임  #
+//#####################################
+
 error_reporting(E_ALL);
 ini_set('display_errors', '0');
 
+
+//이메일 보내는 함수 로드하기
+include __DIR__ . "/../part/mailsender.php";
+
+
+// 환경 변수 && 기타 로드
 require(__DIR__ . '/../../vendor/autoload.php');
-
 header('Content-Type: application/json');
-
-// 환경 변수 로드
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
@@ -20,6 +27,7 @@ if ($conn->connect_error) {
 
 $request_method = $_SERVER['REQUEST_METHOD'];
 
+//어드미 확인 함수
 function checkAdmin($conn, $email)
 {
     $stmt = $conn->prepare("SELECT Admin FROM User_infomaiton WHERE email = ?");
