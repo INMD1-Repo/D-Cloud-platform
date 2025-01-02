@@ -42,7 +42,7 @@ function Topnav() {
         setUserInfo({});
         setlogCount(0);
         setAccessjwt({});
-        window.location.reload();
+        navigate("/site");
       }
     });
   }

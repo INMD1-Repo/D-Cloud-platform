@@ -114,7 +114,7 @@ function Main_DashBoard() {
     try {
       const response = await fetch(
         //@ts-ignore
-        `/api/server_application/?username=${userInfo.name}&email=${userInfo.email}&type=user`
+        `/api/server_application/?username=${userinfo.name}&email=${userinfo.email}&type=user`
       );
       const restApi = await response.json();
 
@@ -144,6 +144,8 @@ function Main_DashBoard() {
     }
   }
 
+
+
   useEffect(() => {
     //@ts-ignore
     if (userinfo.name && userinfo.email) {
@@ -151,6 +153,7 @@ function Main_DashBoard() {
     }
     //@ts-ignore
   }, [userinfo.name, userinfo.email]);
+
 
   useEffect(() => {
     if (logCount == 0) {
