@@ -21,7 +21,9 @@ if ($conn->connect_error) {
 
 function checkAdmin($conn, $email)
 {
-    $conn = new mysqli($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], 'Dcloud_Auth', $_ENV['DB_PORT']);
+    if ($_ENV['Type'] == 'main') {
+        $conn = new mysqli($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], 'Dcloud_Auth', $_ENV['DB_PORT']);
+    }
     $stmt = $conn->prepare("SELECT Admin FROM User_infomaiton WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
