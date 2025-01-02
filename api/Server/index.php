@@ -7,7 +7,6 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '0');
 
-require(__DIR__ . '/../auth/department.php');
 require(__DIR__ . '/../../vendor/autoload.php');
 header('Content-Type: application/json');
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -18,6 +17,21 @@ $conn = new mysqli($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'],
 
 if ($conn->connect_error) {
     die(json_encode(['Error' => "데이터베이스 연결 실패: " . $conn->connect_error]));
+}
+
+function checkAdmin($conn, $email)
+{
+    $conn = new mysqli($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], 'Dcloud_Auth', $_ENV['DB_PORT']);
+    $stmt = $conn->prepare("SELECT Admin FROM User_infomaiton WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($row = $result->fetch_assoc()) {
+        return $row['Admin'] === 1; // Admin 값이 1이면 true
+    }
+
+    return false;
 }
 
 $request_method = $_SERVER['REQUEST_METHOD'];

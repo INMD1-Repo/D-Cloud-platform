@@ -38,19 +38,7 @@ $refreshConfig = Configuration::forSymmetricSigner(
     InMemory::base64Encoded(base64_encode($_ENV['JWT_KEY_Refresh']))
 );
 
-function checkAdmin($conn, $email)
-{
-    $stmt = $conn->prepare("SELECT Admin FROM User_infomaiton WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
 
-    if ($row = $result->fetch_assoc()) {
-        return $row['Admin'] === 1; // Admin 값이 1이면 true
-    }
-
-    return false;
-}
 
 //ID소금 치기 위한 함수(재활용)
 function insertRandomLetters($numbers)
