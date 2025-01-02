@@ -1,8 +1,6 @@
 <?php
-//모듈 불려오기기
+// 환경 변수 && 기타 로드
 require(__DIR__ . '/../../vendor/autoload.php');
-
-// 환경 변수 로드
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 

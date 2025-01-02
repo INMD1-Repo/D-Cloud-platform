@@ -1,16 +1,16 @@
-import {Button} from "@/components/ui/button";
-import {useAtom, useSetAtom} from 'jotai'
-import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form"
-import {useEffect, useState} from "react";
-import {Checkbox} from "@/components/ui/checkbox"
-import {Input} from "@/components/ui/input";
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {z} from "zod"
-import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
-import {Label} from "@radix-ui/react-label";
-import {ToastContainer, toast} from 'react-toastify';
+import { Button } from "@/components/ui/button";
+import { useAtom, useSetAtom } from 'jotai'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { useEffect, useState } from "react";
+import { Checkbox } from "@/components/ui/checkbox"
+import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Label } from "@radix-ui/react-label";
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
     AlertDialog,
@@ -21,8 +21,10 @@ import {
     AlertDialogHeader,
     AlertDialogTitle
 } from "@/components/ui/alert-dialog"
-import {useNavigate} from "react-router-dom";
-import {login_Count, Access_jwt} from "@/store/strore_data";
+import { ScrollArea } from "@/components/ui/scroll-area"
+import MarkdownPreview from "@uiw/react-markdown-preview";
+import { useNavigate } from "react-router-dom";
+import { login_Count, Access_jwt } from "@/store/strore_data";
 
 const FormSchema = z.object({
     name: z.string().min(1, {
@@ -46,6 +48,27 @@ const FormSchema = z.object({
     check_value: z.boolean().default(false).optional(),
 })
 
+const source = `
+
+본인은 다음과 같이 본인의 개인정보를 수집‧이용하고 본 동의서에서 정하는 경우에 한하여 제3자에게 제공하는 것을 동의합니다.
+
+## 가. 개인정보 수집‧이용자  
+**D cloud**
+
+## 나. 개인정보의 수집‧이용 목적  
+- 서버 사용 시 사용자 신원 확인 및 서버 점검  
+- 이상 시 알리기 위한 용도  
+
+## 다. 개인정보의 수집‧이용 항목  
+1. 서버 이용 등록 시 신청자 정보 입력  
+   - **필수 항목:** 이름, 학번, 전화번호, 학과  
+   - **선택 항목:** 이메일 주소 등  
+
+
+## 라. 개인정보의 보유 및 이용 기간  
+서버 사용 종료 후 1년 동안 보관 후 즉시 파기 처리  
+
+`
 
 function Auth() {
     const navigate = useNavigate();
@@ -56,16 +79,21 @@ function Auth() {
         result: false,
     });
 
+    const [Personal_information, setPersonal_information] = useState({
+        result: false,
+    });
+
+
     const [inputs, setInputs] = useState({
         email_login: '',
         password_login: '',
     });
 
     //@ts-ignore
-    const {email_login, password_login} = inputs;
+    const { email_login, password_login } = inputs;
     //@ts-ignore
     const onlogin = (e) => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
 
         const nextInputs = {
             //spread 문법. 현재 상태의 내용이 이 자리로 온다.
@@ -156,15 +184,19 @@ function Auth() {
                     navigate("/site/")
                 }, 2000);
             } else {
-                setValues({result: !values.result})
+                setValues({ result: !values.result })
             }
         })
     }
 
     const handleConfirm = () => {
-        setValues({result: !values.result})
-    };
+        setValues({ result: !values.result })
 
+    };
+    const handleConfirm_Personal_information = () => {
+
+        setPersonal_information({ result: !Personal_information.result })
+    };
     useEffect(() => {
         if (logCount == 1) {
             navigate("/site/")
@@ -190,7 +222,7 @@ function Auth() {
                         <TabsContent value="account">
                             <Card className="">
                                 <CardHeader>
-                                    <br/>
+                                    <br />
                                     <CardTitle className="title">D Cloud Platform에 </CardTitle>
                                     <CardTitle className="title">오신걸 환영합니다.</CardTitle>
                                     <CardDescription>
@@ -204,12 +236,12 @@ function Auth() {
                                             <div className="flex flex-col space-y-1.5">
                                                 <Label htmlFor="name">Email</Label>
                                                 <Input name="email_login" onChange={onlogin} id="email_login"
-                                                       type="email" placeholder=""/>
+                                                    type="email" placeholder="" />
                                             </div>
                                             <div className="flex flex-col space-y-1.5">
                                                 <Label htmlFor="name">비밀번호</Label>
                                                 <Input name="password_login" type="password" onChange={onlogin}
-                                                       id="passowrd_login" placeholder=""/>
+                                                    id="passowrd_login" placeholder="" />
                                             </div>
                                         </div>
                                     </form>
@@ -224,7 +256,7 @@ function Auth() {
                         <TabsContent value="password">
                             <Card className="">
                                 <CardHeader>
-                                    <br/>
+                                    <br />
                                     <CardTitle className="title">환영합니다. </CardTitle>
                                     <CardDescription>
                                         저희 서비스를 이용하기 전에 아래 정보를 기입해주시기
@@ -237,85 +269,85 @@ function Auth() {
                                             <FormField
                                                 control={form.control}
                                                 name="name"
-                                                render={({field}) => (
+                                                render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel>이름</FormLabel>
                                                         <FormControl>
                                                             <Input placeholder="shadcn" {...field} />
                                                         </FormControl>
-                                                        <FormMessage/>
+                                                        <FormMessage />
                                                     </FormItem>
                                                 )}
                                             />
                                             <FormField
                                                 control={form.control}
                                                 name="email"
-                                                render={({field}) => (
+                                                render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel>이메일</FormLabel>
                                                         <FormControl>
                                                             <Input placeholder="example@Test.com" {...field} />
                                                         </FormControl>
-                                                        <FormMessage/>
+                                                        <FormMessage />
                                                     </FormItem>
                                                 )}
                                             />
                                             <FormField
                                                 control={form.control}
                                                 name="password"
-                                                render={({field}) => (
+                                                render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel>비밀번호</FormLabel>
                                                         <FormControl>
                                                             <Input placeholder="영문숫자 포함 8자리 이상" {...field} />
                                                         </FormControl>
-                                                        <FormMessage/>
+                                                        <FormMessage />
                                                     </FormItem>
                                                 )}
                                             />
                                             <FormField
                                                 control={form.control}
                                                 name="student_class"
-                                                render={({field}) => (
+                                                render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel>학과</FormLabel>
                                                         <FormControl>
                                                             <Input placeholder="shadcn" {...field} />
                                                         </FormControl>
-                                                        <FormMessage/>
+                                                        <FormMessage />
                                                     </FormItem>
                                                 )}
                                             />
                                             <FormField
                                                 control={form.control}
                                                 name="student_ID"
-                                                render={({field}) => (
+                                                render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel>학번</FormLabel>
                                                         <FormControl>
                                                             <Input placeholder="00000000" {...field} />
                                                         </FormControl>
-                                                        <FormMessage/>
+                                                        <FormMessage />
                                                     </FormItem>
                                                 )}
                                             />
                                             <FormField
                                                 control={form.control}
                                                 name="phone_number"
-                                                render={({field}) => (
+                                                render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel>핸드폰 전화번호</FormLabel>
                                                         <FormControl>
                                                             <Input placeholder="010-0000-0000" {...field} />
                                                         </FormControl>
-                                                        <FormMessage/>
+                                                        <FormMessage />
                                                     </FormItem>
                                                 )}
                                             />
                                             <FormField
                                                 control={form.control}
                                                 name="check_value"
-                                                render={({field}) => (
+                                                render={({ field }) => (
                                                     <FormItem>
                                                         <FormControl>
                                                             <Checkbox
@@ -323,12 +355,16 @@ function Auth() {
                                                                 onCheckedChange={field.onChange}
                                                             />
                                                         </FormControl>
-                                                        <span> 본서비스를 이용할때 개인정보 수집에 동의합니다.</span>
-                                                        <FormMessage/>
+                                                        <span onClick={() => {
+                                                            setPersonal_information({
+                                                                result: true,
+                                                            })
+                                                        }}> 본서비스를 이용할때 개인정보 수집에 동의합니다.</span>
+                                                        <FormMessage />
                                                     </FormItem>
                                                 )}
                                             />
-                                            <br/>
+                                            <br />
                                             <Button type="submit" className="singup w-full">회원가입</Button>
                                         </form>
                                     </Form>
@@ -336,7 +372,7 @@ function Auth() {
                             </Card>
                         </TabsContent>
                     </Tabs>
-                    <ToastContainer/>
+                    <ToastContainer />
                     <AlertDialog open={values.result}>
                         <AlertDialogContent>
                             <AlertDialogHeader>
@@ -347,6 +383,24 @@ function Auth() {
                             </AlertDialogHeader>
                             <AlertDialogFooter>
                                 <AlertDialogAction onClick={handleConfirm}>확인</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                    <AlertDialog open={Personal_information.result}>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>개인정보 수집 동의서</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    <ScrollArea className="h-[40dvh] rounded-md border ">
+                                        <MarkdownPreview
+                                            source={source}
+                                            style={{ padding: 16 }}
+                                        />
+                                    </ScrollArea>
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogAction onClick={handleConfirm_Personal_information}>확인</AlertDialogAction>
                             </AlertDialogFooter>
                         </AlertDialogContent>
                     </AlertDialog>

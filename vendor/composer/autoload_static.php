@@ -24,6 +24,7 @@ class ComposerStaticInite7eef11a68516bf9f424d6f406e039b1
             'Psr\\Clock\\' => 10,
             'Proxmox\\' => 8,
             'PhpOption\\' => 10,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'L' => 
         array (
@@ -67,6 +68,10 @@ class ComposerStaticInite7eef11a68516bf9f424d6f406e039b1
         'PhpOption\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'Lcobucci\\JWT\\' => 
         array (

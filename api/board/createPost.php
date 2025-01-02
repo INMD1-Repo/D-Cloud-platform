@@ -1,11 +1,8 @@
 
 <?php
+// 환경 변수 && 기타 로드
 require(__DIR__ . '/../../vendor/autoload.php');
-
-
 header('Content-Type: application/json');
-
-// 환경 변수 로드
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
