@@ -7,16 +7,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '0');
 
-<<<<<<< HEAD
 require(__DIR__ . '/../auth/department.php');
-=======
-
-//이메일 보내는 함수 로드하기
-include __DIR__ . "/../part/mailsender.php";
-
-
-// 환경 변수 && 기타 로드
->>>>>>> a8aa9fe266c461bd7a2a1ce30d7cf1c8f6666fb0
 require(__DIR__ . '/../../vendor/autoload.php');
 header('Content-Type: application/json');
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
