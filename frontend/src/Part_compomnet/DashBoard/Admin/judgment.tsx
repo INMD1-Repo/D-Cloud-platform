@@ -423,7 +423,7 @@ function Row({ row }) {
                                     <SelectItem value="computer3">
                                       3번 서버 (HPE)
                                     </SelectItem>
-                                    <SelectItem value="compute4">
+                                    <SelectItem value="computer4">
                                       4번 서버 (HPE)
                                     </SelectItem>
                                     <SelectItem value="compute5">
