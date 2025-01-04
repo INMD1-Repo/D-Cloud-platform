@@ -193,6 +193,15 @@ function Row({ row }) {
         <TableCell sx={{ color: "gray" }}>{row.Username}</TableCell>
         <TableCell sx={{ color: "gray" }}>{row.Servername}</TableCell>
         <TableCell sx={{ color: "gray" }}>{row.created_at}</TableCell>
+        <TableCell sx={{ color: "gray" }}>
+          {row.Appcet === "0"
+            ? "⚪️ 진행중"
+            : row.Appcet === "3812"
+            ? "🟠 승인이 되었지만 제작중입니다."
+            : row.Appcet === "381"
+            ? "🟢 승인되었습니다."
+            : "🔴 거절 되었습니다."}
+        </TableCell>
       </TableRow>
       <TableRow className="dark:bg-[#181818]">
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -209,7 +218,9 @@ function Row({ row }) {
                           collapsible
                         >
                           <AccordionItem value="item-1">
-                            <AccordionTrigger>사용자 정보</AccordionTrigger>
+                            <AccordionTrigger className="dark:text-[#cccccc]">
+                              사용자 정보
+                            </AccordionTrigger>
                             <AccordionContent>
                               <Card>
                                 <Table>
@@ -244,77 +255,79 @@ function Row({ row }) {
                             </AccordionContent>
                           </AccordionItem>
                           <AccordionItem value="item-2">
-                            <AccordionTrigger>신청 서버 정보</AccordionTrigger>
+                            <AccordionTrigger className="dark:text-[#cccccc]">
+                              신청 서버 정보
+                            </AccordionTrigger>
                             <AccordionContent>
                               <Card>
                                 <Table>
                                   <TableBody>
                                     <TableRow>
-                                      <TableCell className="font-medium">
+                                      <TableCell className="font-medium dark:text-[#cccccc]">
                                         OS
                                       </TableCell>
-                                      <TableCell className="text-left">
+                                      <TableCell className="text-left dark:text-[#cccccc]">
                                         {DataParse.os}
                                       </TableCell>
-                                      <TableCell className="text-center">
+                                      <TableCell className="text-center dark:text-[#cccccc]">
                                         |
                                       </TableCell>
-                                      <TableCell className="font-medium">
+                                      <TableCell className="font-medium dark:text-[#cccccc]">
                                         생성자
                                       </TableCell>
-                                      <TableCell className="text-left">
+                                      <TableCell className="text-left dark:text-[#cccccc]">
                                         {DataParse.name}
                                       </TableCell>
                                     </TableRow>
                                     <TableRow>
-                                      <TableCell className="font-medium">
+                                      <TableCell className="font-medium dark:text-[#cccccc]">
                                         서버 이름
                                       </TableCell>
-                                      <TableCell className="text-left">
+                                      <TableCell className="text-left dark:text-[#cccccc]">
                                         {DataParse.Servername}
                                       </TableCell>
-                                      <TableCell className="text-center">
+                                      <TableCell className="text-center dark:text-[#cccccc]">
                                         |
                                       </TableCell>
-                                      <TableCell className="font-medium">
+                                      <TableCell className="font-medium dark:text-[#cccccc]">
                                         유저 ID
                                       </TableCell>
-                                      <TableCell className="text-left">
+                                      <TableCell className="text-left dark:text-[#cccccc]">
                                         {DataParse.Username}
                                       </TableCell>
                                     </TableRow>
                                     <TableRow>
-                                      <TableCell className="font-medium">
+                                      <TableCell className="font-medium dark:text-[#cccccc]">
                                         유저 PW
                                       </TableCell>
-                                      <TableCell className="text-left">
+                                      <TableCell className="text-left dark:text-[#cccccc]">
                                         {DataParse.User_pw}
                                       </TableCell>
-                                      <TableCell className="text-center">
+                                      <TableCell className="text-center dark:text-[#cccccc]">
                                         |
                                       </TableCell>
-                                      <TableCell className="font-medium">
+                                      <TableCell className="font-medium dark:text-[#cccccc]">
                                         Root PW
                                       </TableCell>
-                                      <TableCell className="text-left">
+                                      <TableCell className="text-left dark:text-[#cccccc]">
                                         {DataParse.root_pw}
                                       </TableCell>
                                     </TableRow>
                                     <TableRow>
-                                      <TableCell className="font-medium">
+                                      <TableCell className="font-medium dark:text-[#cccccc]">
                                         CPU / RAM
                                       </TableCell>
-                                      <TableCell className="text-left">
+                                      <TableCell className="text-left dark:text-[#cccccc]">
                                         {DataParse.CPU} (C) / {DataParse.RAM}
                                         (MB)
                                       </TableCell>
-                                      <TableCell className="text-center">
+                                      <TableCell className="text-center dark:text-[#cccccc]">
                                         |
                                       </TableCell>
-                                      <TableCell className="font-medium">
+                                      <TableCell className="font-medium dark:text-[#cccccc]">
                                         Storgae
                                       </TableCell>
-                                      <TableCell className="text-left">
+                                      <TableCell className="text-left dark:text-[#cccccc]">
                                         {DataParse.Storage} (GB)
                                       </TableCell>
                                     </TableRow>
@@ -324,7 +337,9 @@ function Row({ row }) {
                             </AccordionContent>
                           </AccordionItem>
                           <AccordionItem value="item-3">
-                            <AccordionTrigger>기타 사항</AccordionTrigger>
+                            <AccordionTrigger className="dark:text-[#cccccc]">
+                              기타 사항
+                            </AccordionTrigger>
                             <AccordionContent>
                               <Card>
                                 <Table>
@@ -349,15 +364,15 @@ function Row({ row }) {
                                   </TableHead>
                                 </Table>
                               </Card>
-                              <br/>
+                              <br />
                               <p>네트워크 추가사항</p>
-                              <br/>
+                              <br />
                               <Card className="p-4">
                                 {DataParse.Network_Requirements}
                               </Card>
-                              <br/>
+                              <br />
                               <p>대여사유</p>
-                              <br/>
+                              <br />
                               <Card className="p-4">
                                 {DataParse.Application_period}
                               </Card>
@@ -842,6 +857,7 @@ function Judgment() {
                       <TableCell sx={{ color: "gray" }}>신청자</TableCell>
                       <TableCell sx={{ color: "gray" }}>서버이름</TableCell>
                       <TableCell sx={{ color: "gray" }}>신청시간</TableCell>
+                      <TableCell sx={{ color: "gray" }}>이전 신청결과</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>

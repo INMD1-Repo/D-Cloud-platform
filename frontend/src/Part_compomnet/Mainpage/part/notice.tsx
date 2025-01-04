@@ -84,6 +84,11 @@ function Mainpage_part_Board() {
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
         onRowSelectionChange: setRowSelection,
+        initialState: {
+            pagination: {
+                pageSize: 5,
+            },
+        },
         state: {
             sorting,
             columnFilters,
