@@ -127,6 +127,7 @@ if ($request_method == 'GET') {
             if ($stmt->execute()) {
                 http_response_code(201);
                 echo "데이터가 성공적으로 삽입되었습니다.";
+                //여기에 메일함수 적용 (신청 확인)
             } else {
                 http_response_code(400);
                 echo "데이터 삽입 실패: " . $stmt->error;
@@ -147,7 +148,9 @@ if ($request_method == 'GET') {
                 if ($stmt->execute()) {
                     http_response_code(200);
                     echo json_encode(['message' => $input['name']]);
-                    //여기에 메일함수 적용 
+                    //여기에 메일함수 적용 (결과 확인)
+                    
+
                 } else {
                     http_response_code(400);
                     echo json_encode(['error' => '데이터 업데이트 실패: ' . $stmt->error]);
