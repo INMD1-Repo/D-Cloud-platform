@@ -117,7 +117,6 @@ function Row({ row }) {
       try {
         delete result_content.region;
         delete result_content.vmId;
-        delete result_content.Servername;
       } finally {
         result_content.rejectionReason = isApproved ? "" : rejectionReason;
         result = {

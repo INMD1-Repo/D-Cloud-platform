@@ -16,23 +16,41 @@ import View_vm from "./Part_compomnet/DashBoard/View_vm";
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <BrowserRouter >
-        <Routes >
+      <BrowserRouter>
+        <Routes>
           <Route path="/site/" element={<Mainpage_index />}></Route>
           <Route path="/site/auth_prcess" element={<Auth />}></Route>
 
           <Route path="/site/board" element={<Main_board />}></Route>
-          <Route path="/site/board/Suggestions_write" element={<Suggestions_write />}></Route>
+          <Route
+            path="/site/board/Suggestions_write"
+            element={<Suggestions_write />}
+          ></Route>
           <Route path="/site/board/show" element={<Board_view />}></Route>
 
-          <Route path="/site/server/subscription" element={<Main_server />}></Route>
-          <Route path="/site/server/subscription_mobile" element={< Main_server_mobile />}></Route>
-         
-          <Route path="/site/dashboard" element={< Main_DashBoard />}></Route>
-          <Route path="/site/server/show_Accpet" element={<Show_Appect />}></Route>
+          <Route
+            path="/site/server/subscription"
+            element={<Main_server />}
+          ></Route>
+          <Route
+            path="/site/server/subscription_mobile"
+            element={<Main_server_mobile />}
+          ></Route>
 
-          <Route path="/site/server/Admin/judgment" element={<Judgment />}></Route>
-          <Route path="/site/server/Admin/write_notice" element={<Write_notice />}></Route>
+          <Route path="/site/dashboard" element={<Main_DashBoard />}></Route>
+          <Route
+            path="/site/server/show_Accpet"
+            element={<Show_Appect />}
+          ></Route>
+
+          <Route
+            path="/site/server/Admin/judgment"
+            element={<Judgment />}
+          ></Route>
+          <Route
+            path="/site/server/Admin/write_notice"
+            element={<Write_notice />}
+          ></Route>
           <Route path="/site/server/View_vm/:id" element={<View_vm />}></Route>
         </Routes>
         {/*<footer className="mobile_none">*/}

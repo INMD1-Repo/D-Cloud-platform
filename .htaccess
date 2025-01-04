@@ -8,3 +8,6 @@ RewriteRule ^site/(.*)$ site/$1 [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ public/index.php [L]
+
+# Board쪽에서 Index of 페이지 안뜨게 site로 리다이엑트됨
+RewriteRule ^site/board/?$ /site/ [R=301,L]

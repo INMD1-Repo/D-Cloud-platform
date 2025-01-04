@@ -7,7 +7,7 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 function sendGmail($to, $subject, $body, $attachments = []) {
-    require 'vendor/autoload.php';
+    require(__DIR__ . '/../../vendor/autoload.php');
 
     $mail = new PHPMailer(true);
 
@@ -16,13 +16,14 @@ function sendGmail($to, $subject, $body, $attachments = []) {
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
+        $mail->isHTML(true);
         $mail->Username = $_ENV['EAMIL']; // 구글 이메일 주소
         $mail->Password = $_ENV['APP_PASSWORD']; // 구글 앱 비밀번호
         $mail->SMTPSecure = 'ssl';
         $mail->Port = 465;
 
         // 발신자 설정
-        $mail->setFrom($_ENV['EAMIL'], 'Administrator');
+        $mail->setFrom($_ENV['EAMIL'], 'Dcloud Admin');
         
         // 수신자 설정
         $mail->addAddress($to);
