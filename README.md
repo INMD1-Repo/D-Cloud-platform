@@ -11,7 +11,8 @@
 해당 솔류션은 Proxmox API를 바탕으로 제작하고 주요 기능은 공지사항,서버신청이 있습니다.
 
 # 작동 흐름도
-![image](https://github.com/user-attachments/assets/e717c235-8ca2-445a-8066-26d62a24c17d) 
+![image](https://github.com/user-attachments/assets/186ab4e5-d7c4-4429-82cb-e2ce2ec595cb)
+
 
 # 개발인원
 ```
