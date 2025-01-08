@@ -125,9 +125,6 @@ interface userinfo {
 }
 
 const FormSchema = z.object({
-  name: z.string(),
-  email: z.string(),
-  phone_number: z.string(),
   Application_period: z.string(),
   Reason_for_renta: z.string(),
   Servername: z.string().min(1, "필수 항목입니다."),
@@ -169,9 +166,6 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: info.name,
-      email: info.email,
-      phone_number: info.phone_number,
       Application_period: "",
       Reason_for_renta: "",
       Servername: "",
@@ -190,8 +184,16 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
   // const navigate = useNavigate();
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    console.log("click");
+    
     if (logCount == 1) {
       let json = data;
+      //@ts-ignore
+      json.name =  info.name;
+      //@ts-ignore
+      json.emai =  info.email;
+      //@ts-ignore
+      json.phone_number =  info.phone_number;
       //@ts-ignore
       json.os = selectedOption.label;
       //@ts-ignore
