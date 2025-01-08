@@ -192,7 +192,7 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
       //@ts-ignore
       json.name =  info.name;
       //@ts-ignore
-      json.emai =  info.email;
+      json.email =  info.email;
       //@ts-ignore
       json.phone_number =  info.phone_number;
       //@ts-ignore
