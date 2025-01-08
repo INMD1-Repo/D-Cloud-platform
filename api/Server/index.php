@@ -216,7 +216,7 @@ if ($request_method == 'GET') {
                                             </div>
                                         </body>
                                     </html>";
-                        send_to_mail($email, $input["Servername"] . '서버 제작 승인 안내', $message);
+                        send_to_mail($input["email"], $input["Servername"] . '서버 제작 승인 안내', $message);
                     } else if ($Appcet == 381) {
                         $servername = $input["Servername"];
                         $region = $input["region"];
@@ -266,7 +266,7 @@ if ($request_method == 'GET') {
                                             </div>
                                         </body>
                                     </html>";
-                        send_to_mail($email, $input["Servername"] . ' 서버 제작 완료 안내', $message);
+                        send_to_mail($input["email"], $input["Servername"] . ' 서버 제작 완료 안내', $message);
                     } else {
                         $servername = $input["Servername"];
                         $date = date("Y-m-d", time());
@@ -304,7 +304,7 @@ if ($request_method == 'GET') {
                                             </div>
                                         </body>
                                     </html>";
-                        send_to_mail($email, $input["Servername"] . '서버 제작 거절 안내', $message);
+                        send_to_mail($input["email"], $input["Servername"] . '서버 제작 거절 안내', $message);
                     }
                     http_response_code(200);
                     echo json_encode(['message' => $input['name']]);
