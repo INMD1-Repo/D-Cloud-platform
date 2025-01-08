@@ -125,9 +125,9 @@ interface userinfo {
 }
 
 const FormSchema = z.object({
-  name: z.string().min(1, "이름은 필수 항목입니다."),
-  email: z.string().email("유효한 이메일을 입력하세요."),
-  phone_number: z.string().min(10, "전화번호를 입력하세요."),
+  name: z.string(),
+  email: z.string(),
+  phone_number: z.string(),
   Application_period: z.string(),
   Reason_for_renta: z.string(),
   Servername: z.string().min(1, "필수 항목입니다."),
