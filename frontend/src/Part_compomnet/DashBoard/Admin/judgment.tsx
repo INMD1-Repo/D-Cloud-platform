@@ -344,7 +344,7 @@ function Row({ row }) {
                                 <Table>
                                   <TableHead>
                                     <TableRow>
-                                      <TableCell className="font-medium">
+                                      <TableCell className="font-medium dark:text-[#cccccc]">
                                         대여 시작
                                       </TableCell>
                                       <TableCell className="text-left dark:text-[#cccccc]">
