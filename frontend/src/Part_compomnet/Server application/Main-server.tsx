@@ -37,6 +37,7 @@ import { useAtom } from "jotai";
 import { login_Count, User_info } from "@/store/strore_data";
 import { useNavigate } from "react-router-dom";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea"
 
 const source = `
 # 서비스 이용약관
@@ -322,12 +323,12 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                       </Popover>
                       <FormField
                         control={form.control}
-                        name="Reason_for_renta"
+                        name="Application_period"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>대여사유</FormLabel>
                             <FormControl>
-                              <Input
+                              <Textarea
                                 className="h-60"
                                 placeholder=""
                                 {...field}
@@ -484,7 +485,7 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                         <FormItem>
                           <FormLabel>네트워크 추가 사항</FormLabel>
                           <FormControl>
-                            <Input className="h-40" placeholder="" {...field} />
+                            <Textarea className="h-40" placeholder="" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
