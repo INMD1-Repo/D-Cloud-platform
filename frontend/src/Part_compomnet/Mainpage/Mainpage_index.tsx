@@ -133,9 +133,7 @@ function Mainpage_index() {
                         <br />
                         <p>업데이트 시각: {Date()}</p>
                     </div>
-
                     <br />
-
                     <div style={{ display: "flex", alignItems: "center" }}>
                         <p className="title">공지사항ㅤ</p>
                         <Button className="self-end mb-2.5" onClick={() => { navigate("/site/board"); }}>게시판 이동</Button>

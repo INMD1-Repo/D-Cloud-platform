@@ -347,16 +347,16 @@ function Row({ row }) {
                                       <TableCell className="font-medium">
                                         대여 시작
                                       </TableCell>
-                                      <TableCell className="text-left">
+                                      <TableCell className="text-left dark:text-[#cccccc]">
                                         {DateReplace(DataParse.date.from)}
                                       </TableCell>
-                                      <TableCell className="text-center">
+                                      <TableCell className="text-center dark:text-[#cccccc]">
                                         |
                                       </TableCell>
-                                      <TableCell className="font-medium">
+                                      <TableCell className="font-medium dark:text-[#cccccc]">
                                         대여 종료
                                       </TableCell>
-                                      <TableCell className="text-left">
+                                      <TableCell className="text-left dark:text-[#cccccc]" >
                                         {DateReplace(DataParse.date.to)}
                                       </TableCell>
                                     </TableRow>
@@ -364,15 +364,15 @@ function Row({ row }) {
                                 </Table>
                               </Card>
                               <br />
-                              <p>네트워크 추가사항</p>
+                              <p className="dark:text-[#cccccc]">네트워크 추가사항</p>
                               <br />
-                              <Card className="p-4">
+                              <Card className="p-4 dark:text-[#cccccc]">
                                 {DataParse.Network_Requirements}
                               </Card>
                               <br />
-                              <p>대여사유</p>
+                              <p className="dark:text-[#cccccc]">대여사유</p>
                               <br />
-                              <Card className="p-4">
+                              <Card className="p-4 dark:text-[#cccccc]">
                                 {DataParse.Application_period}
                               </Card>
                             </AccordionContent>

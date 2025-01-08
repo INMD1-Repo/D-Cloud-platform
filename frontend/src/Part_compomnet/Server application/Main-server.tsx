@@ -153,9 +153,9 @@ const options = [
 
 function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2024, 0, 20),
-    to: addDays(new Date(2025, 0, 20), 20),
-  });
+    from: new Date(),
+    to: addDays(new Date(), 366 + 20),
+  });  
   const navigate = useNavigate();
   const [userinfo] = useAtom(User_info);
   //@ts-ignore
