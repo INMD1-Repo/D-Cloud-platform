@@ -52,14 +52,17 @@ export const columns: ColumnDef<Notice>[] = [
   },
   {
     accessorKey: "created_at",
-    header: () => {
-      return (
-        <div className="text-left">생성 날짜</div>
-      );
-    },
+    header: () => <div className="text-left">생성 날짜</div>,
     cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("created_at")}</div>
+      <div className="lowercase">
+        {new Date(row.getValue("created_at")).toLocaleString()}
+      </div>
     ),
+    sortingFn: (rowA, rowB, columnId) => {
+      const dateA = new Date(rowA.getValue(columnId));
+      const dateB = new Date(rowB.getValue(columnId));
+      return dateB.getTime() - dateA.getTime();
+    },
   },
 ];
 
@@ -69,7 +72,11 @@ function Mainpage_part_Board() {
       try {
         const response = await fetch("/api/readPost?board=notice&id=all");
         const GetData = await response.json();
-        setGETFetch(GetData);
+        //@ts-ignore
+        const sortedData = GetData.sort((a, b) => 
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+        setGETFetch(sortedData);
       } catch (error) {
         console.error("데이터 가져오기 오류:", error);
       }
@@ -102,6 +109,12 @@ function Mainpage_part_Board() {
       pagination: {
         pageSize: 5,
       },
+      sorting: [
+        {
+          id: "created_at",
+          desc: true,
+        },
+      ],
     },
     state: {
       sorting,
@@ -139,7 +152,7 @@ function Mainpage_part_Board() {
                   table.getRowModel().rows.map((row) => (
                     <TableRow key={row.id}>
                       {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
+                        <TableCell key={cell.id} onClick={() => {location.href='/site/board/show?board=notice&id= ' + row.getValue("id")}}>
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext()
