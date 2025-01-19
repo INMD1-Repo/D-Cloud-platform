@@ -42,7 +42,7 @@ function Topnav() {
         setUserInfo({});
         setlogCount(0);
         setAccessjwt({});
-        navigate("/site");
+        navigate("/site/");
       }
     });
   }
@@ -91,7 +91,6 @@ function Topnav() {
         const data_status_code = await api();
         //토큰으로 유저 데이터를 못불려오면 토큰 재발행후 재실행
         //@ts-ignore
-        console.log(data_status_code);
         if (data_status_code != 200) {
           // //그래도 안될 경우 로그아웃 처리하고 다시 로그인 해달라고 재요청
           toast.error("토큰이 만료되었습니다. 다시 로그인 해주시기 바람니다.", {
