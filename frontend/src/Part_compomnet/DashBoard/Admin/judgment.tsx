@@ -443,12 +443,6 @@ function Row({ row }) {
                                     <SelectItem value="compute5">
                                       5번 서버 (INTEL)
                                     </SelectItem>
-                                    <SelectItem value="compute6">
-                                      6번 서버 (HPE)
-                                    </SelectItem>
-                                    <SelectItem value="compute7">
-                                      7번 서버 (SuperMicro)
-                                    </SelectItem>
                                   </SelectContent>
                                 </Select>
                                 <p className="dark:text-[#cccccc]">
