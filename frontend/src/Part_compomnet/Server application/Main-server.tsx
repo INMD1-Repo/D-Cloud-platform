@@ -506,12 +506,12 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                             <AlertDialogTrigger
                               style={{ textDecoration: "underline" }}
                             >
-                              ℹ️ (필독) 만약 80,443 포티 및 도메인이 필요할 경우
+                              ℹ️ (필독) 만약 80,443 포트트 및 도메인이 필요할 경우
                             </AlertDialogTrigger>
                             <AlertDialogContent >
                               <AlertDialogHeader >
                                 <AlertDialogTitle>
-                                  만약 80,443 포티 및 도메인이 필요할 경우
+                                  만약 80,443 포트 및 도메인이 필요할 경우
                                 </AlertDialogTitle>
                                 <AlertDialogDescription>
                                   리버스 프록시 서버를 통해 웹 사이트를 연결해
