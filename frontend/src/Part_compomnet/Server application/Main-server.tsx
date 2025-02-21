@@ -141,7 +141,6 @@ const FormSchema = z.object({
   Servername: z.string().min(1, "필수 항목입니다."),
   Username: z.string().min(1, "필수 항목입니다."),
   User_pw: z.string().min(5, "5자리 이싱 및 필수 항목입니다."),
-  root_pw: z.string().min(5, "5자리 이싱 및 필수 항목입니다."),
   CPU: z.string().min(1, "필수 항목입니다."),
   RAM: z.string().min(1, "필수 항목입니다."),
   Storage: z.string().min(1, "필수 항목입니다."),
@@ -182,7 +181,6 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
       Servername: "",
       Username: "",
       User_pw: "",
-      root_pw: "",
       CPU: "",
       RAM: "",
       Storage: "",
@@ -380,7 +378,7 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                       </FormControl>
                       <FormMessage />
                     </FormItem>
-                    <div className="flex gap-x-4">
+                    <div className="flex gap-x-4 mt-4">
                       <FormField
                         control={form.control}
                         name="CPU"
@@ -433,7 +431,7 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                         )}
                       ></FormField>
                     </div>
-                    <p className="flex server_sub_sub_title">서버 계정 정보</p>
+                    <p className="flex server_sub_sub_title mt-4">서버 계정 정보</p>
                     <div className="flex gap-x-4">
                       <FormField
                         control={form.control}
@@ -458,23 +456,6 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>일반 계정 비밀번호</FormLabel>
-                            <FormControl>
-                              <Input
-                                className=""
-                                placeholder="입력해주세요"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      ></FormField>
-                      <FormField
-                        control={form.control}
-                        name="root_pw"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>루트 계정 비빌번호</FormLabel>
                             <FormControl>
                               <Input
                                 className=""
