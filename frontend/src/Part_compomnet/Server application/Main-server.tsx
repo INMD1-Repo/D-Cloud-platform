@@ -50,10 +50,6 @@ import {
 } from "@/components/ui/alert-dialog";
 
 const source = `
-## **서비스 이용약관**
-
----
-
 # **제1장 총칙**
 
 ### **제1조 (목적)**
