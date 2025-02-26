@@ -1,5 +1,6 @@
-
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '0');
 // 환경 변수 && 기타 로드
 require(__DIR__ . '/../../vendor/autoload.php');
 header('Content-Type: application/json');
@@ -37,29 +38,24 @@ function handlePostRequest($conn)
         return;
     }
 
-    if (!verifyAccess($conn, $input['Access'])) {
-        http_response_code(401);
-        echo json_encode(['error' => 'Unauthorized']);
+
+    if (!validateInput($input)) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Invalid input data']);
         return;
     } else {
-        if (!validateInput($input)) {
-            http_response_code(400);
-            echo json_encode(['error' => 'Invalid input data']);
-            return;
-        } else {
-            $query = "INSERT INTO $post_board (Username, title, content, User_email, created_at) VALUES (?, ?, ?, ?, ?)";
-            $stmt = $conn->prepare($query);
-            $stmt->bind_param("sssss", $input['username'], $input['title'], $input['content'], $input['User_email'], date("Y-m-d H:i:s"));
+        $query = "INSERT INTO $post_board (Username, title, content, User_email, created_at) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("sssss", $input['username'], $input['title'], $input['content'], $input['User_email'], date("Y-m-d H:i:s"));
 
-            if ($stmt->execute()) {
-                http_response_code(201);
-                echo json_encode(['message' => 'Post created successfully']);
-            } else {
-                http_response_code(500);
-                echo json_encode(['error' => 'Failed to create post: ' . $stmt->error]);
-            }
-            $stmt->close();
+        if ($stmt->execute()) {
+            http_response_code(201);
+            echo json_encode(['message' => 'Post created successfully']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['error' => 'Failed to create post: ' . $stmt->error]);
         }
+        $stmt->close();
     }
 }
 
@@ -71,14 +67,14 @@ function validateInput($input)
 }
 
 //Access토큰 조회
-function verifyAccess($conn, $access)
-{
-    $sql = "SELECT * FROM auth_session WHERE jwt_access = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $access);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $stmt->close();
-    return $result->num_rows > 0;
-}
+// function verifyAccess($conn, $access)
+// {
+//     $sql = "SELECT * FROM auth_session WHERE jwt_access = ?";
+//     $stmt = $conn->prepare($sql);
+//     $stmt->bind_param("s", $access);
+//     $stmt->execute();
+//     $result = $stmt->get_result();
+//     $stmt->close();
+//     return $result->num_rows > 0;
+// }
 ?>
