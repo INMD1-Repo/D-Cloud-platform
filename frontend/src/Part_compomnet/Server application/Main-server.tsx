@@ -3,7 +3,7 @@ import Topnav from "../common parts/Nav";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-
+import Json_os from "./os.json";
 // import { isMobile } from 'react-device-detect';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -159,7 +159,6 @@ const source = `
 
 `;
 
-
 interface userinfo {
   email: string;
   name: string;
@@ -186,16 +185,6 @@ const FormSchema = z.object({
     message: "서비스 이용 약관에 동의해야 합니다.",
   }),
 });
-
-const options = [
-  { value: "ubuntu24", label: "Ubuntu 24.04.1 LTS" },
-  { value: "ubuntu22", label: "Ubuntu 22.04.5 LTS" },
-  { value: "ubuntu20", label: "Ubuntu 20.04.6 LTS" },
-  { value: "ubuntu18", label: "Ubuntu 18.04.6 LTS" },
-  { value: "debian", label: "Debian 12.8.0" },
-  { value: "rocky9", label: "Rocky 9.5" },
-  { value: "rocky8", label: "Rocky 8.9" },
-];
 
 function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
   const [date, setDate] = React.useState<DateRange | undefined>({
@@ -410,7 +399,7 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                           //@ts-ignore
                           onChange={setSelectedOption}
                           //@ts-ignore
-                          options={options}
+                          options={Json_os.OS}
                         />
                       </FormControl>
                       <FormMessage />
@@ -468,7 +457,9 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                         )}
                       ></FormField>
                     </div>
-                    <p className="flex server_sub_sub_title mt-4">서버 계정 정보</p>
+                    <p className="flex server_sub_sub_title mt-4">
+                      서버 계정 정보
+                    </p>
                     <div className="flex gap-x-4">
                       <FormField
                         control={form.control}
@@ -520,14 +511,14 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                             />
                           </FormControl>
                           <FormMessage />
-                          <AlertDialog >
+                          <AlertDialog>
                             <AlertDialogTrigger
                               style={{ textDecoration: "underline" }}
                             >
                               ℹ️ (필독) 만약 80,443 포트 및 도메인이 필요할 경우
                             </AlertDialogTrigger>
-                            <AlertDialogContent >
-                              <AlertDialogHeader >
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
                                 <AlertDialogTitle>
                                   만약 80,443 포트 및 도메인이 필요할 경우
                                 </AlertDialogTitle>
@@ -535,10 +526,11 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                                   리버스 프록시 서버를 통해 웹 사이트를 연결해
                                   드립니다.
                                   <br />
-                                  443 및 80 포트는 관리자와 협의후 공인 IP가 별도로 할당된
-                                  경우에만 직접 사용 가능합니다. <br />
-                                  기존 사용자는 도메인을 연결 할경우 네트워크 추가 요청 시 다음 정보를 기재해
-                                  주세요:
+                                  443 및 80 포트는 관리자와 협의후 공인 IP가
+                                  별도로 할당된 경우에만 직접 사용 가능합니다.{" "}
+                                  <br />
+                                  기존 사용자는 도메인을 연결 할경우 네트워크
+                                  추가 요청 시 다음 정보를 기재해 주세요:
                                   <br />
                                   <br />
                                   [웹 도메인 연결 요청]
@@ -546,7 +538,8 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                                   1. 내부망에서 사용할 웹 포트(ex: front 3000 ,
                                   backend 3002 ) <br />
                                   2. 원하시는 서브도메인 (선택사항) or 자신이
-                                  연결할 도메인 주소<br />
+                                  연결할 도메인 주소
+                                  <br />
                                   3. SSL 생성여부: Yes or No
                                   <br />
                                   <br />
@@ -557,8 +550,9 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                                   <br />
                                   ⚠️주의사항: 서브도메인이 필요하지만 별도로
                                   기재하지 않으신 경우, 관리자가 랜덤으로
-                                  배정합니다.<br /> 문의사항이 있으시면 언제든 연락
-                                  주시기 바랍니다.
+                                  배정합니다.
+                                  <br /> 문의사항이 있으시면 언제든 연락 주시기
+                                  바랍니다.
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
