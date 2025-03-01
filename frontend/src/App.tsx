@@ -2,6 +2,7 @@ import Auth from "./Part_compomnet/Auth/Auth";
 import Main_board from "./Part_compomnet/board/Main_board";
 import Mainpage_index from "./Part_compomnet/Mainpage/Mainpage_index";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserView, MobileView } from "react-device-detect";
 import { ThemeProvider } from "@/components/theme-provider";
 import Suggestions_write from "./Part_compomnet/board/board-write/Suggestions_write";
 import Board_view from "./Part_compomnet/board/board-view/board_view";
@@ -30,11 +31,16 @@ function App() {
 
           <Route
             path="/site/server/subscription"
-            element={<Main_server />}
-          ></Route>
-          <Route
-            path="/site/server/subscription_mobile"
-            element={<Main_server_mobile />}
+            element={
+              <>
+                <BrowserView>
+                  <Main_server />
+                </BrowserView>
+                <MobileView>
+                  <Main_server_mobile />
+                </MobileView>
+              </>
+            }
           ></Route>
 
           <Route path="/site/dashboard" element={<Main_DashBoard />}></Route>

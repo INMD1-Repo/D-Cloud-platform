@@ -219,13 +219,16 @@ function Topnav() {
               </div>
             ) : (
               <Button
-                className="mobile_none h-16 w-40"
+                className=" h-10 w-20 md:h-16 md:w-40"
                 onClick={() => {
                   navigate("/site/auth_prcess");
                 }}
               >
-                <p style={{ fontSize: "1.3em", fontWeight: "bold" }}>
+                <p className="mobile_none" style={{ fontSize: "1.3em", fontWeight: "bold" }}>
                   회원가입/로그인
+                </p>
+                <p className="pc_none" style={{ fontSize: "1.3em", fontWeight: "bold" }}>
+                  로그인
                 </p>
               </Button>
             )}

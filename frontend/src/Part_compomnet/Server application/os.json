@@ -1,0 +1,11 @@
+{
+  "OS": [
+    { "value": "ubuntu24", "label": "Ubuntu 24.04.1 LTS" },
+    { "value": "ubuntu22", "label": "Ubuntu 22.04.5 LTS" },
+    { "value": "ubuntu20", "label": "Ubuntu 20.04.6 LTS" },
+    { "value": "ubuntu18", "label": "Ubuntu 18.04.6 LTS" },
+    { "value": "debian", "label": "Debian 12.8.0" },
+    { "value": "rocky9", "label": "Rocky 9.5" },
+    { "value": "rocky8", "label": "Rocky 8.9" }
+  ]
+}

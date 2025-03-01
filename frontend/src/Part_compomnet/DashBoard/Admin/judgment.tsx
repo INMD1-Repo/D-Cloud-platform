@@ -318,7 +318,7 @@ function Row({ row }) {
                                       </TableCell>
                                       <TableCell className="text-left dark:text-[#cccccc]">
                                         {DataParse.CPU} (C) / {DataParse.RAM}
-                                        (MB)
+                                        (GB)
                                       </TableCell>
                                       <TableCell className="text-center dark:text-[#cccccc]">
                                         |
