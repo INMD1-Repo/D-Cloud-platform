@@ -149,7 +149,7 @@ function Proxmox_vm_status({ VMID }: { VMID: string }): JSX.Element {
                     </TableRow>
                   </TableBody>
                 </Table>
-                <p className="pt-2"><a href="https://wikidocs.net/214399">윈도우에서 서버 접속하는 방법</a></p>
+                <p className="pt-2"><a href="https://docs.dcloud.p-e.kr/docs/howtoaccess">윈도우에서 서버 접속하는 방법</a></p>
               </div>
               <div className="min-w-[20vw] p-5">
               <p>[네트워크 설정 안내]</p>
