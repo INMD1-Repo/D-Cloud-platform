@@ -42,25 +42,6 @@ try {
             $response = Request::Request('/nodes', null, 'GET');
             echo json_encode($response);
             break;
-
-        // //각 VM 별정보 제공을 함
-        // case 'Status-VM':
-        //     $nodes = Request::Request('/cluster/resources', null, 'GET');
-        //     $jsonString = json_encode($nodes);
-        //     $decodedArray = json_decode($jsonString, true);
-
-        //     $result = array_filter($decodedArray["data"], function ($item) use ($Search_VM) {
-        //         return $item['vmid'] === (int) $Search_VM;
-        //     });
-            
-        //     if ($result == []) {
-        //         http_response_code(404);
-        //         echo json_encode($result);
-        //     } else {
-        //         http_response_code(200);
-        //         echo json_encode($result);
-        //     }
-        //     break;
         //실시간 정보 수집
         case 'livedata':
             $ID = $_GET["id"] ?? null;
@@ -68,7 +49,6 @@ try {
             $nodes = Request::Request('/nodes/'. $node .'/'. $type . '/'. $ID .'/status/current', null, 'GET');
             echo json_encode($nodes);
             break;
-
         default:
             http_response_code(400);
             echo json_encode(['error' => "No valid parameter provided!"]);
