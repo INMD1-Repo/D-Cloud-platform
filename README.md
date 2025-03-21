@@ -71,6 +71,7 @@ nginx는 아래에 예시 문을참고해서 리버스 프록시 해주시기 �
 ...생락
     root /var/www/ASW-PSMT;
     index index.html index.php;
+    error_page 403 = <Domain>/site; //임시로 설정해두고 다음 릴리즈때는 제거 됨니다.
     # React 정적 파일 경로 처리
     location /assets/ {
         alias /var/www/ASW-PSMT/site/assets/;
