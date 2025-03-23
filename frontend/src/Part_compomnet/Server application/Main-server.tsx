@@ -110,7 +110,18 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log("click");
-
+    toast.warning(
+      "서버 전송하고 있습니다. 성공적으로 제출했습니다 라고 뜰때까지 기다려 주십시오.",
+      {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      }
+    );
     if (logCount == 1) {
       let json = data;
       //@ts-ignore
@@ -456,7 +467,7 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                   </div>
                   <div>
                     <p className="flex server_sub_sub_title">이용 약관</p>
-                    <Terms_View/>
+                    <Terms_View />
                     <br />
                     <FormField
                       control={form.control}
