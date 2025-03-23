@@ -1,7 +1,7 @@
 <?php
 
 //#####################################
-//# 이 파일은 서버신청에 관련됨 파일임  #
+//#    이 파일은 서버신청에 관련됨 파일임    #
 //#####################################
 
 error_reporting(E_ALL);
@@ -129,8 +129,7 @@ if ($request_method == 'GET') {
                 //여기에 메일함수 적용 (신청 확인)
                 $servername = $input["Servername"];
                 $date = date("Y-m-d", time());
-                $message = "
-                        <!DOCTYPE html>
+                $message = "<!DOCTYPE html>
                         <html>
                             <body style=\"font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;\">
                                 <div style=\"background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px; padding: 20px;\">

@@ -35,7 +35,7 @@ switch ($path_parts[0]) {
     case 'department':
         require __DIR__ . '/auth/department.php';
         break;
-    //게시판D
+    //게시판
     case 'createPost':
         require __DIR__ . '/board/createPost.php';
         break;
