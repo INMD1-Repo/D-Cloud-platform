@@ -208,6 +208,29 @@ function Mainpage_index() {
           </div>
         </div>
       </div>
+      <div>
+        <footer>
+          <div className="h-20 md:h-30"></div>
+          <div className="flex justify-center">
+            <div className="grid">
+              <p className="mianpage_sidheader">
+                우리는 아래 단체와 협력하고 있습니다.
+              </p>
+              <br />
+              <div className="flex justify-center ">
+                <img
+                  src="https://www.susc.kr/logo.png"
+                  style={{ height: "5vh" }}
+                  onClick={() => {
+                    window.location.href = "https://www.susc.kr";
+                    
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 }
