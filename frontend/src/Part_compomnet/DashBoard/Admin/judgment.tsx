@@ -130,6 +130,14 @@ function Row({ row }) {
         content: result_content,
         isApproved: 3812,
       };
+    } else if (isApproved == "out_true") {
+      delete result_content.region;
+      delete result_content.vmId;
+      result_content.rejectionReason = isApproved ? "" : rejectionReason;
+      result = {
+        content: result_content,
+        isApproved: 7422,
+      };
     }
 
     // 여기서 결과를 저장하는 로직을 구현합니다.
@@ -199,6 +207,8 @@ function Row({ row }) {
             ? "🟠 승인이 되었지만 제작중입니다."
             : row.Appcet === "381"
             ? "🟢 승인되었습니다."
+            : row.Appcet === "7422"
+            ? "🟢 외부 승인되었습니다."
             : "🔴 거절 되었습니다."}
         </TableCell>
       </TableRow>
@@ -356,7 +366,7 @@ function Row({ row }) {
                                       <TableCell className="font-medium dark:text-[#cccccc]">
                                         대여 종료
                                       </TableCell>
-                                      <TableCell className="text-left dark:text-[#cccccc]" >
+                                      <TableCell className="text-left dark:text-[#cccccc]">
                                         {DateReplace(DataParse.date.to)}
                                       </TableCell>
                                     </TableRow>
@@ -364,7 +374,9 @@ function Row({ row }) {
                                 </Table>
                               </Card>
                               <br />
-                              <p className="dark:text-[#cccccc]">네트워크 추가사항</p>
+                              <p className="dark:text-[#cccccc]">
+                                네트워크 추가사항
+                              </p>
                               <br />
                               <Card className="p-4 dark:text-[#cccccc]">
                                 {DataParse.Network_Requirements}
@@ -387,6 +399,10 @@ function Row({ row }) {
                             </p>
                             <div className="grid lg:flex lg:space-x-2">
                               {/* @ts-ignore */}
+                              <Button onClick={() => setIsApproved("out_true")}>
+                                외부 승인
+                              </Button>
+                              ㅤ{/* @ts-ignore */}
                               <Button onClick={() => setIsApproved("true")}>
                                 승인
                               </Button>
@@ -850,7 +866,9 @@ function Judgment() {
                       <TableCell sx={{ color: "gray" }}>신청자</TableCell>
                       <TableCell sx={{ color: "gray" }}>서버이름</TableCell>
                       <TableCell sx={{ color: "gray" }}>신청시간</TableCell>
-                      <TableCell sx={{ color: "gray" }}>이전 신청결과</TableCell>
+                      <TableCell sx={{ color: "gray" }}>
+                        이전 신청결과
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
