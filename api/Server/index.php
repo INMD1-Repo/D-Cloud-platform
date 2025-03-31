@@ -233,7 +233,7 @@ if ($request_method == 'GET') {
                                             <div style=\"background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px; padding: 20px;\">
                                                 <h2 style=\"color: #2c3e50;\">안녕하세요,</h2>
                                                 
-                                                <p>저희가 요청하신 서버 제작을 성공적으로 완료하였음을 알려드립니다.</p>
+                                                <p>귀하께서 요청하신 서버 제작을 성공적으로 완료하였음을 알려드립니다.</p>
                                                 
                                                 <h3 style=\"color: #3498db;\">승인 세부사항</h3>
                                                 <ul style=\"list-style-type: none; padding-left: 0;\">
@@ -266,6 +266,37 @@ if ($request_method == 'GET') {
                                         </body>
                                     </html>";
                         send_to_mail($input["email"], $input["Servername"] . ' 서버 제작 완료 안내', $message);
+                    } else if ($Appcet == 7422) {
+                        $servername = $input["Servername"];
+                        $region = $input["region"];
+                        $vmId = $input["vmId"];
+                        $NetworkInfo = $input["NetworkInfo"];
+                        $servertype = $input["servertype"];
+                        $date = date("Y-m-d", time());
+                        $message = "<!DOCTYPE html>
+                                        <html>
+                                        <head>
+                                            <meta charset=\"UTF-8\">
+                                            <title>서버 제작 승인 안내</title>
+                                        </head>
+                                        <body style=\"font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;\">
+                                            <div style=\"background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px; padding: 20px;\">
+                                                <h2 style=\"color: #2c3e50;\">안녕하세요,</h2>
+                                                
+                                                <p>요청드린서버는 다른 서버에서 제작중입니다..</p>
+                                                
+                                        
+                                                <p>추후 관리자가 서버 연결에 대한 정보를 이메일, 메세지로 수신할 예정입니다.</p>
+                                                
+                                                <p style=\"margin-top: 20px;\">감사합니다.</p>
+
+                                                <h3 style=\"color: #3498db;\">연락처</h3>
+                                                <p>관리자: 이호준 이메일: lyw514549@gmail.com</p>
+                                                
+                                            </div>
+                                        </body>
+                                    </html>";
+                        send_to_mail($input["email"], $input["Servername"] . '외부 서버 제작에 대한 안내', $message);
                     } else {
                         $servername = $input["Servername"];
                         $date = date("Y-m-d", time());

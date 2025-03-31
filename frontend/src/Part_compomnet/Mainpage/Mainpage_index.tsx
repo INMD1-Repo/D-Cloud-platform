@@ -214,7 +214,7 @@ function Mainpage_index() {
           <div className="flex justify-center">
             <div className="grid">
               <p className="mianpage_sidheader">
-                우리는 아래 단체와 협력하고 있습니다.
+                우리는 아래 외부단체와 협력하고 있습니다.
               </p>
               <br />
               <div className="flex justify-center gap-10">
