@@ -17,7 +17,6 @@ import { Input } from "@/components/ui/input";
 import { addDays, format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { DateRange } from "react-day-picker";
-
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -33,21 +32,12 @@ import { login_Count, User_info } from "@/store/strore_data";
 import { useNavigate } from "react-router-dom";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-
+import Recommended from "./part/recommended";
 //-------내부 파츠 import-------
 import Json_os from "./os.json";
 //@ts-ignore
 import { Terms_View } from "./part/Terms_of_Use";
+import Info_domain from "./part/info_domain";
 
 interface userinfo {
   email: string;
@@ -61,15 +51,28 @@ interface userinfo {
   Admin: number;
 }
 
+// 데이터 스키마 설정
 const FormSchema = z.object({
   Application_period: z.string(),
   Reason_for_renta: z.string(),
   Servername: z.string().min(1, "필수 항목입니다."),
   Username: z.string().min(1, "필수 항목입니다."),
   User_pw: z.string().min(5, "5자리 이싱 및 필수 항목입니다."),
-  CPU: z.string().min(1, "필수 항목입니다."),
-  RAM: z.string().min(1, "필수 항목입니다."),
-  Storage: z.string().min(1, "필수 항목입니다."),
+  CPU: z
+    .string({
+      required_error: "필수 항목입니다.",
+    })
+    .min(1, { message: "필수 항목입니다" }),
+  RAM: z
+    .string({
+      required_error: "필수 항목입니다.",
+    })
+    .min(1, { message: "필수 항목입니다" }),
+  Storage: z
+    .string({
+      required_error: "필수 항목입니다.",
+    })
+    .min(1, { message: "필수 항목입니다" }),
   Network_Requirements: z.string(),
   iamcheck: z.boolean().refine((val) => val === true, {
     message: "서비스 이용 약관에 동의해야 합니다.",
@@ -85,9 +88,7 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
   const [userinfo] = useAtom(User_info);
   //@ts-ignore
   const info: userinfo = userinfo;
-
   const [logCount] = useAtom(login_Count);
-
   const [selectedOption, setSelectedOption] = useState("선택안함");
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -106,10 +107,8 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
     },
   });
 
-  // const navigate = useNavigate();
-
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log("click");
+    // 사용자가 이 메시지가 안떠 자주 보내는 문제점 발견하여 수정함
     toast.warning(
       "서버 전송하고 있습니다. 성공적으로 제출했습니다 라고 뜰때까지 기다려 주십시오.",
       {
@@ -314,6 +313,7 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                             <FormLabel>CPU(Core)</FormLabel>
                             <FormControl>
                               <Input
+                                type="number"
                                 className=""
                                 placeholder="입력해주세요"
                                 {...field}
@@ -331,6 +331,7 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                             <FormLabel>RAM(GB)</FormLabel>
                             <FormControl>
                               <Input
+                                type="number"
                                 className=""
                                 placeholder="입력해주세요"
                                 {...field}
@@ -348,6 +349,7 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                             <FormLabel>Storage(GB)</FormLabel>
                             <FormControl>
                               <Input
+                                type="number"
                                 className=""
                                 placeholder="입력해주세요"
                                 {...field}
@@ -357,6 +359,9 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                           </FormItem>
                         )}
                       ></FormField>
+                    </div>
+                    <div className="mt-4">
+                      <Recommended />
                     </div>
                     <p className="flex server_sub_sub_title mt-4">
                       서버 계정 정보
@@ -412,55 +417,7 @@ function Main_server({ className }: React.HTMLAttributes<HTMLDivElement>) {
                             />
                           </FormControl>
                           <FormMessage />
-                          <AlertDialog>
-                            <AlertDialogTrigger
-                              style={{ textDecoration: "underline" }}
-                            >
-                              ℹ️ (필독) 만약 80,443 포트 및 도메인이 필요할 경우
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>
-                                  만약 80,443 포트 및 도메인이 필요할 경우
-                                </AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  리버스 프록시 서버를 통해 웹 사이트를 연결해
-                                  드립니다.
-                                  <br />
-                                  443 및 80 포트는 관리자와 협의후 공인 IP가
-                                  별도로 할당된 경우에만 직접 사용 가능합니다.{" "}
-                                  <br />
-                                  기존 사용자는 도메인을 연결 할경우 네트워크
-                                  추가 요청 시 다음 정보를 기재해 주세요:
-                                  <br />
-                                  <br />
-                                  [웹 도메인 연결 요청]
-                                  <br />
-                                  1. 내부망에서 사용할 웹 포트(ex: front 3000 ,
-                                  backend 3002 ) <br />
-                                  2. 원하시는 서브도메인 (선택사항) or 자신이
-                                  연결할 도메인 주소
-                                  <br />
-                                  3. SSL 생성여부: Yes or No
-                                  <br />
-                                  <br />
-                                  <hr />
-                                  <br />
-                                  위 정보를 네트워크 추가 양식에 기재해 주시면
-                                  최대한 반영하여 설정해 드리겠습니다. <br />
-                                  <br />
-                                  ⚠️주의사항: 서브도메인이 필요하지만 별도로
-                                  기재하지 않으신 경우, 관리자가 랜덤으로
-                                  배정합니다.
-                                  <br /> 문의사항이 있으시면 언제든 연락 주시기
-                                  바랍니다.
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogAction>확인</AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
+                          <Info_domain />
                         </FormItem>
                       )}
                     ></FormField>

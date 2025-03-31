@@ -299,7 +299,7 @@ function Auth() {
                                                     <FormItem>
                                                         <FormLabel>비밀번호</FormLabel>
                                                         <FormControl>
-                                                            <Input placeholder="영문숫자 포함 8자리 이상" {...field} />
+                                                            <Input type="password" placeholder="영문숫자 포함 8자리 이상" {...field} />
                                                         </FormControl>
                                                         <FormMessage />
                                                     </FormItem>
