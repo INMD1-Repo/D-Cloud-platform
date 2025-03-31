@@ -217,13 +217,21 @@ function Mainpage_index() {
                 우리는 아래 단체와 협력하고 있습니다.
               </p>
               <br />
-              <div className="flex justify-center ">
+              <div className="flex justify-center gap-10">
                 <img
                   src="https://www.susc.kr/logo.png"
-                  style={{ height: "5vh" }}
+                  style={{ height: "6vh" }}
                   onClick={() => {
                     window.location.href = "https://www.susc.kr";
-                    
+
+                  }}
+                />
+                <img
+                  src="https://raw.githubusercontent.com/AirflowKorea/Artworks/refs/heads/main/airflow_users_korea_logo.png"
+                  style={{ height: "6vh" }}
+                  onClick={() => {
+                    window.location.href = "https://www.meetup.com/apache-airflow-users-korea/";
+
                   }}
                 />
               </div>
