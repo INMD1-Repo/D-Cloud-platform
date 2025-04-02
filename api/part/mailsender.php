@@ -1,61 +1,48 @@
 <?php
-//현재 폴더에 있는 ENV로드드
-require(__DIR__ . '/../../vendor/autoload.php');
-function send_to_mail($sned_to, $sned_subject, $sned_body)
-{
-    // ENV 로드
-    $mailenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/../part/");
-    $mailenv->load();
-    // 메일 코드 로드
-    require(__DIR__ . '/../part/mailsender.php');
-    sendGmail($sned_to, $sned_subject, $sned_body);
-}
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
+//환경변수 로드
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-// 데이터베이스 연결
-$conn = new mysqli($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME'], $_ENV['DB_PORT']);
-if ($conn->connect_error) {
-    die(json_encode(['Error' => "데이터베이스 연결 실패: " . $conn->connect_error]));
-}
+function sendGmail($to, $subject, $body, $attachments = []) {
+    require(__DIR__ . '/../../vendor/autoload.php');
 
-// 주기적으로 이메일 발송 처리
-while (true) {
-    $result = $conn->query("SELECT * FROM email_queue WHERE sent = 0");
-    while ($row = $result->fetch_assoc()) {
-        $userEmail = $_ENV['ADMIN'];
-        $content = json_decode($row['content'], true); // JSON 데이터를 배열로 변환
+    $mail = new PHPMailer(true);
 
-        // 유니코드 이스케이프 문자열 디코딩
-        array_walk_recursive($content, function (&$value) {
-            if (is_string($value)) {
-                $value = json_decode('"' . $value . '"');
-            }
-        });
+    try {
+        // 서버 설정
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->isHTML(true);
+        $mail->Username = $_ENV['EAMIL']; // 구글 이메일 주소
+        $mail->Password = $_ENV['APP_PASSWORD']; // 구글 앱 비밀번호
+        $mail->SMTPSecure = 'ssl';
+        $mail->Port = 465;
 
-        // HTML 이메일 본문 구성
-        $message = "<html><body>";
-        $message .= "<h2>DCP 새로운 애플리케이션 등록 정보</h2>";
-        $message .= "<table border='1' cellpadding='8' cellspacing='0'>";
+        // 발신자 설정
+        $mail->setFrom($_ENV['EAMIL'], 'Dcloud Admin');
+        
+        // 수신자 설정
+        $mail->addAddress($to);
 
-        foreach ($content as $key => $value) {
-            if (is_array($value)) {
-                $value = json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-            }
-            $message .= "<tr><td><strong>" . htmlspecialchars($key) . "</strong></td><td>" . nl2br(htmlspecialchars($value)) . "</td></tr>";
+        // 첨부 파일 추가
+        foreach ($attachments as $attachment) {
+            $mail->addAttachment($attachment);
         }
 
-        $message .= "</table>";
-        $message .= "</body></html>";
+        // 내용 설정
+        $mail->isHTML(true);
+        $mail->CharSet = 'UTF-8';
+        $mail->Subject = $subject;
+        $mail->Body = $body;
 
-        // 이메일 발송
-        $subject = "새로운 서버 신청서 등록 알림";
-        send_to_mail($userEmail, $subject, $message);
-
-        // 이메일 발송 성공 시 sent 상태 업데이트
-        $conn->query("UPDATE email_queue SET sent = 1 WHERE id = " . $row['id']);
+        $mail->send();
+        return true;
+    } catch (Exception $e) {
+        return "메일 전송 실패: {$mail->ErrorInfo}";
     }
-    sleep(10); // 10초마다 실행
 }
 ?>

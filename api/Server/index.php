@@ -1,11 +1,11 @@
 <?php
 
 //#####################################
-//#    이 파일은 서버신청에 관련됨 파일임    #
+//#    이 파일은 서버신청에 관련됨 파일임    
 //#####################################
 
 error_reporting(E_ALL);
-ini_set('display_errors', '0');
+ini_set('display_errors', '1');
 
 require(__DIR__ . '/../../vendor/autoload.php');
 header('Content-Type: application/json');
@@ -21,6 +21,7 @@ if ($conn->connect_error) {
 }
 
 //관리자 인지확인하는 코드드
+
 function checkAdmin($conn, $email)
 {
     // 개발모드가 아니면 원래 데이터베이스에 연결을 해야한다.
@@ -39,7 +40,7 @@ function checkAdmin($conn, $email)
     return false;
 }
 
-//데이터를 받아오는 코드드
+//데이터를 받아오는 코드
 $request_method = $_SERVER['REQUEST_METHOD'];
 $input = json_decode(file_get_contents('php://input'), TRUE);
 
