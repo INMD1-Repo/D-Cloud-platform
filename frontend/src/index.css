@@ -76,6 +76,11 @@ a:hover {
   }
 }
 
+.notfound{
+  weight: auto;
+  height: 20vh;
+}
+
 @media screen and (min-width : 900px) {
 
   .board_button{
