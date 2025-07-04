@@ -50,9 +50,9 @@ const FormSchema = z.object({
 
 const source = `
 
-# [학과명] 동아리 D cloud 서비스 이용을 위한 개인정보 수집·이용 동의서
+# 학과 동아리 D cloud 서비스 이용을 위한 개인정보 수집·이용 동의서
 
-본인은 [학과명] 동아리 D cloud(이하 '동아리')의 원활한 활동과 서비스 이용을 위해, 아래의 내용과 같이 본인의 개인정보를 수집 및 이용하는 것에 대해 충분히 내용을 숙지하였으며, 이에 동의합니다.
+본인은 응용소프트웨어공학과(이하 '응소') 동아리 D cloud(이하 '동아리')의 원활한 활동과 서비스 이용을 위해, 아래의 내용과 같이 본인의 개인정보를 수집 및 이용하는 것에 대해 충분히 내용을 숙지하였으며, 이에 동의합니다.
 
 ---
 
@@ -60,7 +60,7 @@ const source = `
 
 | 구분             | 내용 |
 |------------------|------|
-| 수집·이용자      | [대학(교)명][학과명] 동아리 D cloud |
+| 수집·이용자      | 동의대학교 응용소프트웨어공학과(이하 '응소') 동아리 D cloud |
 | 수집·이용 목적   | 동아리원 명부 관리, D cloud 서버 자원 할당 및 기술 지원, 서비스 관련 공지 및 긴급 연락, 동아리 활동 안내 |
 | 수집·이용 항목   | 이름, 학번, 전화번호, 학과 |
 | 보유·이용 기간   | 동아리 활동 기간(가입 시부터 탈퇴 시까지) 동안 보유하며, 동아리 탈퇴 시 지체 없이 파기합니다. |
@@ -402,11 +402,13 @@ function Auth() {
                             <AlertDialogHeader>
                                 <AlertDialogTitle>개인정보 수집 동의서</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                    <ScrollArea className="h-[40dvh] rounded-md border ">
-                                        <MarkdownPreview
-                                            source={source}
-                                            style={{ padding: 16 }}
-                                        />
+                                    <ScrollArea className="h-[40dvh] w-[35vw] rounded-md border overflow-auto">
+                                        <div className=" p-4">
+                                            <MarkdownPreview
+                                                source={source}
+                                                style={{ padding: 16 }}
+                                            />
+                                        </div>
                                     </ScrollArea>
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
