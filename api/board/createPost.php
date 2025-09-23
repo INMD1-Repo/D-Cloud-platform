@@ -44,7 +44,14 @@ function handlePostRequest($conn)
         echo json_encode(['error' => 'Invalid input data']);
         return;
     } else {
-        $query = "INSERT INTO $post_board (Username, title, content, User_email, created_at) VALUES (?, ?, ?, ?, ?)";
+        $tableName = '';
+        if ($post_board === 'notice') {
+            $tableName = 'notice';
+        } else if ($post_board === 'Suggestions') {
+            $tableName = 'Suggestions';
+        }
+
+        $query = "INSERT INTO $tableName (Username, title, content, User_email, created_at) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("sssss", $input['username'], $input['title'], $input['content'], $input['User_email'], date("Y-m-d H:i:s"));
 

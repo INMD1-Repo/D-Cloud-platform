@@ -18,6 +18,15 @@ $post_board = $_GET['board'];
 $los_board = $_GET['id'];
 $request_method = $_SERVER['REQUEST_METHOD'];
 
+// 허용된 테이블 이름 목록 (화이트리스트)
+$allowed_tables = ['notice', 'Suggestions'];
+
+if (!in_array($post_board, $allowed_tables)) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Invalid board specified']);
+    return;
+}
+
 // 연결 오류 처리
 if ($conn->connect_error) {
     http_response_code(500);
@@ -29,8 +38,7 @@ if ($request_method == 'GET') {
     //모든 데이터 로드
     switch ($los_board) {
         case 'all':
-            if ($post_board == "notice" || $post_board == "Suggestions") {
-                $stmt = $conn->prepare("SELECT * FROM $post_board");
+            $stmt = $conn->prepare("SELECT * FROM $post_board");
                 $stmt->execute();
                 $result = $stmt->get_result();
                 $total_record = array();
@@ -46,9 +54,7 @@ if ($request_method == 'GET') {
                     echo json_encode(['error' => 'Not Data']);
                 } else {
                     echo json_encode($total_record);
-                }
 
-            }
             break;
         default:
             $stmt = $conn->prepare("SELECT * FROM $post_board WHERE id = ?");

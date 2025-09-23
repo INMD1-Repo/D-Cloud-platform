@@ -38,9 +38,7 @@ if ($conn->connect_error) {
             $phone_number = $input['phone_number'];
             $created_at = date('Y-m-d H:i:s');
 
-            //데이터베이스 업로드
-            $sql = "insert into User_infomaiton (email, name, password, phone_number, student_id, student_class, created_at)";
-            $sql = $sql . "values('$email','$name','$password','$phone_number','$student_ID','$student_class','$created_at')";
+
 
             // 이메일 중복 체크
             $check_email_sql = "SELECT COUNT(*) FROM User_infomaiton WHERE email = ?";
@@ -66,7 +64,9 @@ if ($conn->connect_error) {
                 exit; // 나머지 코드 실행 중지
             } else {
                 //없으면 업로드함
-                $result = $conn->query($sql);
+                $stmt = $conn->prepare("insert into User_infomaiton (email, name, password, phone_number, student_id, student_class, created_at) values(?, ?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("sssssss", $email, $name, $password, $phone_number, $student_ID, $student_class, $created_at);
+                $result = $stmt->execute();
                 if ($result) {
                     http_response_code(201);
                     echo json_encode(["Code" => "20000", 'message' => "OK", "data" => json_encode($input)]);

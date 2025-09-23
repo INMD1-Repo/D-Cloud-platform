@@ -108,9 +108,9 @@ try {
             //Back에서 Refresh,ACCESS 둘다 DB에 저장하기
             $Acess = $accessToken->toString();
             $Refresh = $refreshToken->toString();
-            $sql = "insert into auth_session (jwt_resfresh, jwt_access)";
-            $sql = $sql . "values('$Refresh','$Acess')";
-            $result = $conn->query($sql);
+            $stmt = $conn->prepare("insert into auth_session (jwt_resfresh, jwt_access) values(?, ?)");
+            $stmt->bind_param("ss", $Refresh, $Acess);
+            $stmt->execute();
             
             //-------------------------------------------------------------------
         } else {
@@ -121,7 +121,7 @@ try {
         http_response_code(501);
     }
 } catch (\Throwable $th) {
-    print($th);
     http_response_code(500);
+    echo json_encode(["Code" => "50000", "Error" => "An internal server error occurred."]);
 }
 ?>
