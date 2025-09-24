@@ -157,7 +157,13 @@ if ($request_method == 'GET') {
                                 </div>
                             </body>
                         </html>";
-                send_to_mail($email, $input["Servername"] . '서버 신청 접수 확인', $message);
+                // 이메일 큐에 추가
+                $subject = $input["Servername"] . '서버 신청 접수 확인';
+                $content = ['to' => $email, 'subject' => $subject, 'body' => $message];
+                $stmt_queue = $conn->prepare("INSERT INTO email_queue (content) VALUES (?)");
+                $stmt_queue->bind_param("s", json_encode($content, JSON_UNESCAPED_UNICODE));
+                $stmt_queue->execute();
+
                 http_response_code(201);
                 echo "데이터가 성공적으로 삽입되었습니다.";
 
@@ -216,7 +222,11 @@ if ($request_method == 'GET') {
                                             </div>
                                         </body>
                                     </html>";
-                        send_to_mail($input["email"], $input["Servername"] . '서버 제작 승인 안내', $message);
+                        $subject = $input["Servername"] . ' 서버 제작 승인 안내';
+                        $content = ['to' => $input["email"], 'subject' => $subject, 'body' => $message];
+                        $stmt_queue = $conn->prepare("INSERT INTO email_queue (content) VALUES (?)");
+                        $stmt_queue->bind_param("s", json_encode($content, JSON_UNESCAPED_UNICODE));
+                        $stmt_queue->execute();
                     } else if ($Appcet == 381) {
                         $servername = $input["Servername"];
                         $region = $input["region"];
@@ -266,7 +276,11 @@ if ($request_method == 'GET') {
                                             </div>
                                         </body>
                                     </html>";
-                        send_to_mail($input["email"], $input["Servername"] . ' 서버 제작 완료 안내', $message);
+                        $subject = $input["Servername"] . ' 서버 제작 완료 안내';
+                        $content = ['to' => $input["email"], 'subject' => $subject, 'body' => $message];
+                        $stmt_queue = $conn->prepare("INSERT INTO email_queue (content) VALUES (?)");
+                        $stmt_queue->bind_param("s", json_encode($content, JSON_UNESCAPED_UNICODE));
+                        $stmt_queue->execute();
                     } else if ($Appcet == 7422) {
                         $servername = $input["Servername"];
                         $region = $input["region"];
@@ -297,7 +311,11 @@ if ($request_method == 'GET') {
                                             </div>
                                         </body>
                                     </html>";
-                        send_to_mail($input["email"], $input["Servername"] . '외부 서버 제작에 대한 안내', $message);
+                        $subject = $input["Servername"] . ' 외부 서버 제작에 대한 안내';
+                        $content = ['to' => $input["email"], 'subject' => $subject, 'body' => $message];
+                        $stmt_queue = $conn->prepare("INSERT INTO email_queue (content) VALUES (?)");
+                        $stmt_queue->bind_param("s", json_encode($content, JSON_UNESCAPED_UNICODE));
+                        $stmt_queue->execute();
                     } else {
                         $servername = $input["Servername"];
                         $date = date("Y-m-d", time());
@@ -335,7 +353,11 @@ if ($request_method == 'GET') {
                                             </div>
                                         </body>
                                     </html>";
-                        send_to_mail($input["email"], $input["Servername"] . '서버 제작 거절 안내', $message);
+                        $subject = $input["Servername"] . ' 서버 제작 거절 안내';
+                        $content = ['to' => $input["email"], 'subject' => $subject, 'body' => $message];
+                        $stmt_queue = $conn->prepare("INSERT INTO email_queue (content) VALUES (?)");
+                        $stmt_queue->bind_param("s", json_encode($content, JSON_UNESCAPED_UNICODE));
+                        $stmt_queue->execute();
                     }
                     http_response_code(200);
                     echo json_encode(['message' => $input['name']]);
