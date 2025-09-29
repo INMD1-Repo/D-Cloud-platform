@@ -398,24 +398,23 @@ function Auth() {
                         </AlertDialogContent>
                     </AlertDialog>
                     <AlertDialog open={Personal_information.result}>
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>개인정보 수집 동의서</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    <ScrollArea className="h-[40dvh] w-[35vw] rounded-md border overflow-auto">
-                                        <div className=" p-4">
-                                            <MarkdownPreview
-                                                source={source}
-                                                style={{ padding: 16 }}
-                                            />
-                                        </div>
-                                    </ScrollArea>
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogAction onClick={handleConfirm_Personal_information}>확인</AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
+                    <AlertDialogContent className="max-w-lg">
+                        <AlertDialogHeader>
+                        <AlertDialogTitle>개인정보 수집 동의서</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            <ScrollArea className="max-h-[60vh] rounded-md border overflow-scroll">
+                            <div className="p-4 max-w-sm">
+                                <MarkdownPreview source={source} />
+                            </div>
+                            </ScrollArea>
+                        </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                        <AlertDialogAction onClick={handleConfirm_Personal_information}>
+                            확인
+                        </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
                     </AlertDialog>
                 </div>
             </div>

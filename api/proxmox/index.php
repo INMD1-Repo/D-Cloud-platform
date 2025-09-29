@@ -30,7 +30,7 @@ $configure = [
     'hostname' => $Proxmox_ip,
     'username' => $Proxmox_id,
     'password' => $Proxmox_Password,
-    // 'realm'     => 'pam',
+    'realm'     => 'pve',
     'port' => $Proxmox_port
 ];
 

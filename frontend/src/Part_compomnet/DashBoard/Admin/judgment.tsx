@@ -444,17 +444,8 @@ function Row({ row }) {
                                     <SelectValue placeholder="서버 구역을 선택해주세요." />
                                   </SelectTrigger>
                                   <SelectContent>
-                                    <SelectItem value="compute1">
-                                      1번 서버 (HPE)
-                                    </SelectItem>
-                                    <SelectItem value="compute2">
-                                      2번 서버 (HPE)
-                                    </SelectItem>
                                     <SelectItem value="computer3">
                                       3번 서버 (HPE)
-                                    </SelectItem>
-                                    <SelectItem value="computer4">
-                                      4번 서버 (HPE)
                                     </SelectItem>
                                     <SelectItem value="compute5">
                                       5번 서버 (INTEL)
